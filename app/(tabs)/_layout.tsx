@@ -1,34 +1,48 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { Tabs } from "expo-router";
+import React from "react";
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { COLORS } from "@/theme/theme";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-      }}>
+        tabBarActiveTintColor: COLORS.primaryOrangeHex,
+        tabBarInactiveTintColor: COLORS.primaryLightGreyHex,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          height: 80,
+          backgroundColor: COLORS.primaryBlackHex,
+          borderTopWidth: 0,
+          elevation: 0,
+          borderTopColor: "transparent",
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="cart"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          tabBarIcon: ({ color }) => <TabBarIcon name="cart" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="favorite"
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="order"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="notifications" color={color} />
           ),
         }}
       />

@@ -1,70 +1,65 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { View, Text, FlatList } from "react-native";
+import React, { useRef } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import HeaderBar from "@/components/HeaderBar";
+import SearchInput from "@/components/SearchInput";
+import Categories from "@/components/Categories";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function HomeScreen() {
+const HomeScreen = () => {
+  const listRef: any = useRef<FlatList>();
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
-}
+    <SafeAreaView className="bg-primary-black flex-1">
+      <HeaderBar />
+      <Text className="font-poppins-semibold text-3xl px-8 text-primary-white">
+        Find the best{"\n"}coffee for you
+      </Text>
+      <SearchInput searchCoffee={() => {}} resetSearchCoffee={() => {}} />
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+      <Categories listRef={listRef} />
+
+      <FlatList
+        ref={listRef}
+        horizontal
+        ListEmptyComponent={
+          <View style={styles.EmptyListContainer}>
+            <Text style={styles.CategoryText}>No Coffee Available</Text>
+          </View>
+        }
+        showsHorizontalScrollIndicator={false}
+        data={sortedCoffee}
+        contentContainerStyle={styles.FlatListContainer}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => {
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.push("Details", {
+                  index: item.index,
+                  id: item.id,
+                  type: item.type,
+                });
+              }}
+            >
+              <Text>HELLO WORLD!</Text>
+
+              {/* <CoffeeCard
+                id={item.id}
+                index={item.index}
+                type={item.type}
+                roasted={item.roasted}
+                imagelink_square={item.imagelink_square}
+                name={item.name}
+                special_ingredient={item.special_ingredient}
+                average_rating={item.average_rating}
+                price={item.prices[2]}
+                buttonPressHandler={CoffeCardAddToCart}
+              /> */}
+            </TouchableOpacity>
+          );
+        }}
+      />
+    </SafeAreaView>
+  );
+};
+
+export default HomeScreen;
