@@ -29,16 +29,16 @@ const CartItem: React.FC<CartItemProps> = ({
 }) => {
   return (
     <View>
-      {prices.length != 1 ? (
+      {prices.length > 1 ? (
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-          className="flex-1 p-3 gap-3 rounded-2xl"
+          className="flex-1 p-4 rounded-2xl"
         >
-          <View className="flex-row gap-3 flex-1">
+          <View className="flex-row flex-1">
             <Image source={imagelink_square} className="w-32 h-32 rounded-xl" />
-            <View className="flex-1 py-1 justify-between">
+            <View className="flex-1 py-1 justify-between ml-5">
               <View>
                 <Text className="font-poppins-medium text-lg text-primary-white">
                   {name}
@@ -54,64 +54,76 @@ const CartItem: React.FC<CartItemProps> = ({
               </View>
             </View>
           </View>
-          {prices.map((data: any, index: any) => (
-            <View
-              key={index.toString()}
-              className="flex-1 items-center gap-5 flex-row justify-center"
-            >
-              <View className="flex-1 items-center flex-row justify-between">
-                <Text className="font-poppins-medium text-secondary-light-grey">
-                  {data.size}
-                </Text>
-                <Text className="font-poppins-semibold text-lg text-primary-orange">
-                  {data.currency} {data.price}
-                </Text>
-              </View>
-              <View className="flex-1 items-center flex-row justify-between">
-                <TouchableOpacity
-                  className="bg-primary-orange p-3 rounded-lg"
-                  onPress={() => {
-                    decrementCartItemQuantityHandler(id, data.size);
-                  }}
-                >
-                  <Ionicons
-                    name="remove"
-                    color={COLORS.primaryWhiteHex}
-                    size={10}
-                  />
-                </TouchableOpacity>
-                <View className="bg-primary-orange w-20 rounded-lg border-2 border-primary-orange items-center py-1">
-                  <Text className="font-poppins-semibold text-base text-primary-white">
-                    {data.quantity}
+          <View className="gap-y-3 mt-3">
+            {prices.map((price: any, index: any) => (
+              <View
+                key={index.toString()}
+                className="flex-1 items-center gap-x-5 flex-row justify-center"
+              >
+                <View className="flex-1 items-center flex-row justify-between">
+                  <View className="bg-primary-black h-10 w-24 rounded-lg justify-center items-center">
+                    <Text
+                      className={`font-poppins-medium  ${
+                        type === "Bean"
+                          ? "text-base text-secondary-light-grey"
+                          : "text-lg text-primary-white"
+                      }`}
+                    >
+                      {price.size}
+                    </Text>
+                  </View>
+                  <Text className="font-poppins-semibold text-lg text-primary-orange">
+                    {price.currency}
+                    <Text className="text-primary-white">{price.price}</Text>
                   </Text>
                 </View>
-                <TouchableOpacity
-                  className="bg-primary-orange p-3 rounded-lg"
-                  onPress={() => {
-                    incrementCartItemQuantityHandler(id, data.size);
-                  }}
-                >
-                  <Ionicons
-                    name="add"
-                    color={COLORS.primaryWhiteHex}
-                    size={10}
-                  />
-                </TouchableOpacity>
+                <View className="flex-1 items-center flex-row justify-between">
+                  <TouchableOpacity
+                    className="bg-primary-orange p-3 rounded-lg"
+                    onPress={() => {
+                      decrementCartItemQuantityHandler(id, price.size);
+                    }}
+                  >
+                    <Ionicons
+                      name="remove"
+                      color={COLORS.primaryWhiteHex}
+                      size={14}
+                    />
+                  </TouchableOpacity>
+
+                  <View className="bg-primary-black w-20 rounded-lg border-2 border-primary-orange items-center py-2">
+                    <Text className="font-poppins-semibold text-base text-primary-white">
+                      {price.quantity}
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    className="bg-primary-orange p-3 rounded-lg"
+                    onPress={() => {
+                      incrementCartItemQuantityHandler(id, price.size);
+                    }}
+                  >
+                    <Ionicons
+                      name="add"
+                      color={COLORS.primaryWhiteHex}
+                      size={14}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          ))}
+            ))}
+          </View>
         </LinearGradient>
       ) : (
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-          className="flex-row items-center p-3 gap-3 rounded-2xl"
+          className="flex-row flex-1 items-center p-4 rounded-2xl"
         >
           <View>
             <Image source={imagelink_square} className="w-36 h-36 rounded-xl" />
           </View>
-          <View className="flex-1 self-stretch justify-around">
+          <View className="flex-1 self-stretch justify-around ml-5">
             <View>
               <Text className="font-poppins-medium text-lg text-primary-white">
                 {name}
@@ -120,30 +132,37 @@ const CartItem: React.FC<CartItemProps> = ({
                 {special_ingredient}
               </Text>
             </View>
-            <View className="flex-row justify-evenly items-center">
+            <View className="flex-row justify-between items-center my-2">
               <View className="bg-primary-black h-10 w-24 rounded-lg justify-center items-center">
-                <Text className="font-poppins-medium text-secondary-light-grey">
+                <Text
+                  className={`font-poppins-medium  ${
+                    type === "Bean"
+                      ? "text-base text-secondary-light-grey"
+                      : "text-lg text-primary-white"
+                  }`}
+                >
                   {prices[0].size}
                 </Text>
               </View>
               <Text className="text-lg text-primary-orange font-semibold">
-                {prices[0].currency} {prices[0].price}
+                {prices[0].currency}
+                <Text className="text-primary-white">{prices[0].price}</Text>
               </Text>
             </View>
-            <View className="flex-row justify-evenly items-center">
+            <View className="flex-row justify-between items-center">
               <TouchableOpacity
                 className="bg-primary-orange p-3 rounded-lg"
                 onPress={() => {
                   decrementCartItemQuantityHandler(id, prices[0].size);
                 }}
               >
-                <AntDesign
-                  name="minus"
-                  size={10}
+                <Ionicons
+                  name="remove"
+                  size={14}
                   color={COLORS.primaryWhiteHex}
                 />
               </TouchableOpacity>
-              <View className="bg-primary-orange w-20 rounded-lg border-2 border-primary-orange items-center py-1">
+              <View className="bg-primary-black w-20 rounded-lg border-2 border-primary-orange items-center py-2">
                 <Text className="font-poppins-semibold text-base text-primary-white">
                   {prices[0].quantity}
                 </Text>
@@ -154,7 +173,7 @@ const CartItem: React.FC<CartItemProps> = ({
                   incrementCartItemQuantityHandler(id, prices[0].size);
                 }}
               >
-                <Ionicons name="add" color={COLORS.primaryWhiteHex} size={10} />
+                <Ionicons name="add" color={COLORS.primaryWhiteHex} size={14} />
               </TouchableOpacity>
             </View>
           </View>

@@ -1,13 +1,12 @@
 import CartItem from "@/components/CartItem";
+import EmptyListAnimation from "@/components/EmptyListAnimation";
 import HeaderBar from "@/components/HeaderBar";
 import PaymentFooter from "@/components/PaymentFooter";
 import CartData from "@/data/CartData";
-import { COLORS } from "@/theme/theme";
 import React from "react";
 import {
-  ScrollView,
+  FlatList,
   StatusBar,
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
@@ -15,67 +14,61 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const CartScreen = ({ navigation }: any) => {
+  const renderCartItem = ({ item }: any) => (
+    <TouchableOpacity
+      onPress={() => {
+        navigation.push("Details", {
+          index: item.index,
+          id: item.id,
+          type: item.type,
+        });
+      }}
+      key={item.id}
+    >
+      <CartItem
+        id={item.id}
+        name={item.name}
+        imagelink_square={item.imagelink_square}
+        special_ingredient={item.special_ingredient}
+        roasted={item.roasted}
+        prices={item.prices}
+        type={item.type}
+        incrementCartItemQuantityHandler={() => {}}
+        decrementCartItemQuantityHandler={() => {}}
+      />
+    </TouchableOpacity>
+  );
+
   return (
     <SafeAreaView className="bg-primary-black flex-1">
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.ScrollViewFlex}
-      >
-        <View className="flex-1 justify-between">
-          <View>
-            <HeaderBar title="Cart" />
+      <View className="flex-1">
+        <View className="flex-1">
+          <HeaderBar title="Cart" />
 
-            {CartData.length == 0 ? (
-              <>{/* <EmptyListAnimation title={"Cart is Empty"} /> */}</>
-            ) : (
-              <View className="px-5 gap-5">
-                {CartData.map((data: any) => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.push("Details", {
-                        index: data.index,
-                        id: data.id,
-                        type: data.type,
-                      });
-                    }}
-                    key={data.id}
-                  >
-                    <CartItem
-                      id={data.id}
-                      name={data.name}
-                      imagelink_square={data.imagelink_square}
-                      special_ingredient={data.special_ingredient}
-                      roasted={data.roasted}
-                      prices={data.prices}
-                      type={data.type}
-                      incrementCartItemQuantityHandler={() => {}}
-                      decrementCartItemQuantityHandler={() => {}}
-                    />
-                  </TouchableOpacity>
-                ))}
-              </View>
+          <FlatList
+            data={CartData}
+            renderItem={renderCartItem}
+            contentContainerStyle={{
+              paddingHorizontal: 20,
+              gap: 20,
+            }}
+            showsVerticalScrollIndicator={false}
+            ListEmptyComponent={() => (
+              <EmptyListAnimation title={"Your cart is empty!"} />
             )}
-          </View>
-
-          {CartData.length > 0 ? (
-            <PaymentFooter
-              buttonPressHandler={() => {}}
-              buttonTitle="Pay"
-              price={{ price: "20", currency: "$" }}
-            />
-          ) : (
-            <></>
-          )}
+          />
         </View>
-      </ScrollView>
+
+        {CartData.length > 0 && (
+          <PaymentFooter
+            buttonPressHandler={() => {}}
+            buttonTitle="Pay"
+            price={{ price: "20", currency: "$" }}
+          />
+        )}
+      </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  ScrollViewFlex: {
-    flexGrow: 1,
-  },
-});
 
 export default CartScreen;
