@@ -1,18 +1,29 @@
-import { View, Text, Pressable } from "react-native";
 import React from "react";
-import { TabBarIcon } from "./navigation/TabBarIcon";
+import { View, Text, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLORS } from "@/theme/theme";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import * as Icons from "@expo/vector-icons";
 import { type IconProps } from "@expo/vector-icons/build/createIconSet";
 import { type ComponentProps } from "react";
 
-const GradientIcon = ({
+type GradientIconProps = IconProps<
+  ComponentProps<(typeof Icons)[keyof typeof Icons]>["name"]
+> & {
+  iconSet: keyof typeof Icons;
+  size?: number;
+};
+
+const GradientIcon: React.FC<GradientIconProps> = ({
   size = 28,
   name,
   color,
+  iconSet,
   ...rest
-}: IconProps<ComponentProps<typeof Ionicons>["name"]>) => {
+}) => {
+  const IconComponent = Icons[iconSet] as React.ComponentType<
+    IconProps<ComponentProps<(typeof Icons)[typeof iconSet]>["name"]>
+  >;
+
   return (
     <Pressable className="rounded-xl border-2 border-secondary-dark-grey overflow-hidden">
       <LinearGradient
@@ -21,7 +32,7 @@ const GradientIcon = ({
         end={{ x: 1, y: 0 }}
         className="w-9 h-9 justify-center items-center"
       >
-        <TabBarIcon size={size} name={name} color={color} {...rest} />
+        <IconComponent size={size} name={name} color={color} {...rest} />
       </LinearGradient>
     </Pressable>
   );

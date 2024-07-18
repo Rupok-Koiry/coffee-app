@@ -1,22 +1,36 @@
-import { Text, View } from "react-native";
 import React from "react";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { View } from "react-native";
+import * as Icons from "@expo/vector-icons";
 import { type IconProps } from "@expo/vector-icons/build/createIconSet";
 import { type ComponentProps } from "react";
 
-type BGIconProps = IconProps<ComponentProps<typeof Ionicons>["name"]> & {
-  BGColor: string;
+type BgIconProps = {
+  name: string;
+  color: string;
+  size: number;
+  BgColor: string;
+  iconSet: keyof typeof Icons;
 };
 
-const BGIcon: React.FC<BGIconProps> = ({ name, color, size, BGColor }) => {
+const BgIcon: React.FC<BgIconProps> = ({
+  name,
+  color,
+  size,
+  BgColor,
+  iconSet,
+}) => {
+  const IconComponent = Icons[iconSet] as React.ComponentType<
+    IconProps<ComponentProps<(typeof Icons)[typeof iconSet]>["name"]>
+  >;
+
   return (
     <View
-      className={`h-8 w-8 justify-center items-center rounded-lg`}
-      style={{ backgroundColor: BGColor }}
+      className="h-8 w-8 justify-center items-center rounded-lg"
+      style={{ backgroundColor: BgColor }}
     >
-      <Ionicons name={name} color={color} size={size} />
+      <IconComponent name={name} color={color} size={size} />
     </View>
   );
 };
 
-export default BGIcon;
+export default BgIcon;

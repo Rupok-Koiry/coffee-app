@@ -31,7 +31,7 @@ const CoffeeList = forwardRef<FlatList<any>, any>((_, ref) => {
         return (
           <TouchableOpacity
             onPress={() => {
-              router.push("/(tabs)/product/1");
+              router.push(`/(tabs)/product/${item.id}?type=${item.type}`);
             }}
           >
             <CoffeeCard

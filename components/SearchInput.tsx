@@ -2,6 +2,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { TabBarIcon } from "./navigation/TabBarIcon";
 import { COLORS } from "@/theme/theme";
+import { Ionicons } from "@expo/vector-icons";
 
 type SearchInputProps = {
   searchCoffee: (text: string) => void;
@@ -17,8 +18,9 @@ const SearchInput = ({ searchCoffee, resetSearchCoffee }: SearchInputProps) => {
           searchCoffee(searchText);
         }}
       >
-        <TabBarIcon
-          className="mx-4"
+        <Ionicons
+          style={{ marginHorizontal: 16 }}
+          className="m-4"
           name="search"
           size={18}
           color={
@@ -46,8 +48,8 @@ const SearchInput = ({ searchCoffee, resetSearchCoffee }: SearchInputProps) => {
             resetSearchCoffee();
           }}
         >
-          <TabBarIcon
-            className="mx-5"
+          <Ionicons
+            style={{ marginHorizontal: 16 }}
             name="close"
             size={16}
             color={COLORS.primaryLightGreyHex}

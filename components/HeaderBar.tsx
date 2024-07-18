@@ -11,9 +11,10 @@ const HeaderBar = ({ title }: HeaderBarProps) => {
   return (
     <View className="flex-row justify-between items-center p-8">
       <GradientIcon
-        name="search"
+        name="menu"
         size={16}
         color={COLORS.primaryLightGreyHex}
+        iconSet="Ionicons"
       />
       {title && (
         <Text className="font-poppins-semibold text-xl text-primary-white">

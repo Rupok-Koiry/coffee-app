@@ -7,72 +7,81 @@ import {
   ImageBackground,
 } from "react-native";
 import GradientIcon from "./GradientIcon";
-import { Ionicons } from "@expo/vector-icons";
+import {
+  Feather,
+  FontAwesome5,
+  Fontisto,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { COLORS } from "@/theme/theme";
 
 interface ImageBackgroundInfoProps {
-  EnableBackHandler: boolean;
-  imagelink_portrait: ImageProps;
+  enableBackHandler: boolean;
+  imageLinkPortrait: ImageProps;
   type: string;
   id: string;
-  favourite: boolean;
+  isFavorite: boolean;
   name: string;
-  special_ingredient: string;
+  specialIngredient: string;
   ingredients: string;
-  average_rating: number;
-  ratings_count: string;
-  roasted: string;
-  BackHandler?: any;
-  ToggleFavourite: any;
+  averageRating: number;
+  ratingsCount: string;
+  roastedLevel: string;
+  backHandler: () => void;
+  toggleFavorite: () => void;
 }
 
 const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
-  EnableBackHandler,
-  imagelink_portrait,
+  enableBackHandler,
+  imageLinkPortrait,
   type,
   id,
-  favourite,
+  isFavorite,
   name,
-  special_ingredient,
+  specialIngredient,
   ingredients,
-  average_rating,
-  ratings_count,
-  roasted,
-  BackHandler,
-  ToggleFavourite,
+  averageRating,
+  ratingsCount,
+  roastedLevel,
+  backHandler,
+  toggleFavorite,
 }) => {
   return (
     <View>
       <ImageBackground
-        source={imagelink_portrait}
+        source={imageLinkPortrait}
         className="w-full aspect-[4/5] justify-between"
       >
-        {EnableBackHandler ? (
+        {enableBackHandler ? (
           <View className="p-8 flex-row items-center justify-between">
             <TouchableOpacity
               onPress={() => {
-                BackHandler();
+                backHandler();
               }}
             >
               <GradientIcon
-                name="hand-left"
+                name="chevron-back"
                 color={COLORS.secondaryLightGreyHex}
                 size={16}
+                iconSet="Ionicons"
               />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                ToggleFavourite(favourite, type, id);
+                toggleFavorite();
               }}
             >
               <GradientIcon
                 name="heart"
                 color={
-                  favourite
+                  isFavorite
                     ? COLORS.primaryRedHex
                     : COLORS.secondaryLightGreyHex
                 }
                 size={16}
+                iconSet="Ionicons"
               />
             </TouchableOpacity>
           </View>
@@ -80,15 +89,16 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
           <View className="p-8 flex-row items-center justify-end">
             <TouchableOpacity
               onPress={() => {
-                ToggleFavourite(favourite, type, id);
+                toggleFavorite();
               }}
             >
               <GradientIcon
                 name="heart"
                 color={
-                  favourite ? "text-primary-red" : "text-secondary-light-grey"
+                  isFavorite ? "text-primary-red" : "text-secondary-light-grey"
                 }
                 size={16}
+                iconSet="Ionicons"
               />
             </TouchableOpacity>
           </View>
@@ -102,20 +112,26 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                   {name}
                 </Text>
                 <Text className="font-medium text-xs text-primary-white">
-                  {special_ingredient}
+                  {specialIngredient}
                 </Text>
               </View>
               <View className="flex-row items-center space-x-5">
                 <View className="h-14 w-14 rounded-lg justify-center items-center bg-primary-black">
-                  <Ionicons
-                    name={type === "Bean" ? "basketball" : "glasses"}
-                    size={24}
-                    color={COLORS.primaryOrangeHex}
-                  />
+                  {type === "Bean" ? (
+                    <MaterialCommunityIcons
+                      name="fruit-cherries"
+                      size={24}
+                      color={COLORS.primaryOrangeHex}
+                    />
+                  ) : (
+                    <Feather
+                      name="coffee"
+                      size={24}
+                      color={COLORS.primaryOrangeHex}
+                    />
+                  )}
                   <Text
-                    className={`font-medium text-xs text-secondary-light-grey ${
-                      type === "Bean" ? "mt-1.5" : ""
-                    }`}
+                    className={`font-medium text-xs text-secondary-light-grey mt-0.5`}
                   >
                     {type}
                   </Text>
@@ -126,7 +142,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                     size={24}
                     color={COLORS.primaryOrangeHex}
                   />
-                  <Text className="font-medium text-xs text-secondary-light-grey mt-1.5">
+                  <Text className="font-medium text-xs text-secondary-light-grey mt-0.5">
                     {ingredients}
                   </Text>
                 </View>
@@ -140,15 +156,15 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                   size={20}
                 />
                 <Text className="font-semibold text-lg text-primary-white">
-                  {average_rating}
+                  {averageRating}
                 </Text>
                 <Text className="font-regular text-xs text-primary-white">
-                  ({ratings_count})
+                  ({ratingsCount})
                 </Text>
               </View>
-              <View className="h-14 w-[calc(55*2+20px)] rounded-lg justify-center items-center bg-primary-black">
+              <View className="h-14 w-32  rounded-lg justify-center items-center bg-primary-black">
                 <Text className="font-regular text-xs text-primary-white">
-                  {roasted}dd
+                  {roastedLevel}
                 </Text>
               </View>
             </View>

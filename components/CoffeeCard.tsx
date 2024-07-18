@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import BGIcon from "./BGIcon";
+import BgIcon from "./BgIcon";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.32;
 
@@ -71,7 +71,13 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
             buttonPressHandler();
           }}
         >
-          <BGIcon color="#FFFFFF" name={"add"} BGColor="#FFA500" size={10} />
+          <BgIcon
+            color="#FFFFFF"
+            name="add"
+            BgColor="#FFA500"
+            size={14}
+            iconSet="Ionicons"
+          />
         </TouchableOpacity>
       </View>
     </LinearGradient>
