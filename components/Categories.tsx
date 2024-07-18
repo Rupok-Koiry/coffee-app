@@ -12,7 +12,7 @@ const Categories = ({ listRef }: CategoriesProps) => {
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      className="px-5 mb-5"
+      className="px-5 mb-0"
     >
       {categories.map((category, index) => (
         <View key={index.toString()} className="px-4">
@@ -27,7 +27,7 @@ const Categories = ({ listRef }: CategoriesProps) => {
             }}
           >
             <Text
-              className={`font-poppins-semibold text-primary-light-grey mb-1 text-base 
+              className={`font-poppins-semibold mb-1 text-base 
               ${
                 category == activeCategory
                   ? "text-primary-orange"
