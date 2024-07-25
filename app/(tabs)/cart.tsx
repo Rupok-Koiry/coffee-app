@@ -3,6 +3,7 @@ import EmptyListAnimation from "@/components/EmptyListAnimation";
 import HeaderBar from "@/components/HeaderBar";
 import PaymentFooter from "@/components/PaymentFooter";
 import CartData from "@/data/CartData";
+import { useRouter } from "expo-router";
 import React from "react";
 import {
   FlatList,
@@ -14,31 +15,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const CartScreen = ({ navigation }: any) => {
-  const renderCartItem = ({ item }: any) => (
-    <TouchableOpacity
-      onPress={() => {
-        navigation.push("Details", {
-          index: item.index,
-          id: item.id,
-          type: item.type,
-        });
-      }}
-      key={item.id}
-    >
-      <CartItem
-        id={item.id}
-        name={item.name}
-        imagelink_square={item.imagelink_square}
-        special_ingredient={item.special_ingredient}
-        roasted={item.roasted}
-        prices={item.prices}
-        type={item.type}
-        incrementCartItemQuantityHandler={() => {}}
-        decrementCartItemQuantityHandler={() => {}}
-      />
-    </TouchableOpacity>
-  );
-
+  const router = useRouter();
   return (
     <SafeAreaView className="bg-primary-black flex-1">
       <View className="flex-1">
@@ -47,7 +24,30 @@ const CartScreen = ({ navigation }: any) => {
 
           <FlatList
             data={CartData}
-            renderItem={renderCartItem}
+            renderItem={({ item }: any) => (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.push("Details", {
+                    index: item.index,
+                    id: item.id,
+                    type: item.type,
+                  });
+                }}
+                key={item.id}
+              >
+                <CartItem
+                  id={item.id}
+                  name={item.name}
+                  imagelink_square={item.imagelink_square}
+                  special_ingredient={item.special_ingredient}
+                  roasted={item.roasted}
+                  prices={item.prices}
+                  type={item.type}
+                  incrementCartItemQuantityHandler={() => {}}
+                  decrementCartItemQuantityHandler={() => {}}
+                />
+              </TouchableOpacity>
+            )}
             contentContainerStyle={{
               paddingHorizontal: 20,
               gap: 20,
@@ -61,7 +61,7 @@ const CartScreen = ({ navigation }: any) => {
 
         {CartData.length > 0 && (
           <PaymentFooter
-            buttonPressHandler={() => {}}
+            buttonPressHandler={() => router.push("/product/payment")}
             buttonTitle="Pay"
             price={{ price: "20", currency: "$" }}
           />

@@ -1,5 +1,6 @@
 import GradientIcon from "@/components/GradientIcon";
 import PaymentFooter from "@/components/PaymentFooter";
+import PaymentMethod from "@/components/PaymentMethod";
 import { COLORS } from "@/theme/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
@@ -12,7 +13,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const PaymentList = [
+const paymentList = [
   {
     name: "Wallet",
     icon: "icon",
@@ -20,17 +21,17 @@ const PaymentList = [
   },
   {
     name: "Google Pay",
-    icon: require("../assets/app_images/gpay.png"),
+    icon: require("@/assets/app_images/gpay.png"),
     isIcon: false,
   },
   {
     name: "Apple Pay",
-    icon: require("../assets/app_images/applepay.png"),
+    icon: require("@/assets/app_images/applepay.png"),
     isIcon: false,
   },
   {
     name: "Amazon Pay",
-    icon: require("../assets/app_images/amazonpay.png"),
+    icon: require("@/assets/app_images/amazonpay.png"),
     isIcon: false,
   },
 ];
@@ -148,19 +149,19 @@ const PaymentScreen = ({ navigation, route }: any) => {
               </View>
             </View>
           </TouchableOpacity>
-          {PaymentList.map((data: any) => (
+          {paymentList.map((data: any) => (
             <TouchableOpacity
               key={data.name}
               onPress={() => {
                 setPaymentMode(data.name);
               }}
             >
-              {/* <PaymentMethod
+              <PaymentMethod
                 paymentMode={paymentMode}
                 name={data.name}
                 icon={data.icon}
                 isIcon={data.isIcon}
-              /> */}
+              />
             </TouchableOpacity>
           ))}
         </View>
