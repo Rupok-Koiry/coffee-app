@@ -1,7 +1,8 @@
-import { Text, View, Image } from "react-native";
 import React from "react";
-import { COLORS } from "@/theme/theme";
+import { Text, View, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { COLORS } from "@/theme/theme";
+import { Ionicons } from "@expo/vector-icons";
 
 type PaymentMethodProps = {
   paymentMode: string;
@@ -19,7 +20,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
   return (
     <View
       className={`border-3 bg-primary-grey rounded-2xl ${
-        paymentMode == name ? COLORS.primaryOrangeHex : COLORS.primaryGreyHex
+        paymentMode === name ? "border-primary-orange" : "border-primary-grey"
       }`}
     >
       {isIcon ? (
@@ -27,14 +28,17 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-          className="flex-row items-center justify-between px-6 py-3 gap-6 rounded-2xl"
+          className="flex-row items-center justify-between px-6 py-3 rounded-2xl"
+          style={{ gap: 24 }}
         >
-          <View className="flex-row items-center gap-6">
-            {/* <CustomIcon
-              name={"wallet"}
-              color={COLORS.primaryOrangeHex}
-              size={FONTSIZE.size_30}
-            /> */}
+          <View className="flex-row items-center" style={{ gap: 24 }}>
+            <Text>
+              <Ionicons
+                name="wallet"
+                size={24}
+                color={COLORS.primaryOrangeHex}
+              />
+            </Text>
             <Text className="font-poppins-semibold text-base text-primary-white">
               {name}
             </Text>
@@ -48,7 +52,8 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-          className="flex-row items-center px-6 py-3 gap-6 rounded-2xl"
+          className="flex-row items-center px-6 py-3 rounded-2xl"
+          style={{ gap: 24 }}
         >
           <Image source={icon} className="h-8 w-8" />
           <Text className="font-poppins-semibold text-base text-primary-white">

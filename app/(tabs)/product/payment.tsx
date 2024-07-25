@@ -12,6 +12,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const paymentList = [
   {
@@ -45,7 +46,7 @@ const PaymentScreen = ({ navigation, route }: any) => {
   };
 
   return (
-    <View className="flex-1 bg-primary-black">
+    <SafeAreaView className="flex-1 bg-primary-black">
       {/* {showAnimation && (
         <PopUpAnimation
           style={styles.LottieAnimation}
@@ -172,7 +173,7 @@ const PaymentScreen = ({ navigation, route }: any) => {
         price={{ price: "20", currency: "$" }}
         buttonPressHandler={buttonPressHandler}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
