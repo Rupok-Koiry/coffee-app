@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 import BgIcon from "./BgIcon";
+import { PricesType } from "@/constants/types";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.32;
 
@@ -22,8 +23,8 @@ interface CoffeeCardProps {
   name: string;
   specialIngredient: string;
   averageRating: number;
-  price: any;
-  buttonPressHandler: any;
+  price: PricesType;
+  buttonPressHandler: () => void;
 }
 
 const CoffeeCard: React.FC<CoffeeCardProps> = ({

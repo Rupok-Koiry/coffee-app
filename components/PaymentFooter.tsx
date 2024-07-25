@@ -8,7 +8,7 @@ type PriceProps = {
 
 type PaymentFooterProps = {
   price: PriceProps;
-  buttonPressHandler: any;
+  buttonPressHandler: () => void;
   buttonTitle: string;
 };
 

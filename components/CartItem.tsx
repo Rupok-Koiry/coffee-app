@@ -1,5 +1,5 @@
 import { COLORS } from "@/theme/theme";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { Text, View, ImageProps, Image, TouchableOpacity } from "react-native";
@@ -54,17 +54,16 @@ const CartItem: React.FC<CartItemProps> = ({
               </View>
             </View>
           </View>
-          <View className="mt-3" style={{ gap: 12 }}>
+          <View className="mt-3 space-y-3">
             {prices.map((price: any, index: any) => (
               <View
                 key={index.toString()}
-                className="flex-1 items-center flex-row justify-center"
-                style={{ gap: 20 }}
+                className="flex-1 items-center flex-row justify-center space-x-5"
               >
                 <View className="flex-1 items-center flex-row justify-between">
                   <View className="bg-primary-black h-10 w-24 rounded-lg justify-center items-center">
                     <Text
-                      className={`font-poppins-medium  ${
+                      className={`font-poppins-medium ${
                         type === "Bean"
                           ? "text-base text-secondary-light-grey"
                           : "text-lg text-primary-white"
@@ -91,7 +90,6 @@ const CartItem: React.FC<CartItemProps> = ({
                       size={14}
                     />
                   </TouchableOpacity>
-
                   <View className="bg-primary-black w-20 rounded-lg border-2 border-primary-orange items-center py-2">
                     <Text className="font-poppins-semibold text-base text-primary-white">
                       {price.quantity}
@@ -136,7 +134,7 @@ const CartItem: React.FC<CartItemProps> = ({
             <View className="flex-row justify-between items-center my-2">
               <View className="bg-primary-black h-10 w-24 rounded-lg justify-center items-center">
                 <Text
-                  className={`font-poppins-medium  ${
+                  className={`font-poppins-medium ${
                     type === "Bean"
                       ? "text-base text-secondary-light-grey"
                       : "text-lg text-primary-white"

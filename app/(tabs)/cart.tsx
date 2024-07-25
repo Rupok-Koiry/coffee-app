@@ -5,16 +5,10 @@ import PaymentFooter from "@/components/PaymentFooter";
 import CartData from "@/data/CartData";
 import { useRouter } from "expo-router";
 import React from "react";
-import {
-  FlatList,
-  StatusBar,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { FlatList, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const CartScreen = ({ navigation }: any) => {
+const CartScreen = () => {
   const router = useRouter();
   return (
     <SafeAreaView className="bg-primary-black flex-1">
@@ -24,14 +18,10 @@ const CartScreen = ({ navigation }: any) => {
 
           <FlatList
             data={CartData}
-            renderItem={({ item }: any) => (
+            renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => {
-                  navigation.push("Details", {
-                    index: item.index,
-                    id: item.id,
-                    type: item.type,
-                  });
+                  router.push(`/(tabs)/product/${item.id}?type=${item.type}`);
                 }}
                 key={item.id}
               >

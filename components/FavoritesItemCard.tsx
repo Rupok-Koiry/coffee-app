@@ -16,7 +16,7 @@ interface FavoritesItemCardProps {
   roastedLevel: string;
   description: string;
   isFavorite: boolean;
-  toggleFavorite: any;
+  toggleFavorite: () => void;
 }
 
 const FavoritesItemCard: React.FC<FavoritesItemCardProps> = ({

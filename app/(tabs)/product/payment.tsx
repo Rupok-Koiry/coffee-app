@@ -39,7 +39,7 @@ const paymentList: PaymentListType[] = [
   },
 ];
 
-const PaymentScreen = ({ navigation, route }: any) => {
+const PaymentScreen = () => {
   const [paymentMode, setPaymentMode] = useState("Credit Card");
   const [showAnimation, setShowAnimation] = useState(false);
 
@@ -66,11 +66,7 @@ const PaymentScreen = ({ navigation, route }: any) => {
         contentContainerStyle={{ flexGrow: 1 }}
       >
         <View className="flex-row justify-between items-center py-4 px-6">
-          <TouchableOpacity
-            onPress={() => {
-              navigation.pop();
-            }}
-          >
+          <TouchableOpacity onPress={() => {}}>
             <GradientIcon
               name="chevron-back"
               color={COLORS.primaryLightGreyHex}
