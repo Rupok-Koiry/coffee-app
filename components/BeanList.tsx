@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   FlatListContainer: {
     gap: 16,
     paddingVertical: 20,
-    paddingHorizontal: 32,
+    paddingHorizontal: 20,
   },
 });
 

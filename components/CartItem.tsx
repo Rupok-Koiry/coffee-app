@@ -34,7 +34,7 @@ const CartItem: React.FC<CartItemProps> = ({
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-          className="flex-1 p-5 rounded-2xl"
+          className="flex-1 p-3 rounded-2xl"
         >
           <View className="flex-row flex-1">
             <Image source={imagelink_square} className="w-32 h-32 rounded-xl" />
@@ -47,7 +47,7 @@ const CartItem: React.FC<CartItemProps> = ({
                   {special_ingredient}
                 </Text>
               </View>
-              <View className="h-12 w-36 rounded-xl justify-center items-center bg-primary-dark-grey">
+              <View className="h-12 w-[132px] rounded-xl justify-center items-center bg-primary-dark-grey">
                 <Text className="font-poppins-regular text-xs text-primary-white">
                   {roasted}
                 </Text>
@@ -61,25 +61,25 @@ const CartItem: React.FC<CartItemProps> = ({
                 className="flex-1 items-center flex-row justify-center space-x-5"
               >
                 <View className="flex-1 items-center flex-row justify-between">
-                  <View className="bg-primary-black h-10 w-24 rounded-lg justify-center items-center">
+                  <View className="bg-primary-black h-9 w-16 rounded-lg justify-center items-center">
                     <Text
                       className={`font-poppins-medium ${
                         type === "Bean"
-                          ? "text-base text-secondary-light-grey"
-                          : "text-lg text-primary-white"
+                          ? "text-sm text-secondary-light-grey"
+                          : "text-base text-primary-white"
                       }`}
                     >
                       {price.size}
                     </Text>
                   </View>
-                  <Text className="font-poppins-semibold text-lg text-primary-orange">
+                  <Text className="font-poppins-semibold text-base text-primary-orange">
                     {price.currency}
                     <Text className="text-primary-white">{price.price}</Text>
                   </Text>
                 </View>
                 <View className="flex-1 items-center flex-row justify-between">
                   <TouchableOpacity
-                    className="bg-primary-orange p-3 rounded-lg"
+                    className="bg-primary-orange p-2 rounded-lg"
                     onPress={() => {
                       decrementCartItemQuantityHandler(id, price.size);
                     }}
@@ -90,13 +90,13 @@ const CartItem: React.FC<CartItemProps> = ({
                       size={14}
                     />
                   </TouchableOpacity>
-                  <View className="bg-primary-black w-20 rounded-lg border-2 border-primary-orange items-center py-2">
+                  <View className="bg-primary-black w-14 rounded-lg border border-primary-orange items-center py-0.5">
                     <Text className="font-poppins-semibold text-base text-primary-white">
                       {price.quantity}
                     </Text>
                   </View>
                   <TouchableOpacity
-                    className="bg-primary-orange p-3 rounded-lg"
+                    className="bg-primary-orange p-2 rounded-lg"
                     onPress={() => {
                       incrementCartItemQuantityHandler(id, price.size);
                     }}
@@ -117,7 +117,7 @@ const CartItem: React.FC<CartItemProps> = ({
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-          className="flex-row flex-1 items-center p-4 rounded-2xl"
+          className="flex-row flex-1 items-center p-3 rounded-2xl"
         >
           <View>
             <Image source={imagelink_square} className="w-36 h-36 rounded-xl" />
@@ -132,25 +132,25 @@ const CartItem: React.FC<CartItemProps> = ({
               </Text>
             </View>
             <View className="flex-row justify-between items-center my-2">
-              <View className="bg-primary-black h-10 w-24 rounded-lg justify-center items-center">
+              <View className="bg-primary-black h-9 w-16 rounded-lg justify-center items-center">
                 <Text
                   className={`font-poppins-medium ${
                     type === "Bean"
-                      ? "text-base text-secondary-light-grey"
-                      : "text-lg text-primary-white"
+                      ? "text-sm text-secondary-light-grey"
+                      : "text-base text-primary-white"
                   }`}
                 >
                   {prices[0].size}
                 </Text>
               </View>
-              <Text className="text-lg text-primary-orange font-semibold">
+              <Text className="text-base text-primary-orange font-semibold">
                 {prices[0].currency}
                 <Text className="text-primary-white">{prices[0].price}</Text>
               </Text>
             </View>
             <View className="flex-row justify-between items-center">
               <TouchableOpacity
-                className="bg-primary-orange p-3 rounded-lg"
+                className="bg-primary-orange p-2 rounded-lg"
                 onPress={() => {
                   decrementCartItemQuantityHandler(id, prices[0].size);
                 }}
@@ -161,13 +161,13 @@ const CartItem: React.FC<CartItemProps> = ({
                   color={COLORS.primaryWhiteHex}
                 />
               </TouchableOpacity>
-              <View className="bg-primary-black w-20 rounded-lg border-2 border-primary-orange items-center py-2">
+              <View className="bg-primary-black w-14 rounded-lg border border-primary-orange items-center py-0.5">
                 <Text className="font-poppins-semibold text-base text-primary-white">
                   {prices[0].quantity}
                 </Text>
               </View>
               <TouchableOpacity
-                className="bg-primary-orange p-3 rounded-lg"
+                className="bg-primary-orange p-2 rounded-lg"
                 onPress={() => {
                   incrementCartItemQuantityHandler(id, prices[0].size);
                 }}

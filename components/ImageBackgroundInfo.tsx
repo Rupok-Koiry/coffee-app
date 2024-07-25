@@ -47,7 +47,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
         className="w-full aspect-[4/5] justify-between"
       >
         {enableBackHandler ? (
-          <View className="p-8 flex-row items-center justify-between">
+          <View className="p-5 flex-row items-center justify-between">
             <TouchableOpacity
               onPress={() => {
                 backHandler?.();
@@ -56,7 +56,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
               <GradientIcon
                 name="chevron-back"
                 color={COLORS.secondaryLightGreyHex}
-                size={16}
+                size={20}
                 iconSet="Ionicons"
               />
             </TouchableOpacity>
@@ -72,13 +72,13 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                     ? COLORS.primaryRedHex
                     : COLORS.secondaryLightGreyHex
                 }
-                size={16}
+                size={20}
                 iconSet="Ionicons"
               />
             </TouchableOpacity>
           </View>
         ) : (
-          <View className="p-8 flex-row items-center justify-end">
+          <View className="p-5 flex-row items-center justify-end">
             <TouchableOpacity
               onPress={() => {
                 toggleFavorite();
@@ -91,14 +91,14 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                     ? COLORS.primaryRedHex
                     : COLORS.secondaryLightGreyHex
                 }
-                size={16}
+                size={20}
                 iconSet="Ionicons"
               />
             </TouchableOpacity>
           </View>
         )}
 
-        <View className="py-6 px-8 bg-primary-black-rgba rounded-t-3xl">
+        <View className="p-5 bg-primary-black-rgba rounded-t-3xl">
           <View className="justify-between space-y-4">
             <View className="flex-row justify-between items-center">
               <View>
@@ -110,7 +110,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                 </Text>
               </View>
               <View className="flex-row items-center space-x-5">
-                <View className="h-14 w-14 rounded-lg justify-center items-center bg-primary-black">
+                <View className="h-14 w-14 rounded-lg justify-center items-center bg-primary-dark-grey">
                   {type === "Bean" ? (
                     <MaterialCommunityIcons
                       name="fruit-cherries"
@@ -130,7 +130,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                     {type}
                   </Text>
                 </View>
-                <View className="h-14 w-14 rounded-xl justify-center items-center bg-primary-black">
+                <View className="h-14 w-14 rounded-xl justify-center items-center bg-primary-dark-grey">
                   <Ionicons
                     name={type === "Bean" ? "location" : "water"}
                     size={24}
@@ -156,7 +156,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                   ({ratingsCount})
                 </Text>
               </View>
-              <View className="h-14 w-32  rounded-lg justify-center items-center bg-primary-black">
+              <View className="h-14 w-[132px]  rounded-lg justify-center items-center bg-primary-dark-grey">
                 <Text className="font-regular text-xs text-primary-white">
                   {roastedLevel}
                 </Text>

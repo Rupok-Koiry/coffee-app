@@ -35,7 +35,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
             <Text>
               <Ionicons
                 name="wallet"
-                size={24}
+                size={32}
                 color={COLORS.primaryOrangeHex}
               />
             </Text>

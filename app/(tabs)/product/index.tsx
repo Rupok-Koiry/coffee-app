@@ -16,14 +16,14 @@ const HomeScreen = () => {
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
       <ScrollView>
         <HeaderBar />
-        <Text className="font-poppins-semibold text-3xl px-8 text-primary-white">
+        <Text className="font-poppins-semibold text-3xl px-5 text-primary-white">
           Find the best{"\n"}coffee for you
         </Text>
         <SearchInput searchCoffee={() => {}} resetSearchCoffee={() => {}} />
 
         <Categories listRef={listRef} />
         <CoffeeList ref={listRef} />
-        <Text className="text-lg ml-8 mt-5 font-poppins-medium text-secondary-light-grey">
+        <Text className="text-lg ml-5 mt-5 font-poppins-medium text-secondary-light-grey">
           Coffee Beans
         </Text>
         <BeanList />

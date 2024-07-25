@@ -9,8 +9,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import BgIcon from "./BgIcon";
 import { PricesType } from "@/constants/types";
+import BgIcon from "./BgIcon";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.32;
 
@@ -43,7 +43,7 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
-      className="p-4 rounded-2xl"
+      className="p-3 rounded-2xl"
       colors={["#333333", "#000000"]}
     >
       <ImageBackground
@@ -79,7 +79,7 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
             color="#FFFFFF"
             name="add"
             BgColor="#FFA500"
-            size={14}
+            size={16}
             iconSet="Ionicons"
           />
         </TouchableOpacity>

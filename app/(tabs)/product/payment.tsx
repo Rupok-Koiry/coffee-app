@@ -15,6 +15,7 @@ import { COLORS } from "@/theme/theme";
 import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import PopUpAnimation from "@/components/PopUpAnimation";
 import { PaymentListType } from "@/constants/types";
+import HeaderBar from "@/components/HeaderBar";
 
 const paymentList: PaymentListType[] = [
   {
@@ -65,22 +66,8 @@ const PaymentScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
       >
-        <View className="flex-row justify-between items-center py-4 px-6">
-          <TouchableOpacity onPress={() => {}}>
-            <GradientIcon
-              name="chevron-back"
-              color={COLORS.primaryLightGreyHex}
-              size={16}
-              iconSet="Ionicons"
-            />
-          </TouchableOpacity>
-          <Text className="font-poppins-semibold text-xl text-primary-white">
-            Payments
-          </Text>
-          <View className="h-9 w-9" />
-        </View>
-
-        <View className="p-4" style={{ gap: 16 }}>
+        <HeaderBar title="Payments" showProfilePic={false} />
+        <View className="p-5" style={{ gap: 16 }}>
           <TouchableOpacity
             onPress={() => {
               setPaymentMode("Credit Card");
@@ -108,43 +95,43 @@ const PaymentScreen = () => {
                   <View className="flex-row items-center justify-between">
                     <MaterialCommunityIcons
                       name="integrated-circuit-chip"
-                      size={50}
+                      size={36}
                       color={COLORS.primaryOrangeHex}
                     />
                     <FontAwesome6
                       name="cc-visa"
-                      size={50}
+                      size={42}
                       color={COLORS.primaryWhiteHex}
                     />
                   </View>
                   <View className="flex-row items-center" style={{ gap: 12 }}>
-                    <Text className="font-poppins-semibold text-lg text-primary-white tracking-wider">
+                    <Text className="font-poppins-semibold text-base text-primary-white tracking-widest">
                       3879
                     </Text>
-                    <Text className="font-poppins-semibold text-lg text-primary-white tracking-wider">
+                    <Text className="font-poppins-semibold text-base text-primary-white tracking-widest">
                       8923
                     </Text>
-                    <Text className="font-poppins-semibold text-lg text-primary-white tracking-wider">
+                    <Text className="font-poppins-semibold text-base text-primary-white tracking-widest">
                       6745
                     </Text>
-                    <Text className="font-poppins-semibold text-lg text-primary-white tracking-wider">
+                    <Text className="font-poppins-semibold text-base text-primary-white tracking-widest">
                       4638
                     </Text>
                   </View>
                   <View className="flex-row items-center justify-between">
                     <View className="items-start">
-                      <Text className="font-poppins-regular text-sm text-secondary-light-grey">
+                      <Text className="font-poppins-regular text-xs text-secondary-light-grey">
                         Card Holder Name
                       </Text>
-                      <Text className="font-poppins-medium text-lg text-primary-white">
+                      <Text className="font-poppins-medium text-base text-primary-white">
                         Robert Evans
                       </Text>
                     </View>
                     <View className="items-end">
-                      <Text className="font-poppins-regular text-sm text-secondary-light-grey">
+                      <Text className="font-poppins-regular text-xs text-secondary-light-grey">
                         Expiry Date
                       </Text>
-                      <Text className="font-poppins-medium text-lg text-primary-white">
+                      <Text className="font-poppins-medium text-base text-primary-white">
                         02/30
                       </Text>
                     </View>

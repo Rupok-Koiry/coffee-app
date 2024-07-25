@@ -3,18 +3,28 @@ import React from "react";
 import GradientIcon from "./GradientIcon";
 import { COLORS } from "@/theme/theme";
 import ProfilePic from "./ProfilePic";
+import * as Icons from "@expo/vector-icons";
+
 type HeaderBarProps = {
   title?: string;
+  iconName?: string;
+  iconSet?: keyof typeof Icons;
+  showProfilePic?: boolean;
 };
 
-const HeaderBar = ({ title }: HeaderBarProps) => {
+const HeaderBar = ({
+  title,
+  iconName = "chevron-back",
+  iconSet = "Ionicons",
+  showProfilePic = true,
+}: HeaderBarProps) => {
   return (
-    <View className="flex-row justify-between items-center p-8">
+    <View className="flex-row justify-between items-center p-5">
       <GradientIcon
-        name="menu"
-        size={16}
+        name={iconName}
+        size={20}
         color={COLORS.primaryLightGreyHex}
-        iconSet="Ionicons"
+        iconSet={iconSet}
       />
       {title && (
         <Text className="font-poppins-semibold text-xl text-primary-white">
@@ -22,7 +32,7 @@ const HeaderBar = ({ title }: HeaderBarProps) => {
         </Text>
       )}
 
-      <ProfilePic />
+      {showProfilePic ? <ProfilePic /> : <View className="h-9 w-9" />}
     </View>
   );
 };
