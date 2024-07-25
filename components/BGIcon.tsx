@@ -11,7 +11,6 @@ type BgIconProps = {
   BgColor: string;
   iconSet: keyof typeof Icons;
 };
-
 const BgIcon: React.FC<BgIconProps> = ({
   name,
   color,
