@@ -19,7 +19,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
 }) => {
   return (
     <View
-      className={`border-3 bg-primary-grey rounded-2xl ${
+      className={`border-2 bg-primary-grey rounded-2xl ${
         paymentMode === name ? "border-primary-orange" : "border-primary-grey"
       }`}
     >

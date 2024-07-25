@@ -1,20 +1,22 @@
+import React, { useState } from "react";
+import {
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 import GradientIcon from "@/components/GradientIcon";
 import PaymentFooter from "@/components/PaymentFooter";
 import PaymentMethod from "@/components/PaymentMethod";
 import { COLORS } from "@/theme/theme";
-import { LinearGradient } from "expo-linear-gradient";
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
+import PopUpAnimation from "@/components/PopUpAnimation";
+import { PaymentListType } from "@/constants/types";
 
-const paymentList = [
+const paymentList: PaymentListType[] = [
   {
     name: "Wallet",
     icon: "icon",
@@ -43,20 +45,25 @@ const PaymentScreen = ({ navigation, route }: any) => {
 
   const buttonPressHandler = () => {
     setShowAnimation(true);
+    setTimeout(() => {
+      setShowAnimation(false);
+    }, 3000);
   };
 
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
-      {/* {showAnimation && (
+      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+
+      {showAnimation && (
         <PopUpAnimation
-          style={styles.LottieAnimation}
-          source={require("../lottie/successful.json")}
+          style={{ flex: 1 }}
+          source={require("@/lottie/successful.json")}
         />
-      )} */}
+      )}
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        // contentContainerStyle={styles.ScrollViewFlex}
+        contentContainerStyle={{ flexGrow: 1 }}
       >
         <View className="flex-row justify-between items-center py-4 px-6">
           <TouchableOpacity
@@ -77,20 +84,19 @@ const PaymentScreen = ({ navigation, route }: any) => {
           <View className="h-9 w-9" />
         </View>
 
-        <View className="p-4 gap-4">
+        <View className="p-4" style={{ gap: 16 }}>
           <TouchableOpacity
             onPress={() => {
               setPaymentMode("Credit Card");
             }}
           >
             <View
-              className={`p-3 gap-3 rounded-2xl border-2 
-                ${
-                  paymentMode == "Credit Card"
-                    ? "border-primary-orange"
-                    : "border-primary-grey"
-                }
-                `}
+              className={`p-3  rounded-2xl border-2 ${
+                paymentMode == "Credit Card"
+                  ? "border-primary-orange"
+                  : "border-primary-grey"
+              }`}
+              style={{ gap: 12 }}
             >
               <Text className="font-poppins-semibold text-sm text-primary-white ml-3">
                 Credit Card
@@ -100,21 +106,22 @@ const PaymentScreen = ({ navigation, route }: any) => {
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
                   colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-                  className="rounded-2xl gap-9 px-4 py-3"
+                  className="rounded-2xl  px-4 py-3"
+                  style={{ gap: 36 }}
                 >
                   <View className="flex-row items-center justify-between">
-                    {/* <CustomIcon
-                      name="chip"
-                      size={40}
+                    <MaterialCommunityIcons
+                      name="integrated-circuit-chip"
+                      size={50}
                       color={COLORS.primaryOrangeHex}
                     />
-                    <CustomIcon
-                      name="visa"
-                      size={60}
+                    <FontAwesome6
+                      name="cc-visa"
+                      size={50}
                       color={COLORS.primaryWhiteHex}
-                    /> */}
+                    />
                   </View>
-                  <View className="flex-row items-center gap-3">
+                  <View className="flex-row items-center" style={{ gap: 12 }}>
                     <Text className="font-poppins-semibold text-lg text-primary-white tracking-wider">
                       3879
                     </Text>
@@ -150,18 +157,18 @@ const PaymentScreen = ({ navigation, route }: any) => {
               </View>
             </View>
           </TouchableOpacity>
-          {paymentList.map((data: any) => (
+          {paymentList.map(({ name, icon, isIcon }: PaymentListType) => (
             <TouchableOpacity
-              key={data.name}
+              key={name}
               onPress={() => {
-                setPaymentMode(data.name);
+                setPaymentMode(name);
               }}
             >
               <PaymentMethod
                 paymentMode={paymentMode}
-                name={data.name}
-                icon={data.icon}
-                isIcon={data.isIcon}
+                name={name}
+                icon={icon}
+                isIcon={isIcon}
               />
             </TouchableOpacity>
           ))}

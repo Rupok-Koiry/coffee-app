@@ -54,11 +54,12 @@ const CartItem: React.FC<CartItemProps> = ({
               </View>
             </View>
           </View>
-          <View className="gap-y-3 mt-3">
+          <View className="mt-3" style={{ gap: 12 }}>
             {prices.map((price: any, index: any) => (
               <View
                 key={index.toString()}
-                className="flex-1 items-center gap-x-5 flex-row justify-center"
+                className="flex-1 items-center flex-row justify-center"
+                style={{ gap: 20 }}
               >
                 <View className="flex-1 items-center flex-row justify-between">
                   <View className="bg-primary-black h-10 w-24 rounded-lg justify-center items-center">

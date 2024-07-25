@@ -37,10 +37,8 @@ const Categories = ({ listRef }: CategoriesProps) => {
             >
               {category}
             </Text>
-            {category === activeCategory ? (
+            {category === activeCategory && (
               <View className="h-2 w-2 rounded-full bg-primary-orange" />
-            ) : (
-              <></>
             )}
           </TouchableOpacity>
         </View>

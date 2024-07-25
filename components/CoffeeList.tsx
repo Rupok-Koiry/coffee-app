@@ -39,10 +39,10 @@ const CoffeeList = forwardRef<FlatList<any>, any>((_, ref) => {
               index={item.index}
               type={item.type}
               roasted={item.roasted}
-              imagelink_square={item.imagelink_square}
+              imagelinkSquare={item.imagelink_square}
               name={item.name}
-              special_ingredient={item.special_ingredient}
-              average_rating={item.average_rating}
+              specialIngredient={item.special_ingredient}
+              averageRating={item.average_rating}
               price={item.prices[2]}
               buttonPressHandler={() => {}}
             />

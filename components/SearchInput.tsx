@@ -1,6 +1,5 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, TextInput, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import { TabBarIcon } from "./navigation/TabBarIcon";
 import { COLORS } from "@/theme/theme";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -41,7 +40,7 @@ const SearchInput = ({ searchCoffee, resetSearchCoffee }: SearchInputProps) => {
         className="flex-1 font-poppins-medium text-sm text-primary-white h-12"
         cursorColor={"#FFA451"}
       />
-      {searchText.length > 0 ? (
+      {searchText.length > 0 && (
         <TouchableOpacity
           onPress={() => {
             setSearchText("");
@@ -55,8 +54,6 @@ const SearchInput = ({ searchCoffee, resetSearchCoffee }: SearchInputProps) => {
             color={COLORS.primaryLightGreyHex}
           />
         </TouchableOpacity>
-      ) : (
-        <></>
       )}
     </View>
   );

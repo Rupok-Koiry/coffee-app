@@ -7,19 +7,12 @@ import {
   ImageBackground,
 } from "react-native";
 import GradientIcon from "./GradientIcon";
-import {
-  Feather,
-  FontAwesome5,
-  Fontisto,
-  Ionicons,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "@/theme/theme";
 
 interface ImageBackgroundInfoProps {
   enableBackHandler: boolean;
-  imageLinkPortrait: ImageProps;
+  imagelinkPortrait: ImageProps;
   type: string;
   id: string;
   isFavorite: boolean;
@@ -29,15 +22,14 @@ interface ImageBackgroundInfoProps {
   averageRating: number;
   ratingsCount: string;
   roastedLevel: string;
-  backHandler: () => void;
+  backHandler?: () => void;
   toggleFavorite: () => void;
 }
 
 const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
   enableBackHandler,
-  imageLinkPortrait,
+  imagelinkPortrait,
   type,
-  id,
   isFavorite,
   name,
   specialIngredient,
@@ -51,14 +43,14 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
   return (
     <View>
       <ImageBackground
-        source={imageLinkPortrait}
+        source={imagelinkPortrait}
         className="w-full aspect-[4/5] justify-between"
       >
         {enableBackHandler ? (
           <View className="p-8 flex-row items-center justify-between">
             <TouchableOpacity
               onPress={() => {
-                backHandler();
+                backHandler?.();
               }}
             >
               <GradientIcon
@@ -95,7 +87,9 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
               <GradientIcon
                 name="heart"
                 color={
-                  isFavorite ? "text-primary-red" : "text-secondary-light-grey"
+                  isFavorite
+                    ? COLORS.primaryRedHex
+                    : COLORS.secondaryLightGreyHex
                 }
                 size={16}
                 iconSet="Ionicons"

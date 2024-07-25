@@ -1,12 +1,6 @@
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
-import { router, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import CoffeeCard from "./CoffeeCard";
 import BeansData from "@/data/BeansData";
 
@@ -31,10 +25,10 @@ const BeanList = () => {
               index={item.index}
               type={item.type}
               roasted={item.roasted}
-              imagelink_square={item.imagelink_square}
+              imagelinkSquare={item.imagelink_square}
               name={item.name}
-              special_ingredient={item.special_ingredient}
-              average_rating={item.average_rating}
+              specialIngredient={item.special_ingredient}
+              averageRating={item.average_rating}
               price={item.prices[2]}
               buttonPressHandler={() => {}}
             />
