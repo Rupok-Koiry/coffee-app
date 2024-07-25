@@ -28,6 +28,7 @@ const CartData = [
     isFavorite: false,
     type: "Coffee",
     index: 3,
+    total_price: "5.38",
   },
   {
     id: "C105",
@@ -52,6 +53,7 @@ const CartData = [
     isFavorite: false,
     type: "Coffee",
     index: 9,
+    total_price: "9.38",
   },
 ];
 export default CartData;

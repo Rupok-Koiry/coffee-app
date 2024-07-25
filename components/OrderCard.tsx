@@ -3,17 +3,17 @@ import { Text, TouchableOpacity, View } from "react-native";
 import OrderItemCard from "./OrderItemCard";
 
 interface OrderHistoryCardProps {
-  navigationHandler: any;
+  navigationHandler: () => void;
   cart: any;
-  totalPrice: string;
-  OrderDate: string;
+  totalPrice: number;
+  orderDate: string;
 }
 
 const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({
   navigationHandler,
   cart,
   totalPrice,
-  OrderDate,
+  orderDate,
 }) => {
   return (
     <View className="space-y-3">
@@ -23,37 +23,28 @@ const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({
             Order Time
           </Text>
           <Text className="font-poppins-light text-base text-primary-white">
-            {OrderDate}
+            {orderDate}
           </Text>
         </View>
         <View className="items-end">
-          <Text className="font-poppins_semibold text-base text-primary-white">
+          <Text className="font-poppins-semibold text-base text-primary-white">
             Total Amount
           </Text>
-          <Text className="font-poppins_medium text-lg text-primary-orange">
+          <Text className="font-poppins-medium text-lg text-primary-orange">
             $ {totalPrice}
           </Text>
         </View>
       </View>
       <View className="space-y-5">
-        {cart.map((data: any, index: any) => (
-          <TouchableOpacity
-            key={index.toString() + data.id}
-            onPress={() => {
-              navigationHandler({
-                index: data.index,
-                id: data.id,
-                type: data.type,
-              });
-            }}
-          >
+        {cart.map((cartItem: any) => (
+          <TouchableOpacity key={cartItem.id} onPress={navigationHandler}>
             <OrderItemCard
-              type={data.type}
-              name={data.name}
-              imagelink_square={data.imagelink_square}
-              special_ingredient={data.special_ingredient}
-              prices={data.prices}
-              ItemPrice={data.ItemPrice}
+              type={cartItem.type}
+              name={cartItem.name}
+              imagelinkSquare={cartItem.imagelink_square}
+              specialIngredient={cartItem.special_ingredient}
+              prices={cartItem.prices}
+              itemPrice={cartItem.total_price}
             />
           </TouchableOpacity>
         ))}

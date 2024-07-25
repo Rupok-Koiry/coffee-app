@@ -6,75 +6,75 @@ import { LinearGradient } from "expo-linear-gradient";
 interface OrderItemCardProps {
   type: string;
   name: string;
-  imagelink_square: ImageProps;
-  special_ingredient: string;
+  imagelinkSquare: ImageProps;
+  specialIngredient: string;
   prices: any;
-  ItemPrice: string;
+  itemPrice: string;
 }
 
 const OrderItemCard: React.FC<OrderItemCardProps> = ({
   type,
   name,
-  imagelink_square,
-  special_ingredient,
+  imagelinkSquare,
+  specialIngredient,
   prices,
-  ItemPrice,
+  itemPrice,
 }) => {
   return (
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-      className="p-5 rounded-lg"
+      className="p-5 rounded-2xl"
       style={{ gap: 20 }}
     >
       <View className="flex-row justify-between items-center">
         <View className="flex-row  items-center" style={{ gap: 20 }}>
-          <Image source={imagelink_square} className="h-24 w-24 rounded-lg" />
+          <Image source={imagelinkSquare} className="h-24 w-24 rounded-xl" />
           <View>
-            <Text className="font-poppins_medium text-lg text-white">
+            <Text className="font-poppins-medium text-lg text-primary-white">
               {name}
             </Text>
-            <Text className="font-poppins_regular text-sm text-gray-400">
-              {special_ingredient}
+            <Text className="font-poppins-regular text-sm text-secondary-light-grey">
+              {specialIngredient}
             </Text>
           </View>
         </View>
         <View>
-          <Text className="font-poppins_semibold text-xl text-orange-500">
-            $ <Text className="text-white">{ItemPrice}</Text>
+          <Text className="font-poppins-semibold text-xl text-primary-orange">
+            $<Text className="text-primary-white">{itemPrice}</Text>
           </Text>
         </View>
       </View>
-      {prices.map((data: any, index: any) => (
+      {prices.map((price: any, index: any) => (
         <View
           key={index.toString()}
           className="flex-1 flex-row justify-between items-center"
         >
           <View className="flex-1 flex-row justify-between items-center">
-            <View className="bg-black h-11 flex-1 rounded-l-lg justify-center items-center border-r border-gray-500">
+            <View className="bg-black h-12 flex-1 rounded-l-lg justify-center items-center border-r border-primary-grey">
               <Text
-                className={`font-poppins_medium text-gray-400 ${
-                  type == "Bean" ? "text-xs" : "text-base"
+                className={`font-poppins-medium text-secondary-light-grey ${
+                  type == "Bean" ? "text-sm" : "text-base"
                 }`}
               >
-                {data.size}
+                {price.size}
               </Text>
             </View>
-            <View className="bg-black h-11 flex-1 rounded-r-lg justify-center items-center border-l border-gray-500">
-              <Text className="font-poppins_semibold text-lg text-orange-500">
-                {data.currency}
-                <Text className="text-white"> {data.price}</Text>
+            <View className="bg-black h-12 flex-1 rounded-r-lg justify-center items-center border-l border-primary-grey">
+              <Text className="font-poppins-semibold text-lg text-primary-orange">
+                {price.currency}
+                <Text className="text-primary-white"> {price.price}</Text>
               </Text>
             </View>
           </View>
 
           <View className="flex-1 flex-row justify-between items-center">
-            <Text className="flex-1 text-center font-poppins_semibold text-lg text-orange-500">
-              X <Text className="text-white">{data.quantity}</Text>
+            <Text className="flex-1 text-center font-poppins-semibold text-lg text-primary-orange">
+              X <Text className="text-primary-white">{price.quantity}</Text>
             </Text>
-            <Text className="flex-1 text-center font-poppins_semibold text-lg text-orange-500">
-              $ {(data.quantity * data.price).toFixed(2).toString()}
+            <Text className="flex-1 text-center font-poppins-semibold text-lg text-primary-orange">
+              $ {(price.quantity * price.price).toFixed(2).toString()}
             </Text>
           </View>
         </View>

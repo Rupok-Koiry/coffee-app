@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import React from "react";
-import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { COLORS } from "@/theme/theme";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   return (
@@ -23,26 +23,32 @@ export default function TabLayout() {
       <Tabs.Screen
         name="product"
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="home" color={color} size={28} />
+          ),
         }}
       />
       <Tabs.Screen
         name="cart"
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="cart" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="cart" color={color} size={28} />
+          ),
         }}
       />
       <Tabs.Screen
         name="favorite"
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="heart" color={color} size={28} />
+          ),
         }}
       />
       <Tabs.Screen
         name="order"
         options={{
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="notifications" color={color} />
+            <FontAwesome5 name="user-alt" color={color} size={28} />
           ),
         }}
       />

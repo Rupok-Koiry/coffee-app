@@ -34,7 +34,7 @@ const CartItem: React.FC<CartItemProps> = ({
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-          className="flex-1 p-4 rounded-2xl"
+          className="flex-1 p-5 rounded-2xl"
         >
           <View className="flex-row flex-1">
             <Image source={imagelink_square} className="w-32 h-32 rounded-xl" />

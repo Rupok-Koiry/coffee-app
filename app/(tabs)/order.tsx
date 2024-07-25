@@ -46,14 +46,14 @@ const OrderScreen = () => {
             {OrderData.length == 0 ? (
               <EmptyListAnimation title={"No Order History"} />
             ) : (
-              <View className="px-5 space-y-8">
-                {OrderData.map((data: any, index: any) => (
+              <View className="px-5" style={{ gap: 32 }}>
+                {OrderData.map((order) => (
                   <OrderHistoryCard
-                    key={index.toString()}
+                    key={order.id}
                     navigationHandler={() => {}}
-                    cart={data.cart}
-                    totalPrice={data.totalPrice}
-                    OrderDate={data.OrderDate}
+                    cart={order.cart}
+                    totalPrice={order.total_price}
+                    orderDate={order.order_date}
                   />
                 ))}
               </View>
