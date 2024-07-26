@@ -4,22 +4,29 @@ import * as Icons from "@expo/vector-icons";
 import { type IconProps } from "@expo/vector-icons/build/createIconSet";
 import { type ComponentProps } from "react";
 
-type BgIconProps = {
-  name: string;
+type IconSetName = keyof typeof Icons;
+
+type IconName<T extends IconSetName> = ComponentProps<
+  (typeof Icons)[T]
+>["name"];
+
+type BgIconProps<T extends IconSetName> = {
+  name: IconName<T>;
   color: string;
   size: number;
   BgColor: string;
-  iconSet: keyof typeof Icons;
+  iconSet: T;
 };
-const BgIcon: React.FC<BgIconProps> = ({
+
+const BgIcon = <T extends IconSetName>({
   name,
   color,
   size,
   BgColor,
   iconSet,
-}) => {
+}: BgIconProps<T>) => {
   const IconComponent = Icons[iconSet] as React.ComponentType<
-    IconProps<ComponentProps<(typeof Icons)[typeof iconSet]>["name"]>
+    IconProps<IconName<T>>
   >;
 
   return (

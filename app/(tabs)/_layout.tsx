@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import { COLORS } from "@/theme/theme";
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function TabLayout() {
   return (
@@ -38,18 +38,18 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="profile"
-        options={{
-          tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="user-alt" color={color} size={28} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="order"
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="list" color={color} size={28} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="person" color={color} size={28} />
           ),
         }}
       />

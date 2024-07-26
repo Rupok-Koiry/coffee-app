@@ -31,7 +31,7 @@ const Button: React.FC<ButtonProps> = ({
       className={`bg-primary-orange items-center justify-center rounded-2xl px-8 py-4 self-center ${containerClassName}`}
       onPress={handlePress}
     >
-      <Text className="font-semibold text-lg text-primary-white">
+      <Text className="font-poppins-semibold text-lg text-primary-white">
         {children}
       </Text>
     </TouchableOpacity>

@@ -6,22 +6,28 @@ import * as Icons from "@expo/vector-icons";
 import { type IconProps } from "@expo/vector-icons/build/createIconSet";
 import { type ComponentProps } from "react";
 
-type GradientIconProps = IconProps<
-  ComponentProps<(typeof Icons)[keyof typeof Icons]>["name"]
-> & {
-  iconSet: keyof typeof Icons;
+type IconSetName = keyof typeof Icons;
+
+type IconName<T extends IconSetName> = ComponentProps<
+  (typeof Icons)[T]
+>["name"];
+
+type GradientIconProps<T extends IconSetName> = {
+  name: IconName<T>;
+  color: string;
   size?: number;
+  iconSet: T;
 };
 
-const GradientIcon: React.FC<GradientIconProps> = ({
+const GradientIcon = <T extends IconSetName>({
   size = 28,
   name,
   color,
   iconSet,
   ...rest
-}) => {
+}: GradientIconProps<T>) => {
   const IconComponent = Icons[iconSet] as React.ComponentType<
-    IconProps<ComponentProps<(typeof Icons)[typeof iconSet]>["name"]>
+    IconProps<IconName<T>>
   >;
 
   return (
