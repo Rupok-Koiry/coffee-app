@@ -28,10 +28,10 @@ const Button: React.FC<ButtonProps> = ({
   };
   return (
     <TouchableOpacity
-      className={`bg-primary-orange items-center justify-center rounded-2xl px-8 py-4 self-center ${containerClassName}`}
+      className={`bg-primary-orange items-center justify-center rounded-2xl px-5 py-3 ${containerClassName}`}
       onPress={handlePress}
     >
-      <Text className="font-poppins-semibold text-lg text-primary-white">
+      <Text className="font-poppins-semibold text-base text-primary-white">
         {children}
       </Text>
     </TouchableOpacity>

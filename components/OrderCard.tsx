@@ -19,18 +19,18 @@ const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({
     <View className="space-y-3">
       <View className="flex-row justify-between space-x-5 items-center">
         <View>
-          <Text className="font-poppins-semibold text-base text-primary-white">
+          <Text className="font-poppins-semibold text-primary-white">
             Order Time
           </Text>
-          <Text className="font-poppins-light text-base text-primary-white">
+          <Text className="font-poppins-light text-primary-white">
             {orderDate}
           </Text>
         </View>
         <View className="items-end">
-          <Text className="font-poppins-semibold text-base text-primary-white">
+          <Text className="font-poppins-semibold  text-primary-white">
             Total Amount
           </Text>
-          <Text className="font-poppins-medium text-lg text-primary-orange">
+          <Text className="font-poppins-light text-primary-orange">
             $ {totalPrice}
           </Text>
         </View>

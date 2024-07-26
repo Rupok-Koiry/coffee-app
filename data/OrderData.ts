@@ -3,7 +3,7 @@ import CartData from "./CartData";
 const OrderData = [
   {
     id: 1,
-    cart: [CartData[0], CartData[1]], // List of items from CartData
+    cart: [CartData[0], CartData[4]], // List of items from CartData
     total_price:
       CartData[0].prices.reduce(
         (total, item) => total + +item.price * item.quantity,

@@ -7,7 +7,12 @@ const ProfileScreen = () => {
   return (
     <SafeAreaView>
       <Text className="text-5xl text-red-500">ProfileScreen</Text>
-      <Link href="/profile/favorite">Favorite</Link>
+      <Link href="/profile/favorite" className="text-white">
+        Favorite
+      </Link>
+      <Link href="/profile/fav22orite" className="text-white">
+        Not Found22
+      </Link>
     </SafeAreaView>
   );
 };

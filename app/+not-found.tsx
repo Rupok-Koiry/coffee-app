@@ -33,7 +33,10 @@ export default function NotFoundScreen() {
         <Text className="font-poppins-semibold text-3xl text-primary-white text-center my-4">
           Oops! Page not found.
         </Text>
-        <Button onPress={() => router.push("/(tabs)/product")}>
+        <Button
+          containerClassName="self-center"
+          onPress={() => router.push("/(tabs)/product")}
+        >
           Go to Home
         </Button>
       </View>

@@ -48,7 +48,7 @@ const SignInScreen: React.FC = () => {
                 rules={{ required: "Email is required" }}
               />
               {errors.email && (
-                <Text className="text-sm text-primary-red my-0.5 mx-2">
+                <Text className="text-xs text-primary-red my-0.5 mx-2">
                   {errors.email.message}
                 </Text>
               )}
@@ -64,7 +64,7 @@ const SignInScreen: React.FC = () => {
                 rules={{ required: "Password is required" }}
               />
               {errors.password && (
-                <Text className="text-sm text-primary-red m-0.5 mx-2">
+                <Text className="text-xs text-primary-red m-0.5 mx-2">
                   {errors.password.message}
                 </Text>
               )}
@@ -76,22 +76,19 @@ const SignInScreen: React.FC = () => {
           >
             Forgot Password?
           </Link>
-          <Button
-            onPress={handleSubmit(onSubmit)}
-            containerClassName="self-auto my-5"
-          >
+          <Button onPress={handleSubmit(onSubmit)} containerClassName="my-5">
             Login
           </Button>
           <Text className="text-center text-secondary-light-grey">
             or continue with
           </Text>
-          <Button containerClassName="self-auto bg-transparent border-2 border-primary-orange my-5">
+          <Button containerClassName="bg-transparent border-2 border-primary-orange my-5">
             <View className="flex-row items-center justify-center space-x-3">
               <Image
                 source={require("@/assets/app_images/google.png")}
-                className="w-8 h-8"
+                className="w-6 h-6"
               />
-              <Text className="font-poppins-semibold text-lg text-primary-white">
+              <Text className="font-poppins-semibold text-base text-primary-white">
                 Google
               </Text>
             </View>

@@ -61,7 +61,7 @@ const CartItem: React.FC<CartItemProps> = ({
                 className="flex-1 items-center flex-row justify-center space-x-5"
               >
                 <View className="flex-1 items-center flex-row justify-between">
-                  <View className="bg-primary-black h-9 w-16 rounded-lg justify-center items-center">
+                  <View className="bg-primary-black h-10 w-16 rounded-lg justify-center items-center">
                     <Text
                       className={`font-poppins-medium ${
                         type === "Bean"
@@ -132,7 +132,7 @@ const CartItem: React.FC<CartItemProps> = ({
               </Text>
             </View>
             <View className="flex-row justify-between items-center my-2">
-              <View className="bg-primary-black h-9 w-16 rounded-lg justify-center items-center">
+              <View className="bg-primary-black h-10 w-16 rounded-lg justify-center items-center">
                 <Text
                   className={`font-poppins-medium ${
                     type === "Bean"

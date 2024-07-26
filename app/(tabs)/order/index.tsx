@@ -14,6 +14,7 @@ import EmptyListAnimation from "@/components/EmptyListAnimation";
 import { SafeAreaView } from "react-native-safe-area-context";
 import OrderData from "@/data/OrderData";
 import OrderHistoryCard from "@/components/OrderCard";
+import Button from "@/components/Button";
 
 const OrderScreen = () => {
   const [showAnimation, setShowAnimation] = useState(false);
@@ -60,16 +61,7 @@ const OrderScreen = () => {
             )}
           </View>
           {OrderData.length > 0 && (
-            <TouchableOpacity
-              className="m-5 bg-primary-orange justify-center items-center h-14 rounded-2xl"
-              onPress={() => {
-                buttonPressHandler();
-              }}
-            >
-              <Text className="font-poppins-semibold text-lg text-primary-white">
-                Download
-              </Text>
-            </TouchableOpacity>
+            <Button containerClassName="m-5">Download</Button>
           )}
         </View>
       </ScrollView>
