@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
+import Button from "./Button";
 
 type PriceProps = {
   price: string;
@@ -18,7 +19,10 @@ const PaymentFooter: React.FC<PaymentFooterProps> = ({
   buttonTitle,
 }) => {
   return (
-    <View className="flex-row items-center justify-center space-x-5 p-5">
+    <View
+      className="flex-row items-center justify-between p-5"
+      style={{ gap: 20 }}
+    >
       <View className="items-center w-24">
         <Text className="font-medium text-sm text-secondary-light-grey">
           Price
@@ -28,14 +32,9 @@ const PaymentFooter: React.FC<PaymentFooterProps> = ({
           <Text className="text-primary-white">{price.price}</Text>
         </Text>
       </View>
-      <TouchableOpacity
-        className="bg-primary-orange flex-1 items-center justify-center h-14 rounded-2xl"
-        onPress={buttonPressHandler}
-      >
-        <Text className="font-semibold text-lg text-primary-white">
-          {buttonTitle}
-        </Text>
-      </TouchableOpacity>
+      <Button containerClassName="flex-1" onPress={buttonPressHandler}>
+        {buttonTitle}
+      </Button>
     </View>
   );
 };

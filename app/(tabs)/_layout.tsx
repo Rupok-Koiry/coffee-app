@@ -36,11 +36,12 @@ export default function TabLayout() {
           ),
         }}
       />
+
       <Tabs.Screen
-        name="favorite"
+        name="profile"
         options={{
           tabBarIcon: ({ color }) => (
-            <Ionicons name="heart" color={color} size={28} />
+            <FontAwesome5 name="user-alt" color={color} size={28} />
           ),
         }}
       />
@@ -48,7 +49,7 @@ export default function TabLayout() {
         name="order"
         options={{
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="user-alt" color={color} size={28} />
+            <Ionicons name="list" color={color} size={28} />
           ),
         }}
       />

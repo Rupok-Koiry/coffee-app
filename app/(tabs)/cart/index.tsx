@@ -51,7 +51,7 @@ const CartScreen = () => {
 
           {CartData.length > 0 && (
             <PaymentFooter
-              buttonPressHandler={() => router.push("/product/payment")}
+              buttonPressHandler={() => router.push("/(tabs)/cart/payment")}
               buttonTitle="Pay"
               price={{ price: "20", currency: "$" }}
             />

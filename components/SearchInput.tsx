@@ -38,7 +38,7 @@ const SearchInput = ({ searchCoffee, resetSearchCoffee }: SearchInputProps) => {
         }}
         placeholderTextColor={COLORS.primaryLightGreyHex}
         className="flex-1 font-poppins-medium text-sm text-primary-white h-12"
-        cursorColor={"#FFA451"}
+        cursorColor={COLORS.primaryOrangeHex}
       />
       {searchText.length > 0 && (
         <TouchableOpacity

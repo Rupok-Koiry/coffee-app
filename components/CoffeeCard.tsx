@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { PricesType } from "@/constants/types";
 import BgIcon from "./BgIcon";
+import { COLORS } from "@/theme/theme";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.32;
 
@@ -44,7 +45,7 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       className="p-3 rounded-2xl"
-      colors={["#333333", "#000000"]}
+      colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
     >
       <ImageBackground
         source={imagelinkSquare}
@@ -56,7 +57,7 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
           className="flex-row bg-primary-black-rgba items-start justify-center  p-2 absolute rounded-tr-2xl rounded-bl-2xl top-0 right-0"
           style={{ gap: 8 }}
         >
-          <Ionicons name={"star"} color="#FFA500" size={12} />
+          <Ionicons name={"star"} color={COLORS.primaryOrangeHex} size={12} />
           <Text className="font-medium text-primary-white text-xs">
             {averageRating}
           </Text>
@@ -76,9 +77,9 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
           }}
         >
           <BgIcon
-            color="#FFFFFF"
+            color={COLORS.primaryWhiteHex}
             name="add"
-            BgColor="#FFA500"
+            BgColor={COLORS.primaryOrangeHex}
             size={16}
             iconSet="Ionicons"
           />

@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Dimensions, Text, View } from "react-native";
 import React from "react";
 import LottieView from "lottie-react-native";
 
@@ -10,7 +10,11 @@ const EmptyListAnimation: React.FC<EmptyListAnimationProps> = ({ title }) => {
   return (
     <View className="flex-1 justify-center">
       <LottieView
-        style={{ height: 300 }}
+        style={{
+          width: Dimensions.get("window").width / 2,
+          height: Dimensions.get("window").width / 2,
+          alignSelf: "center",
+        }}
         source={require("../lottie/coffeecup.json")}
         autoPlay
         loop
