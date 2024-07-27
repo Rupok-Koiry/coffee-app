@@ -16,26 +16,9 @@ import HeaderBar from "@/components/HeaderBar";
 import Button from "@/components/Button";
 import OrderHistoryCard from "@/components/OrderCard";
 import OrderData from "@/data/OrderData";
-import ProgressBar from "@/components/Hello";
+import OrderStatus from "@/components/OrderStatus";
 
 const OrderTrackingScreen = () => {
-  const orderStatus = "Processed";
-
-  const steps = ["Placed", "Processed", "On The Way", "Delivered"];
-  const currentStepIndex = steps.indexOf(orderStatus);
-  const animatedValues = useRef(steps.map(() => new Animated.Value(0))).current;
-
-  useEffect(() => {
-    const animations = animatedValues.map((animatedValue, index) =>
-      Animated.timing(animatedValue, {
-        toValue: index <= currentStepIndex ? 1 : 0,
-        duration: 500,
-        // easing: Easing.linear,
-        useNativeDriver: false,
-      })
-    );
-    Animated.stagger(100, animations).start();
-  }, [currentStepIndex]);
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -51,7 +34,7 @@ const OrderTrackingScreen = () => {
           <TextInput
             placeholder="Enter your order id"
             placeholderTextColor={COLORS.primaryLightGreyHex}
-            className="rounded-xl flex-1 font-poppins-medium text-base text-primary-white p-4 bg-primary-dark-grey mb-5"
+            className=" rounded-xl flex-1 font-poppins-medium text-base text-primary-white p-3 bg-primary-dark-grey mb-5 border border-primary-grey"
             cursorColor={COLORS.primaryOrangeHex}
           />
           <Button>Track Order</Button>
@@ -66,7 +49,7 @@ const OrderTrackingScreen = () => {
           />
         </View>
 
-        <ProgressBar orderStatus="Processed" />
+        <OrderStatus currentStatus="confirmed" />
       </ScrollView>
     </SafeAreaView>
   );

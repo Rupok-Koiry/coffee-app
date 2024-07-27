@@ -27,7 +27,7 @@ const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({
           </Text>
         </View>
         <View>
-          <Text className="font-poppins-semibold text-primary-white">
+          <Text className="font-poppins-semibold text-primary-white text-center">
             Order Id
           </Text>
           <Text className="font-poppins-light text-primary-white">

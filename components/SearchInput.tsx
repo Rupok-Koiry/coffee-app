@@ -11,7 +11,7 @@ type SearchInputProps = {
 const SearchInput = ({ searchCoffee, resetSearchCoffee }: SearchInputProps) => {
   const [searchText, setSearchText] = useState("");
   return (
-    <View className="flex-row m-5 rounded-xl bg-primary-dark-grey items-center">
+    <View className="flex-row m-5 rounded-xl bg-primary-dark-grey items-center border border-primary-grey">
       <TouchableOpacity
         onPress={() => {
           searchCoffee(searchText);
@@ -37,7 +37,7 @@ const SearchInput = ({ searchCoffee, resetSearchCoffee }: SearchInputProps) => {
           searchCoffee(text);
         }}
         placeholderTextColor={COLORS.primaryLightGreyHex}
-        className="flex-1 font-poppins-medium text-sm text-primary-white h-12"
+        className="flex-1 font-poppins-medium text-sm text-primary-white py-3"
         cursorColor={COLORS.primaryOrangeHex}
       />
       {searchText.length > 0 && (

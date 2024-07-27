@@ -59,7 +59,10 @@ const FavoritesItemCard: React.FC<FavoritesItemCardProps> = ({
         <Text className="font-poppins-semibold text-base text-secondary-light-grey">
           Description
         </Text>
-        <Text className="font-poppins-regular text-sm text-primary-white">
+        <Text
+          className="font-poppins-regular text-sm text-primary-white"
+          numberOfLines={5}
+        >
           {description}
         </Text>
       </LinearGradient>

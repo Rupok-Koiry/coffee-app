@@ -40,7 +40,7 @@ const Input = <T extends FieldValues>({
   const [isPasswordVisible, setPasswordVisible] = useState(secureTextEntry);
 
   return (
-    <View className="flex-row rounded-xl bg-primary-dark-grey items-center">
+    <View className="flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey">
       <Ionicons
         style={{ marginHorizontal: 16 }}
         name={iconName}
@@ -58,7 +58,7 @@ const Input = <T extends FieldValues>({
           <TextInput
             placeholder={placeholder}
             placeholderTextColor={COLORS.primaryLightGreyHex}
-            className="flex-1 font-poppins-medium text-base text-primary-white py-4"
+            className="flex-1 font-poppins-medium text-base text-primary-white py-3"
             cursorColor={COLORS.primaryOrangeHex}
             secureTextEntry={isPasswordVisible}
             onBlur={onBlur}

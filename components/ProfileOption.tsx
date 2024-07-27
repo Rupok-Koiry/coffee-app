@@ -3,6 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
 import { Dimensions, Text, View } from "react-native";
+import GradientIcon from "./GradientIcon";
 
 interface ProfileOptionProps {
   iconName: keyof typeof Ionicons.glyphMap;
@@ -19,7 +20,7 @@ const ProfileOption: React.FC<ProfileOptionProps> = ({
 }) => {
   const Content = (
     <View
-      className={`flex-row justify-between items-center px-5 py-4`}
+      className={`flex-row justify-between items-center px-5 py-2`}
       style={{ width: Dimensions.get("window").width }}
     >
       <View className="flex-row items-center space-x-5">
@@ -27,11 +28,11 @@ const ProfileOption: React.FC<ProfileOptionProps> = ({
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          className="w-12 h-12 justify-center items-center rounded-xl"
+          className="w-10 h-10 justify-center items-center rounded-xl"
         >
-          <Ionicons size={24} name={iconName} color={COLORS.primaryOrangeHex} />
+          <Ionicons size={20} name={iconName} color={COLORS.primaryOrangeHex} />
         </LinearGradient>
-        <Text className="text-primary-white text-lg font-poppins-semibold">
+        <Text className="text-primary-white text-base font-poppins-medium">
           {label}
         </Text>
       </View>
