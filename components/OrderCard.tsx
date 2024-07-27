@@ -26,6 +26,14 @@ const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({
             {orderDate}
           </Text>
         </View>
+        <View>
+          <Text className="font-poppins-semibold text-primary-white">
+            Order Id
+          </Text>
+          <Text className="font-poppins-light text-primary-white">
+            #12345678
+          </Text>
+        </View>
         <View className="items-end">
           <Text className="font-poppins-semibold  text-primary-white">
             Total Amount
