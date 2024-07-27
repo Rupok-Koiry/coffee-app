@@ -39,6 +39,8 @@ const OrderTrackingScreen = () => {
           />
           <Button>Track Order</Button>
         </View>
+        <OrderStatus currentStatus="onTheWay" />
+
         <View className="px-5">
           <OrderHistoryCard
             key={OrderData[0].id}
@@ -48,8 +50,6 @@ const OrderTrackingScreen = () => {
             orderDate={OrderData[0].order_date}
           />
         </View>
-
-        <OrderStatus currentStatus="confirmed" />
       </ScrollView>
     </SafeAreaView>
   );
