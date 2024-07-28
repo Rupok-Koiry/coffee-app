@@ -18,7 +18,7 @@ const SearchInput = ({ searchCoffee, resetSearchCoffee }: SearchInputProps) => {
         }}
       >
         <Ionicons
-          style={{ marginHorizontal: 16 }}
+          style={{ marginHorizontal: 12 }}
           className="m-4"
           name="search"
           size={16}
@@ -48,7 +48,7 @@ const SearchInput = ({ searchCoffee, resetSearchCoffee }: SearchInputProps) => {
           }}
         >
           <Ionicons
-            style={{ marginHorizontal: 16 }}
+            style={{ marginHorizontal: 12 }}
             name="close"
             size={16}
             color={COLORS.primaryLightGreyHex}

@@ -18,6 +18,7 @@
     "@dotlottie/react-player": "^1.6.19",
     "@expo/vector-icons": "^14.0.2",
     "@lottiefiles/react-lottie-player": "^3.5.4",
+    "@react-native-picker/picker": "^2.7.7",
     "@react-navigation/native": "^6.0.2",
     "expo": "~51.0.21",
     "expo-constants": "~16.0.2",

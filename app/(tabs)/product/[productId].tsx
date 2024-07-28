@@ -44,7 +44,7 @@ const DetailsScreen = () => {
         />
 
         <View className="p-5">
-          <Text className="font-poppins-semibold text-primary-white text-base mb-3">
+          <Text className="font-poppins-semibold text-secondary-light-grey text-base mb-3">
             Description
           </Text>
           {fullDesc ? (
@@ -71,7 +71,7 @@ const DetailsScreen = () => {
               </Text>
             </TouchableWithoutFeedback>
           )}
-          <Text className="font-poppins-semibold text-primary-white text-base mb-3">
+          <Text className="font-poppins-semibold  text-secondary-light-grey text-base mb-3">
             Size
           </Text>
           <View className="flex-row flex-1 justify-between" style={{ gap: 20 }}>

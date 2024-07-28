@@ -42,7 +42,7 @@ const Input = <T extends FieldValues>({
   return (
     <View className="flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey">
       <Ionicons
-        style={{ marginHorizontal: 16 }}
+        style={{ marginHorizontal: 12 }}
         name={iconName}
         size={20}
         color={COLORS.primaryOrangeHex}

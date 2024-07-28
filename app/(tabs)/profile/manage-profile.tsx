@@ -66,7 +66,7 @@ const EditProfileScreen: React.FC = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
     });
 
@@ -187,7 +187,7 @@ const EditProfileScreen: React.FC = () => {
           </View>
         </View>
         <View className="flex-1 px-5">
-          <Text className="font-poppins-semibold text-3xl text-primary-white my-5">
+          <Text className="font-poppins-semibold text-2xl text-primary-white my-5">
             Update Password
           </Text>
           <View className="space-y-5">
