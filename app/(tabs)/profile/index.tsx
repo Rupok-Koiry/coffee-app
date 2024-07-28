@@ -15,6 +15,7 @@ import { Link } from "expo-router";
 import Button from "@/components/Button";
 import { COLORS } from "@/theme/theme";
 import ProfileOption from "@/components/ProfileOption";
+import HeaderBar from "@/components/HeaderBar";
 
 const ProfileScreen: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -26,7 +27,8 @@ const ProfileScreen: React.FC = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
       >
-        <View className="px-5 my-8">
+        <HeaderBar title="Profile" />
+        <View className="px-5 mb-5">
           <View className="bg-secondary-dark-grey w-32 h-32 p-4 rounded-full mx-auto">
             <LinearGradient
               colors={[COLORS.primaryOrangeHex, COLORS.primaryWhiteHex]}

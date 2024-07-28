@@ -14,6 +14,7 @@ const OrderData = [
         0
       ),
     order_date: "2023-12-01",
+    status: "delivered",
   },
 
   {
@@ -25,7 +26,9 @@ const OrderData = [
       0
     ),
     order_date: "2024-01-15",
+    status: "confirmed",
   },
+
   {
     id: 3,
 
@@ -35,6 +38,7 @@ const OrderData = [
       0
     ),
     order_date: "2024-01-15",
+    status: "confirmed",
   },
 ];
 
