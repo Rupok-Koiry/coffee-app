@@ -1,8 +1,9 @@
-import { View, Text, StatusBar, ScrollView } from "react-native";
+import { View, Text, ScrollView, StatusBar } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
 import { COLORS } from "@/theme/theme";
+import OrderTable from "@/components/OrderTable";
 
 const ManageOrderScreen = () => {
   return (
@@ -12,7 +13,10 @@ const ManageOrderScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
       >
-        <HeaderBar title="Manage Order" />
+        <HeaderBar title="Profile" />
+        <View className="px-5">
+          <OrderTable />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
