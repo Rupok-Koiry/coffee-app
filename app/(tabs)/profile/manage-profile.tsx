@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Text,
   ScrollView,
@@ -15,20 +15,36 @@ import Input from "@/components/Input";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import HeaderBar from "@/components/HeaderBar";
 
-interface FormValues {
+interface UserDetailsFormValues {
   name: string;
   email: string;
   phone: string;
   address: string;
+  profilePic: string;
+}
+
+interface PasswordFormValues {
+  password: string;
+  confirmPassword: string;
 }
 
 const EditProfileScreen: React.FC = () => {
   const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>();
+    control: userDetailsControl,
+    handleSubmit: handleUserDetailsSubmit,
+    setValue: setUserDetailsValue,
+    watch: watchUserDetails,
+    formState: { errors: userDetailsErrors },
+  } = useForm<UserDetailsFormValues>();
+
+  const {
+    control: passwordControl,
+    handleSubmit: handlePasswordSubmit,
+    formState: { errors: passwordErrors },
+  } = useForm<PasswordFormValues>();
+
   const user = {
     profilePic:
       "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
@@ -38,7 +54,13 @@ const EditProfileScreen: React.FC = () => {
     address: "123, Random Street, Random City",
   };
 
-  const [profileImage, setProfileImage] = React.useState<string | null>(null);
+  useEffect(() => {
+    setUserDetailsValue("name", user.name);
+    setUserDetailsValue("email", user.email);
+    setUserDetailsValue("phone", user.phone);
+    setUserDetailsValue("address", user.address);
+    setUserDetailsValue("profilePic", user.profilePic);
+  }, [setUserDetailsValue]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -48,14 +70,21 @@ const EditProfileScreen: React.FC = () => {
       quality: 1,
     });
 
-    if (!result.canceled && result.assets.length > 0) {
-      setProfileImage(result.assets[0].uri);
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      setUserDetailsValue("profilePic", result.assets[0].uri);
     }
   };
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const profileImage = watchUserDetails("profilePic");
+
+  const onSubmitUserDetails: SubmitHandler<UserDetailsFormValues> = (data) => {
     console.log(data);
-    // Handle form submission logic here
+    // Handle user details form submission logic here
+  };
+
+  const onSubmitPassword: SubmitHandler<PasswordFormValues> = (data) => {
+    console.log(data);
+    // Handle password form submission logic here
   };
 
   return (
@@ -65,31 +94,26 @@ const EditProfileScreen: React.FC = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
       >
-        <View className="flex-1 justify-center px-5">
-          <Text className="font-poppins-semibold text-3xl text-primary-white my-5">
-            Edit Profile
-          </Text>
-          <View style={{ gap: 20 }}>
+        <HeaderBar title="Manage Profile" />
+
+        <View className="flex-1 p-5">
+          <View className="space-y-5">
             <TouchableOpacity onPress={pickImage}>
               <View className="bg-secondary-dark-grey w-32 h-32 p-4 rounded-full mx-auto">
                 <LinearGradient
                   colors={[COLORS.primaryOrangeHex, COLORS.primaryWhiteHex]}
                   start={[0, 0]}
                   end={[1, 1]}
-                  style={{ borderRadius: 999, padding: 2 }}
+                  className="w-full h-full rounded-full p-0.5"
                 >
-                  {profileImage ? (
+                  <View className="w-full h-full rounded-full overflow-hidden">
                     <Image
-                      source={{ uri: profileImage }}
-                      className="w-full h-full rounded-full"
+                      source={{ uri: profileImage || user.profilePic }}
+                      className="w-full h-full"
+                      style={{ resizeMode: "cover" }}
                     />
-                  ) : (
-                    <Image
-                      source={{ uri: user.profilePic }}
-                      className="w-full h-full rounded-full"
-                    />
-                  )}
-                  <View className="absolute bottom-0 right-0 bg-primary-white rounded-full p-2">
+                  </View>
+                  <View className="absolute bottom-0 right-0 bg-primary-white rounded-full p-2 shadow-lg">
                     <Ionicons
                       name="camera"
                       size={20}
@@ -98,73 +122,117 @@ const EditProfileScreen: React.FC = () => {
                   </View>
                 </LinearGradient>
               </View>
+              <Text className="font-poppins-semibold text-primary-white text-center mt-3">
+                Tap to change profile picture
+              </Text>
             </TouchableOpacity>
-
             <View>
-              <Input<FormValues>
-                control={control}
+              <Input<UserDetailsFormValues>
+                control={userDetailsControl}
                 name="name"
                 placeholder="Enter your name"
                 iconName="person"
                 rules={{ required: "Name is required" }}
-                defaultValue={user.name}
               />
-              {errors.name && (
+              {userDetailsErrors.name && (
                 <Text className="text-xs text-primary-red my-0.5 mx-2">
-                  {errors.name.message}
+                  {userDetailsErrors.name.message}
                 </Text>
               )}
             </View>
             <View>
-              <Input<FormValues>
-                control={control}
+              <Input<UserDetailsFormValues>
+                control={userDetailsControl}
                 name="email"
                 placeholder="Enter your Email"
                 iconName="mail"
-                rules={{ required: "Email is required" }}
-                defaultValue={user.email}
+                editable={false}
               />
-              {errors.email && (
-                <Text className="text-xs text-primary-red my-0.5 mx-2">
-                  {errors.email.message}
-                </Text>
-              )}
             </View>
             <View>
-              <Input<FormValues>
-                control={control}
+              <Input<UserDetailsFormValues>
+                control={userDetailsControl}
                 name="phone"
                 placeholder="Enter your phone"
                 iconName="phone-portrait"
                 rules={{ required: "Phone is required" }}
-                defaultValue={user.phone}
               />
-              {errors.phone && (
+              {userDetailsErrors.phone && (
                 <Text className="text-xs text-primary-red my-0.5 mx-2">
-                  {errors.phone.message}
+                  {userDetailsErrors.phone.message}
                 </Text>
               )}
             </View>
 
             <View>
-              <Input<FormValues>
-                control={control}
+              <Input<UserDetailsFormValues>
+                control={userDetailsControl}
                 name="address"
                 placeholder="Enter your address"
                 iconName="location"
                 rules={{ required: "Address is required" }}
-                defaultValue={user.address}
               />
-              {errors.address && (
+              {userDetailsErrors.address && (
                 <Text className="text-xs text-primary-red my-0.5 mx-2">
-                  {errors.address.message}
+                  {userDetailsErrors.address.message}
                 </Text>
               )}
             </View>
+            <Button
+              onPress={handleUserDetailsSubmit(onSubmitUserDetails)}
+              containerClassName="my-5"
+            >
+              Save Changes
+            </Button>
           </View>
-          <Button onPress={handleSubmit(onSubmit)} containerClassName="my-5">
-            Save Changes
-          </Button>
+        </View>
+        <View className="flex-1 px-5">
+          <Text className="font-poppins-semibold text-3xl text-primary-white my-5">
+            Update Password
+          </Text>
+          <View className="space-y-5">
+            <View>
+              <Input<PasswordFormValues>
+                control={passwordControl}
+                name="password"
+                placeholder="Enter your password"
+                iconName="lock-closed"
+                secureTextEntry
+                rules={{ required: "Password is required" }}
+              />
+              {passwordErrors.password && (
+                <Text className="text-xs text-primary-red m-0.5 mx-2">
+                  {passwordErrors.password.message}
+                </Text>
+              )}
+            </View>
+            <View>
+              <Input<PasswordFormValues>
+                control={passwordControl}
+                name="confirmPassword"
+                placeholder="Enter your confirm password"
+                iconName="lock-closed"
+                secureTextEntry
+                rules={{
+                  required: "Confirm password is required",
+                  validate: (value) =>
+                    value === passwordControl._getWatch("password") ||
+                    "Passwords do not match",
+                }}
+              />
+              {passwordErrors.confirmPassword && (
+                <Text className="text-xs text-primary-red m-0.5 mx-2">
+                  {passwordErrors.confirmPassword.message}
+                </Text>
+              )}
+            </View>
+            <Button
+              onPress={handlePasswordSubmit(onSubmitPassword)}
+              containerClassName="my-5"
+            >
+              Save Password
+            </Button>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
