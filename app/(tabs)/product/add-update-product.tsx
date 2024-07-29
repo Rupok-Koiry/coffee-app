@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   ScrollView,
   Image,
@@ -30,6 +30,12 @@ const AddProductScreen: React.FC = () => {
     control,
     name: "prices",
   });
+
+  useEffect(() => {
+    if (fields.length === 0) {
+      append({ size: "", price: "", currency: "" });
+    }
+  }, [fields, append]);
 
   const onSubmit = (data: any) => {
     console.log(data);
@@ -173,7 +179,7 @@ const AddProductScreen: React.FC = () => {
                       onBlur={onBlur}
                       onChangeText={onChange}
                       value={value}
-                      placeholder="Size"
+                      placeholder="Price"
                       placeholderTextColor={COLORS.primaryLightGreyHex}
                       cursorColor={COLORS.primaryOrangeHex}
                     />
@@ -189,7 +195,7 @@ const AddProductScreen: React.FC = () => {
                       onBlur={onBlur}
                       onChangeText={onChange}
                       value={value}
-                      placeholder="Size"
+                      placeholder="Currency"
                       placeholderTextColor={COLORS.primaryLightGreyHex}
                       cursorColor={COLORS.primaryOrangeHex}
                     />
