@@ -28,9 +28,6 @@ const OrderTrackingScreen = () => {
       >
         <HeaderBar title="Track Order" />
         <View className="p-5">
-          <Text className="font-poppins-semibold text-3xl text-primary-white mb-5">
-            Track Your Order
-          </Text>
           <TextInput
             placeholder="Enter your order id"
             placeholderTextColor={COLORS.primaryLightGreyHex}

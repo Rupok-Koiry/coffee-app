@@ -255,6 +255,7 @@ const OrderTable: React.FC = () => {
                 style={{
                   color: COLORS.primaryWhiteHex,
                   marginBottom: 12,
+                  height: 40,
                 }}
                 dropdownIconColor={COLORS.secondaryLightGreyHex}
               >

@@ -58,7 +58,7 @@ const Input = <T extends FieldValues>({
           <TextInput
             placeholder={placeholder}
             placeholderTextColor={COLORS.primaryLightGreyHex}
-            className="flex-1 font-poppins-medium text-base text-primary-white py-3"
+            className="flex-1 font-poppins-medium text-sm text-primary-white py-3"
             cursorColor={COLORS.primaryOrangeHex}
             secureTextEntry={isPasswordVisible}
             onBlur={onBlur}

@@ -158,7 +158,7 @@ const AddProductScreen: React.FC = () => {
                   name={`prices[${index}].size`}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                      className="flex-1 font-poppins-medium text-base text-primary-white p-3
+                      className="flex-1 font-poppins-medium text-sm text-primary-white px-3 py-2
                       flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
                       onBlur={onBlur}
                       onChangeText={onChange}
@@ -174,7 +174,7 @@ const AddProductScreen: React.FC = () => {
                   name={`prices[${index}].price`}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                      className="flex-1 font-poppins-medium text-base text-primary-white p-3
+                      className="flex-1 font-poppins-medium text-sm text-primary-white px-3 py-2
                       flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
                       onBlur={onBlur}
                       onChangeText={onChange}
@@ -190,7 +190,7 @@ const AddProductScreen: React.FC = () => {
                   name={`prices[${index}].currency`}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                      className="flex-1 font-poppins-medium text-base text-primary-white p-3
+                      className="flex-1 font-poppins-medium text-sm text-primary-white px-3 py-2
                       flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
                       onBlur={onBlur}
                       onChangeText={onChange}
@@ -217,16 +217,17 @@ const AddProductScreen: React.FC = () => {
           </View>
 
           <View>
-            <Text className="text-lg font-poppins-semibold text-white mb-2">
+            <Text className="text-base font-poppins-semibold text-white mb-2">
               Square Image
             </Text>
             <TouchableOpacity
-              className="items-center justify-center h-32 bg-primary-dark-grey rounded-2xl  border-2 border-primary-grey"
+              className="items-center justify-center h-32 bg-primary-dark-grey rounded-2xl  border-2 border-primary-grey overflow-hidden"
               onPress={() => pickImage("square")}
             >
               <Controller
                 control={control}
                 name="imagelink_square"
+                rules={{ required: "Square Image is required" }}
                 render={({ field: { value } }) =>
                   value ? (
                     <Image
@@ -248,19 +249,25 @@ const AddProductScreen: React.FC = () => {
                 }
               />
             </TouchableOpacity>
+            {errors.imagelink_square && (
+              <Text className="text-xs text-primary-red my-0.5 mx-2">
+                {errors.imagelink_square.message}
+              </Text>
+            )}
           </View>
 
           <View>
-            <Text className="text-lg font-poppins-semibold text-white mb-2">
+            <Text className="text-base font-poppins-semibold text-white mb-2">
               Portrait Image
             </Text>
             <TouchableOpacity
-              className="items-center justify-center h-32 bg-primary-dark-grey rounded-2xl  border-2 border-primary-grey"
+              className="items-center justify-center h-32 bg-primary-dark-grey rounded-2xl  border-2 border-primary-grey overflow-hidden"
               onPress={() => pickImage("portrait")}
             >
               <Controller
                 control={control}
                 name="imagelink_portrait"
+                rules={{ required: "Portrait Image is required" }}
                 render={({ field: { value } }) =>
                   value ? (
                     <Image
@@ -282,6 +289,11 @@ const AddProductScreen: React.FC = () => {
                 }
               />
             </TouchableOpacity>
+            {errors.imagelink_portrait && (
+              <Text className="text-xs text-primary-red my-0.5 mx-2">
+                {errors.imagelink_portrait.message}
+              </Text>
+            )}
           </View>
 
           <Button onPress={handleSubmit(onSubmit)}>Add Product</Button>

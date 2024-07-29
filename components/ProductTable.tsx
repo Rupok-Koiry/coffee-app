@@ -189,8 +189,19 @@ const ProductTable: React.FC = () => {
               className="flex-row justify-end items-center"
               style={{ gap: 12 }}
             >
-              <Button onPress={() => setIsModalVisible(false)}>Cancel</Button>
-              <Button>Delete</Button>
+              <Button
+                onPress={() => setIsModalVisible(false)}
+                containerClassName="px-3 py-2 rounded"
+                textClassName="text-sm"
+              >
+                Cancel
+              </Button>
+              <Button
+                containerClassName="px-3 py-2 rounded"
+                textClassName="text-sm"
+              >
+                Delete
+              </Button>
             </View>
           </LinearGradient>
         </View>
