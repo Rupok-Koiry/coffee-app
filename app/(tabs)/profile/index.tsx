@@ -79,12 +79,12 @@ const ProfileScreen: React.FC = () => {
             <ProfileOption
               iconName="storefront"
               label="Manage Products"
-              link="/(admin)/manage-products"
+              link="/(tabs)/product/manage-products"
             />
             <ProfileOption
               iconName="menu"
               label="Manage Orders"
-              link="/(admin)/manage-orders"
+              link="/(tabs)/order/manage-orders"
             />
             <ProfileOption
               iconName="language"

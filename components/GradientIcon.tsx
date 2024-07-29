@@ -16,6 +16,8 @@ type GradientIconProps<T extends IconSetName> = {
   name: IconName<T>;
   color: string;
   size?: number;
+  width?: number;
+  height?: number;
   iconSet: T;
 };
 
@@ -24,6 +26,8 @@ const GradientIcon = <T extends IconSetName>({
   name,
   color,
   iconSet,
+  width = 9,
+  height = 9,
   ...rest
 }: GradientIconProps<T>) => {
   const IconComponent = Icons[iconSet] as React.ComponentType<
@@ -36,7 +40,7 @@ const GradientIcon = <T extends IconSetName>({
         colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        className="w-9 h-9 justify-center items-center"
+        className={`w-${width} h-${height} justify-center items-center`}
       >
         <IconComponent size={size} name={name} color={color} {...rest} />
       </LinearGradient>

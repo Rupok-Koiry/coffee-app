@@ -1,45 +1,24 @@
 import {
   View,
-  Text,
   ScrollView,
   StatusBar,
   TouchableOpacity,
+  Text,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
 import { COLORS } from "@/theme/theme";
 import OrderTable from "@/components/OrderTable";
+import ProductTable from "@/components/ProductTable";
+
 const statuses = [
-  {
-    title: "Placed",
-
-    status: "placed",
-  },
-  {
-    title: "Confirmed",
-
-    status: "confirmed",
-  },
-  {
-    title: "On The Way",
-
-    status: "onTheWay",
-  },
-  {
-    title: "Delivered",
-
-    status: "delivered",
-  },
-  {
-    title: "Cancelled",
-
-    status: "cancelled",
-  },
+  { title: "All", status: "all" },
+  { title: "Coffee", status: "coffee" },
+  { title: "Beans", status: "beans" },
 ];
-
-const ManageOrderScreen = () => {
-  const [selectedStatus, setSelectedStatus] = useState("placed");
+const ManageProductScreen = () => {
+  const [selectedStatus, setSelectedStatus] = useState("all");
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -69,11 +48,11 @@ const ManageOrderScreen = () => {
               ))}
             </View>
           </ScrollView>
-          <OrderTable />
+          <ProductTable />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default ManageOrderScreen;
+export default ManageProductScreen;
