@@ -8,7 +8,12 @@ import {
   View,
   StatusBar,
 } from "react-native";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
+import {
+  useForm,
+  Controller,
+  useFieldArray,
+  SubmitHandler,
+} from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import Input from "@/components/Input";
@@ -18,6 +23,21 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
 import GradientIcon from "@/components/GradientIcon";
 
+interface FormValues {
+  name: string;
+  description: string;
+  ingredients: string;
+  special_ingredient: string;
+  type: string;
+  prices: {
+    size: string;
+    price: string;
+    currency: string;
+  }[];
+  imagelink_square: string;
+  imagelink_portrait: string;
+}
+
 const AddProductScreen: React.FC = () => {
   const {
     control,
@@ -25,7 +45,19 @@ const AddProductScreen: React.FC = () => {
     formState: { errors },
     reset,
     setValue,
-  } = useForm();
+  } = useForm<FormValues>({
+    defaultValues: {
+      name: "",
+      description: "",
+      ingredients: "",
+      special_ingredient: "",
+      type: "",
+      prices: [{ size: "", price: "", currency: "" }],
+      imagelink_square: "",
+      imagelink_portrait: "",
+    },
+  });
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "prices",
@@ -37,7 +69,7 @@ const AddProductScreen: React.FC = () => {
     }
   }, [fields, append]);
 
-  const onSubmit = (data: any) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
     reset();
   };
@@ -153,54 +185,78 @@ const AddProductScreen: React.FC = () => {
                 className="flex-row items-center mb-3 justify-between"
                 style={{ gap: 12 }}
               >
-                <Controller
-                  control={control}
-                  name={`prices[${index}].size`}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
-                      className="flex-1 font-poppins-medium text-sm text-primary-white px-3 py-2
+                <View className="flex-1">
+                  <Controller
+                    control={control}
+                    name={`prices.${index}.size` as const}
+                    rules={{ required: "Required" }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <TextInput
+                        className="flex-1 font-poppins-medium text-sm text-primary-white px-3 py-2
                       flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      value={value}
-                      placeholder="Size"
-                      placeholderTextColor={COLORS.primaryLightGreyHex}
-                      cursorColor={COLORS.primaryOrangeHex}
-                    />
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        placeholder="Size"
+                        placeholderTextColor={COLORS.primaryLightGreyHex}
+                        cursorColor={COLORS.primaryOrangeHex}
+                      />
+                    )}
+                  />
+                  {errors.prices?.[index]?.size && (
+                    <Text className="text-xs text-primary-red my-0.5 mx-2">
+                      {errors.prices[index]?.size?.message}
+                    </Text>
                   )}
-                />
-                <Controller
-                  control={control}
-                  name={`prices[${index}].price`}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
-                      className="flex-1 font-poppins-medium text-sm text-primary-white px-3 py-2
+                </View>
+                <View className="flex-1">
+                  <Controller
+                    control={control}
+                    name={`prices.${index}.price` as const}
+                    rules={{ required: "Required" }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <TextInput
+                        className="flex-1 font-poppins-medium text-sm text-primary-white px-3 py-2
                       flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      value={value}
-                      placeholder="Price"
-                      placeholderTextColor={COLORS.primaryLightGreyHex}
-                      cursorColor={COLORS.primaryOrangeHex}
-                    />
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        placeholder="Price"
+                        placeholderTextColor={COLORS.primaryLightGreyHex}
+                        cursorColor={COLORS.primaryOrangeHex}
+                      />
+                    )}
+                  />
+                  {errors.prices?.[index]?.price && (
+                    <Text className="text-xs text-primary-red my-0.5 mx-2">
+                      {errors.prices[index]?.price?.message}
+                    </Text>
                   )}
-                />
-                <Controller
-                  control={control}
-                  name={`prices[${index}].currency`}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
-                      className="flex-1 font-poppins-medium text-sm text-primary-white px-3 py-2
+                </View>
+                <View className="flex-1">
+                  <Controller
+                    control={control}
+                    name={`prices.${index}.currency` as const}
+                    rules={{ required: "Required" }}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <TextInput
+                        className="flex-1 font-poppins-medium text-sm text-primary-white px-3 py-2
                       flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      value={value}
-                      placeholder="Currency"
-                      placeholderTextColor={COLORS.primaryLightGreyHex}
-                      cursorColor={COLORS.primaryOrangeHex}
-                    />
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                        placeholder="Currency"
+                        placeholderTextColor={COLORS.primaryLightGreyHex}
+                        cursorColor={COLORS.primaryOrangeHex}
+                      />
+                    )}
+                  />
+                  {errors.prices?.[index]?.currency && (
+                    <Text className="text-xs text-primary-red my-0.5 mx-2">
+                      {errors.prices[index]?.currency?.message}
+                    </Text>
                   )}
-                />
+                </View>
                 <GradientIcon
                   name="remove"
                   iconSet="Ionicons"
@@ -209,6 +265,11 @@ const AddProductScreen: React.FC = () => {
                 />
               </View>
             ))}
+            {errors.prices && !errors.prices.length && (
+              <Text className="text-xs text-primary-red my-0.5 mx-2">
+                At least one price row is required
+              </Text>
+            )}
             <Button
               onPress={() => append({ size: "", price: "", currency: "" })}
             >
