@@ -1,57 +1,43 @@
-export const COLORS = {
-  primaryRedHex: "#DC3535",
-  primaryOrangeHex: "#D17842",
-  primaryBlackHex: "#0C0F14",
-  primaryDarkGreyHex: "#141921",
-  secondaryDarkGreyHex: "#21262E",
-  primaryGreyHex: "#252A32",
-  secondaryGreyHex: "#2C3038",
-  primaryLightGreyHex: "#52555A",
-  secondaryLightGreyHex: "#AEAEAE",
-  primaryWhiteHex: "#FFFFFF",
-  primaryBlackRGBA: "rgba(12,15,20,0.5)",
-  secondaryBlackRGBA: "rgba(0,0,0,0.7)",
-};
-
-import React, { useState } from "react";
+import React from "react";
 import {
-  View,
-  Text,
   ScrollView,
-  Button,
-  StyleSheet,
   Image,
   TouchableOpacity,
   TextInput,
+  Text,
+  View,
+  StatusBar,
 } from "react-native";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import Input from "@/components/Input";
+import { COLORS } from "@/theme/theme";
+import Button from "@/components/Button";
+import { SafeAreaView } from "react-native-safe-area-context";
+import HeaderBar from "@/components/HeaderBar";
+import GradientIcon from "@/components/GradientIcon";
 
-const AddProductScreen = () => {
-  const { control, handleSubmit, reset } = useForm();
+const AddProductScreen: React.FC = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setValue,
+  } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "prices",
   });
-  const [imageSquare, setImageSquare] = useState(null);
-  const [imagePortrait, setImagePortrait] = useState(null);
 
-  const onSubmit = (data) => {
-    const productData = {
-      ...data,
-      imagelink_square: imageSquare,
-      imagelink_portrait: imagePortrait,
-    };
-    console.log(productData);
+  const onSubmit = (data: any) => {
+    console.log(data);
     reset();
-    setImageSquare(null);
-    setImagePortrait(null);
   };
 
-  const pickImage = async (type) => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+  const pickImage = async (type: "square" | "portrait") => {
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: type === "square" ? [1, 1] : [3, 4],
@@ -59,209 +45,244 @@ const AddProductScreen = () => {
     });
 
     if (!result.canceled) {
+      const uri = result.assets[0].uri;
       if (type === "square") {
-        setImageSquare(result.assets[0].uri);
+        setValue("imagelink_square", uri);
       } else {
-        setImagePortrait(result.assets[0].uri);
+        setValue("imagelink_portrait", uri);
       }
     }
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.header}>Add Product</Text>
-      <Input
-        control={control}
-        name="name"
-        placeholder="Product Name"
-        iconName="pricetag"
-        rules={{ required: "Product Name is required" }}
-      />
-      <Controller
-        control={control}
-        name="description"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.textArea}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            placeholder="Description"
-            multiline={true}
-            numberOfLines={4}
-          />
-        )}
-      />
-      <Input
-        control={control}
-        name="roasted"
-        placeholder="Roast Level"
-        iconName="flame"
-      />
-      <Input
-        control={control}
-        name="ingredients"
-        placeholder="Ingredients"
-        iconName="nutrition"
-      />
-      <Input
-        control={control}
-        name="special_ingredient"
-        placeholder="Special Ingredient"
-        iconName="star"
-      />
+    <SafeAreaView className="bg-primary-black flex-1">
+      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
+        <HeaderBar title="Add Product" />
 
-      <Text style={styles.label}>Prices</Text>
-      {fields.map((item, index) => (
-        <View key={item.id} style={styles.priceContainer}>
-          <Controller
-            control={control}
-            name={`prices[${index}].size`}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.priceInput}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder="Size"
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name={`prices[${index}].price`}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.priceInput}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder="Price"
-                keyboardType="numeric"
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name={`prices[${index}].currency`}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.priceInput}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                placeholder="Currency"
-              />
-            )}
-          />
-          <TouchableOpacity onPress={() => remove(index)}>
-            <Ionicons
-              name="remove-circle"
-              size={24}
-              color={COLORS.primaryOrangeHex}
+        <View className="flex-1 p-5" style={{ gap: 20 }}>
+          <View>
+            <Input
+              control={control}
+              name="name"
+              placeholder="Product Name"
+              iconName="pricetag"
+              rules={{ required: "Product Name is required" }}
             />
-          </TouchableOpacity>
+            {errors.name && (
+              <Text className="text-xs text-primary-red my-0.5 mx-2">
+                {errors.name.message}
+              </Text>
+            )}
+          </View>
+          <View>
+            <Input
+              control={control}
+              name="description"
+              placeholder="Product Description"
+              iconName="document-text"
+              rules={{ required: "Product Description is required" }}
+              multiline
+              numberOfLines={4}
+            />
+            {errors.description && (
+              <Text className="text-xs text-primary-red my-0.5 mx-2">
+                {errors.description.message}
+              </Text>
+            )}
+          </View>
+          <View>
+            <Input
+              control={control}
+              name="ingredients"
+              placeholder="Ingredients"
+              iconName="nutrition"
+              rules={{ required: "Ingredients is required" }}
+            />
+            {errors.ingredients && (
+              <Text className="text-xs text-primary-red my-0.5 mx-2">
+                {errors.ingredients.message}
+              </Text>
+            )}
+          </View>
+
+          <View>
+            <Input
+              control={control}
+              name="special_ingredient"
+              placeholder="Special Ingredient"
+              iconName="star"
+              rules={{ required: "Special Ingredient is required" }}
+            />
+            {errors.special_ingredient && (
+              <Text className="text-xs text-primary-red my-0.5 mx-2">
+                {errors.special_ingredient.message}
+              </Text>
+            )}
+          </View>
+
+          <View>
+            <Input
+              control={control}
+              name="type"
+              placeholder="Type 'coffee' OR 'bean'"
+              iconName="cafe"
+              rules={{ required: "Type is required" }}
+            />
+            {errors.type && (
+              <Text className="text-xs text-primary-red my-0.5 mx-2">
+                {errors.type.message}
+              </Text>
+            )}
+          </View>
+
+          <View>
+            <Text className="text-lg font-bold text-white my-2">Prices</Text>
+            {fields.map((item, index) => (
+              <View
+                key={item.id}
+                className="flex-row items-center mb-3 justify-between"
+                style={{ gap: 12 }}
+              >
+                <Controller
+                  control={control}
+                  name={`prices[${index}].size`}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      className="flex-1 font-poppins-medium text-base text-primary-white p-3
+                      flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                      placeholder="Size"
+                      placeholderTextColor={COLORS.primaryLightGreyHex}
+                      cursorColor={COLORS.primaryOrangeHex}
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name={`prices[${index}].price`}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      className="flex-1 font-poppins-medium text-base text-primary-white p-3
+                      flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                      placeholder="Size"
+                      placeholderTextColor={COLORS.primaryLightGreyHex}
+                      cursorColor={COLORS.primaryOrangeHex}
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name={`prices[${index}].currency`}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      className="flex-1 font-poppins-medium text-base text-primary-white p-3
+                      flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                      placeholder="Size"
+                      placeholderTextColor={COLORS.primaryLightGreyHex}
+                      cursorColor={COLORS.primaryOrangeHex}
+                    />
+                  )}
+                />
+                <GradientIcon
+                  name="remove"
+                  iconSet="Ionicons"
+                  color={COLORS.primaryOrangeHex}
+                  onPress={() => remove(index)}
+                />
+              </View>
+            ))}
+            <Button
+              onPress={() => append({ size: "", price: "", currency: "" })}
+            >
+              Add Price
+            </Button>
+          </View>
+
+          <View>
+            <Text className="text-lg font-poppins-semibold text-white mb-2">
+              Square Image
+            </Text>
+            <TouchableOpacity
+              className="items-center justify-center h-32 bg-primary-dark-grey rounded-2xl  border-2 border-primary-grey"
+              onPress={() => pickImage("square")}
+            >
+              <Controller
+                control={control}
+                name="imagelink_square"
+                render={({ field: { value } }) =>
+                  value ? (
+                    <Image
+                      source={{ uri: value }}
+                      className="w-full h-full rounded"
+                    />
+                  ) : (
+                    <View className="justify-center items-center">
+                      <Ionicons
+                        name="cloud-upload"
+                        size={42}
+                        color={COLORS.primaryOrangeHex}
+                      />
+                      <Text className="text-secondary-light-grey font-poppins-medium">
+                        Choose a file
+                      </Text>
+                    </View>
+                  )
+                }
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View>
+            <Text className="text-lg font-poppins-semibold text-white mb-2">
+              Portrait Image
+            </Text>
+            <TouchableOpacity
+              className="items-center justify-center h-32 bg-primary-dark-grey rounded-2xl  border-2 border-primary-grey"
+              onPress={() => pickImage("portrait")}
+            >
+              <Controller
+                control={control}
+                name="imagelink_portrait"
+                render={({ field: { value } }) =>
+                  value ? (
+                    <Image
+                      source={{ uri: value }}
+                      className="w-full h-full rounded"
+                    />
+                  ) : (
+                    <View className="justify-center items-center">
+                      <Ionicons
+                        name="cloud-upload"
+                        size={42}
+                        color={COLORS.primaryOrangeHex}
+                      />
+                      <Text className="text-secondary-light-grey font-poppins-medium">
+                        Choose a file
+                      </Text>
+                    </View>
+                  )
+                }
+              />
+            </TouchableOpacity>
+          </View>
+
+          <Button onPress={handleSubmit(onSubmit)}>Add Product</Button>
         </View>
-      ))}
-      <Button
-        title="Add Price"
-        onPress={() => append({ size: "", price: "", currency: "" })}
-        color={COLORS.primaryOrangeHex}
-      />
-
-      <Input control={control} name="type" placeholder="Type" iconName="cafe" />
-
-      <Text style={styles.label}>Square Image</Text>
-      <TouchableOpacity
-        style={styles.imagePicker}
-        onPress={() => pickImage("square")}
-      >
-        {imageSquare ? (
-          <Image source={{ uri: imageSquare }} style={styles.image} />
-        ) : (
-          <Ionicons name="camera" size={40} color={COLORS.primaryOrangeHex} />
-        )}
-      </TouchableOpacity>
-
-      <Text style={styles.label}>Portrait Image</Text>
-      <TouchableOpacity
-        style={styles.imagePicker}
-        onPress={() => pickImage("portrait")}
-      >
-        {imagePortrait ? (
-          <Image source={{ uri: imagePortrait }} style={styles.image} />
-        ) : (
-          <Ionicons name="camera" size={40} color={COLORS.primaryOrangeHex} />
-        )}
-      </TouchableOpacity>
-
-      <Button
-        title="Add Product"
-        onPress={handleSubmit(onSubmit)}
-        color={COLORS.primaryOrangeHex}
-      />
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    backgroundColor: COLORS.secondaryDarkGreyHex,
-  },
-  header: {
-    fontSize: 26,
-    fontWeight: "bold",
-    color: COLORS.primaryWhiteHex,
-    marginBottom: 16,
-    textAlign: "center",
-  },
-  textArea: {
-    borderColor: COLORS.secondaryGreyHex,
-    borderWidth: 1,
-    borderRadius: 4,
-    padding: 8,
-    marginVertical: 8,
-    backgroundColor: COLORS.primaryDarkGreyHex,
-    color: COLORS.primaryWhiteHex,
-    textAlignVertical: "top",
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: COLORS.primaryWhiteHex,
-    marginVertical: 8,
-  },
-  imagePicker: {
-    alignItems: "center",
-    justifyContent: "center",
-    height: 150,
-    backgroundColor: COLORS.primaryLightGreyHex,
-    marginVertical: 16,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: COLORS.secondaryLightGreyHex,
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 8,
-  },
-  priceContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  priceInput: {
-    flex: 1,
-    borderColor: COLORS.secondaryGreyHex,
-    borderWidth: 1,
-    borderRadius: 4,
-    padding: 8,
-    marginHorizontal: 4,
-    backgroundColor: COLORS.primaryDarkGreyHex,
-    color: COLORS.primaryWhiteHex,
-  },
-});
 
 export default AddProductScreen;
