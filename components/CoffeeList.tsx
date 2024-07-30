@@ -1,27 +1,18 @@
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
-import React, { forwardRef } from "react";
+import { Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
+import React from "react";
 import CoffeeData from "@/data/CoffeeData";
 import CoffeeCard from "./CoffeeCard";
 import { useRouter } from "expo-router";
 
-const CoffeeList = forwardRef<FlatList<any>, any>((_, ref) => {
+const CoffeeList = () => {
   const router = useRouter();
   return (
     <FlatList
-      ref={ref}
       horizontal
       ListEmptyComponent={
-        <View className="py-9 items-center justify-center">
-          <Text className="font-poppins-semibold text-primary-light-grey mb-1 text-base">
-            No Coffee Available
-          </Text>
-        </View>
+        <Text className="font-poppins-semibold text-primary-light-grey text-lg text-center">
+          No Coffee Available
+        </Text>
       }
       showsHorizontalScrollIndicator={false}
       data={CoffeeData}
@@ -36,9 +27,6 @@ const CoffeeList = forwardRef<FlatList<any>, any>((_, ref) => {
           >
             <CoffeeCard
               id={item.id}
-              index={item.index}
-              type={item.type}
-              roasted={item.roasted}
               imagelinkSquare={item.imagelink_square}
               name={item.name}
               specialIngredient={item.special_ingredient}
@@ -51,13 +39,12 @@ const CoffeeList = forwardRef<FlatList<any>, any>((_, ref) => {
       }}
     />
   );
-});
+};
 
 export default CoffeeList;
 const styles = StyleSheet.create({
   FlatListContainer: {
     gap: 16,
     paddingVertical: 20,
-    paddingHorizontal: 20,
   },
 });

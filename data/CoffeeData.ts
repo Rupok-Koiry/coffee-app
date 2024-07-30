@@ -17,7 +17,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: true,
     type: "Coffee",
-    index: 0,
   },
   {
     id: "C2",
@@ -37,7 +36,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 1,
   },
   {
     id: "C3",
@@ -57,7 +55,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 2,
   },
   {
     id: "C4",
@@ -77,7 +74,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 3,
   },
   {
     id: "C5",
@@ -97,7 +93,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 4,
   },
   {
     id: "C6",
@@ -117,7 +112,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 5,
   },
   {
     id: "C7",
@@ -137,7 +131,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 6,
   },
   {
     id: "C8",
@@ -157,7 +150,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 7,
   },
   {
     id: "C9",
@@ -177,7 +169,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 8,
   },
   {
     id: "C10",
@@ -197,7 +188,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 9,
   },
   {
     id: "C11",
@@ -217,7 +207,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 10,
   },
   {
     id: "C12",
@@ -237,7 +226,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 11,
   },
   {
     id: "C13",
@@ -257,7 +245,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 12,
   },
   {
     id: "C14",
@@ -277,7 +264,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 13,
   },
   {
     id: "C15",
@@ -297,7 +283,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 14,
   },
   {
     id: "C16",
@@ -317,7 +302,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 15,
   },
   {
     id: "C17",
@@ -337,7 +321,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 16,
   },
   {
     id: "C18",
@@ -357,7 +340,6 @@ const CoffeeData = [
     ratings_count: "6,879",
     isFavorite: false,
     type: "Coffee",
-    index: 17,
   },
 ];
 export default CoffeeData;

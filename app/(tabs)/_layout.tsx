@@ -12,7 +12,7 @@ export default function TabLayout() {
         tabBarInactiveTintColor: COLORS.primaryLightGreyHex,
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 80,
+          height: 68,
           backgroundColor: COLORS.primaryBlackHex,
           borderTopWidth: 0,
           elevation: 0,

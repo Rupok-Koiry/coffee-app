@@ -1,4 +1,4 @@
-import { FlatList, TouchableOpacity, StyleSheet } from "react-native";
+import { FlatList, TouchableOpacity, StyleSheet, Text } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
 import CoffeeCard from "./CoffeeCard";
@@ -9,6 +9,11 @@ const BeanList = () => {
   return (
     <FlatList
       horizontal
+      ListEmptyComponent={
+        <Text className="font-poppins-semibold text-primary-light-grey text-lg text-center">
+          No Bean Available
+        </Text>
+      }
       showsHorizontalScrollIndicator={false}
       data={BeansData}
       contentContainerStyle={styles.FlatListContainer}
@@ -42,7 +47,6 @@ const styles = StyleSheet.create({
   FlatListContainer: {
     gap: 16,
     paddingVertical: 20,
-    paddingHorizontal: 20,
   },
 });
 

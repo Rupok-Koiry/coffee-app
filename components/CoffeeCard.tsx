@@ -17,9 +17,6 @@ const CARD_WIDTH = Dimensions.get("window").width * 0.32;
 
 interface CoffeeCardProps {
   id: string;
-  index: number;
-  type: string;
-  roasted: string;
   imagelinkSquare: ImageProps;
   name: string;
   specialIngredient: string;
@@ -30,9 +27,6 @@ interface CoffeeCardProps {
 
 const CoffeeCard: React.FC<CoffeeCardProps> = ({
   id,
-  index,
-  type,
-  roasted,
   imagelinkSquare,
   name,
   specialIngredient,
@@ -54,21 +48,23 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
         resizeMode="cover"
       >
         <View
-          className="flex-row bg-primary-black-rgba items-start justify-center  p-2 absolute rounded-tr-2xl rounded-bl-2xl top-0 right-0"
+          className="flex-row bg-primary-black-rgba items-start justify-center px-3 py-2 absolute  rounded-bl-2xl top-0 right-0"
           style={{ gap: 8 }}
         >
           <Ionicons name={"star"} color={COLORS.primaryOrangeHex} size={12} />
-          <Text className="font-medium text-primary-white text-xs">
+          <Text className="font-poppins-medium text-primary-white text-xs">
             {averageRating}
           </Text>
         </View>
       </ImageBackground>
-      <Text className="font-medium text-primary-white text-base">{name}</Text>
-      <Text className="font-light text-primary-white text-xs">
+      <Text className="font-poppins-medium text-primary-white text-base mb-0.5">
+        {name}
+      </Text>
+      <Text className="font-poppins-regular text-primary-white text-xs">
         {specialIngredient}
       </Text>
       <View className="flex-row justify-between items-center mt-4">
-        <Text className="font-semibold text-orange-500 text-lg">
+        <Text className="font-semibold text-primary-orange text-lg">
           $ <Text className="text-primary-white">{price.price}</Text>
         </Text>
         <TouchableOpacity
@@ -80,7 +76,7 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
             color={COLORS.primaryWhiteHex}
             name="add"
             BgColor={COLORS.primaryOrangeHex}
-            size={16}
+            size={20}
             iconSet="Ionicons"
           />
         </TouchableOpacity>

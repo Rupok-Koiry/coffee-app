@@ -1,11 +1,7 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 
-type CategoriesProps = {
-  listRef: any;
-};
-
-const Categories = ({ listRef }: CategoriesProps) => {
+const Categories = () => {
   const categories = ["All", "Espresso", "Latte", "Cappuccino", "Macchiato"];
   const [activeCategory, setActiveCategory] = useState("All");
 
@@ -13,17 +9,13 @@ const Categories = ({ listRef }: CategoriesProps) => {
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      className="mx-4 mb-0"
+      className="space-x-4"
     >
       {categories.map((category, index) => (
-        <View key={index.toString()} className="px-4">
+        <View key={index.toString()}>
           <TouchableOpacity
             className="items-center"
             onPress={() => {
-              listRef?.current?.scrollToOffset({
-                animated: true,
-                offset: 0,
-              });
               setActiveCategory(category);
             }}
           >

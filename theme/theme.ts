@@ -52,7 +52,7 @@ export const FONTFAMILY: FontFamily = {
   poppins_thin: "Poppins-Thin",
 };
 
-interface FontSize {
+/* interface FontSize {
   size_8: number;
   size_10: number;
   size_12: number;
@@ -95,3 +95,4 @@ export const BORDERRADIUS: BorderRadius = {
   radius_20: 20,
   radius_25: 25,
 };
+ */
