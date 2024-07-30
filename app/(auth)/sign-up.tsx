@@ -37,7 +37,7 @@ const SignUpScreen: React.FC = () => {
             source={require("@/assets/app_images/logo.png")}
             className="w-32 h-32 self-center"
           />
-          <Text className="font-poppins-semibold text-3xl text-primary-white my-5">
+          <Text className="font-poppins-semibold text-3xl text-primary-white my-8">
             Let's get started
           </Text>
           <View style={{ gap: 20 }}>
@@ -105,7 +105,7 @@ const SignUpScreen: React.FC = () => {
           <Button onPress={handleSubmit(onSubmit)} containerClassName="my-5">
             Sign up
           </Button>
-          <Text className="text-center text-secondary-light-grey">
+          <Text className="text-center text-secondary-light-grey font-poppins-regular">
             or continue with
           </Text>
           <Button containerClassName="bg-transparent border-2 border-primary-orange my-5 ">

@@ -1,4 +1,4 @@
-import { Dimensions, ScrollView, StatusBar, Text, View } from "react-native";
+import { Dimensions, FlatList, StatusBar, Text, View } from "react-native";
 import React, { useState } from "react";
 import { COLORS } from "@/theme/theme";
 import PopUpAnimation from "@/components/PopUpAnimation";
@@ -27,23 +27,30 @@ const OrderScreen = () => {
 
   const renderOrders = (orders: any) => (
     <View className="flex-1">
-      {orders.length == 0 ? (
-        <EmptyListAnimation title={"No Order History"} />
-      ) : (
-        <View className="px-5" style={{ gap: 32 }}>
-          {orders.map((order: any) => (
-            <OrderHistoryCard
-              key={order.id}
-              navigationHandler={() => {}}
-              cart={order.cart}
-              totalPrice={order.total_price}
-              orderDate={order.order_date}
-            />
-          ))}
-        </View>
-      )}
+      <FlatList
+        data={orders}
+        keyExtractor={(item) => item.id}
+        ListEmptyComponent={<EmptyListAnimation title={"No Order History"} />}
+        contentContainerStyle={{
+          padding: 20,
+          gap: 32,
+        }}
+        renderItem={({ item }) => (
+          <OrderHistoryCard
+            key={item.id}
+            navigationHandler={() => {}}
+            cart={item.cart}
+            totalPrice={item.total_price}
+            orderDate={item.order_date}
+          />
+        )}
+        ListFooterComponent={
+          <Button onPress={buttonPressHandler}>Download</Button>
+        }
+      />
     </View>
   );
+
   const ActiveOrdersRoute = () => renderOrders(activeOrders);
   const ArchivedOrdersRoute = () => renderOrders(archivedOrders);
 
@@ -70,10 +77,7 @@ const OrderScreen = () => {
         />
       )}
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1 }}
-      >
+      <View className="flex-1">
         <HeaderBar title="Order History" />
         <View className="flex-1 justify-between">
           <TabView
@@ -91,11 +95,10 @@ const OrderScreen = () => {
                 }}
                 style={{
                   backgroundColor: COLORS.primaryBlackHex,
-                  marginBottom: 20,
                 }}
                 renderLabel={({ route, focused, color }) => (
                   <Text
-                    className={`m-2  ${
+                    className={`mb-2  ${
                       focused ? "text-primary-orange" : "text-primary-white"
                     } font-poppins-medium text-base`}
                   >
@@ -105,13 +108,8 @@ const OrderScreen = () => {
               />
             )}
           />
-          {OrderData.length > 0 && (
-            <Button containerClassName="m-5" onPress={buttonPressHandler}>
-              Download
-            </Button>
-          )}
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
