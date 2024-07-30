@@ -91,10 +91,14 @@ const OrderScreen = () => {
                 }}
                 style={{
                   backgroundColor: COLORS.primaryBlackHex,
-                  marginBottom: 32,
+                  marginBottom: 20,
                 }}
                 renderLabel={({ route, focused, color }) => (
-                  <Text style={{ color: COLORS.primaryWhiteHex, margin: 8 }}>
+                  <Text
+                    className={`m-2  ${
+                      focused ? "text-primary-orange" : "text-primary-white"
+                    } font-poppins-medium text-base`}
+                  >
                     {route.title}
                   </Text>
                 )}

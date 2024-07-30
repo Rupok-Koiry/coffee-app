@@ -16,7 +16,21 @@ const OrderData = [
     order_date: "2023-12-01",
     status: "delivered",
   },
-
+  {
+    id: 123,
+    cart: [CartData[0], CartData[4]], // List of items from CartData
+    total_price:
+      CartData[0].prices.reduce(
+        (total, item) => total + +item.price * item.quantity,
+        0
+      ) +
+      CartData[1].prices.reduce(
+        (total, item) => total + +item.price * item.quantity,
+        0
+      ),
+    order_date: "2023-12-01",
+    status: "delivered",
+  },
   {
     id: 2,
 

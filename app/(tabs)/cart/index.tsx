@@ -1,3 +1,4 @@
+import Button from "@/components/Button";
 import CartItem from "@/components/CartItem";
 import EmptyListAnimation from "@/components/EmptyListAnimation";
 import HeaderBar from "@/components/HeaderBar";
@@ -16,9 +17,9 @@ const CartScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
       >
+        <HeaderBar title="Cart" />
         <View className="flex-1">
           <View className="flex-1 justify-between">
-            <HeaderBar title="Cart" />
             {CartData.length > 0 ? (
               <View className="px-5 space-y-5">
                 {CartData.map((item) => (

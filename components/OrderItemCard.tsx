@@ -26,7 +26,7 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
       end={{ x: 1, y: 1 }}
       colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
       className="p-3 rounded-2xl"
-      style={{ gap: 20 }}
+      style={{ gap: 20, flex: 1 }}
     >
       <View className="flex-row justify-between items-center">
         <View className="flex-row  items-center" style={{ gap: 16 }}>
@@ -54,8 +54,10 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
           <View className="flex-1 flex-row justify-between items-center">
             <View className="bg-black h-10 flex-1 rounded-l-lg justify-center items-center border-r border-primary-grey">
               <Text
-                className={`font-poppins-medium text-secondary-light-grey ${
-                  type == "Bean" ? "text-sm" : "text-base"
+                className={`font-poppins-medium  ${
+                  type == "Bean"
+                    ? "text-sm text-secondary-light-grey"
+                    : "text-base text-white"
                 }`}
               >
                 {price.size}
@@ -64,7 +66,7 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
             <View className="bg-black h-10 flex-1 rounded-r-lg justify-center items-center border-l border-primary-grey">
               <Text className="font-poppins-semibold text-base text-primary-orange">
                 {price.currency}
-                <Text className="text-primary-white"> {price.price}</Text>
+                <Text className="text-primary-white">{price.price}</Text>
               </Text>
             </View>
           </View>

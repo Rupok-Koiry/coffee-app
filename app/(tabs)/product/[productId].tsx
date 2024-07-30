@@ -70,7 +70,7 @@ const DetailsScreen = () => {
                 onPress={() => {
                   setSelectedPrice(price);
                 }}
-                className={`flex-1 bg-primary-dark-grey items-center justify-center  rounded-xl py-3
+                className={`flex-1 bg-primary-dark-grey items-center justify-center  rounded-xl h-12
                 border-2
                 ${
                   price.size == selectedPrice.size

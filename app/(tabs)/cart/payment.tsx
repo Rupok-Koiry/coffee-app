@@ -88,13 +88,13 @@ const PaymentScreen = () => {
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
                   colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-                  className="rounded-2xl  px-4 py-3"
+                  className="rounded-2xl px-4 py-3"
                   style={{ gap: 36 }}
                 >
                   <View className="flex-row items-center justify-between">
                     <MaterialCommunityIcons
                       name="integrated-circuit-chip"
-                      size={36}
+                      size={42}
                       color={COLORS.primaryOrangeHex}
                     />
                     <FontAwesome6
@@ -119,7 +119,7 @@ const PaymentScreen = () => {
                   </View>
                   <View className="flex-row items-center justify-between">
                     <View className="items-start">
-                      <Text className="font-poppins-regular text-xs text-secondary-light-grey">
+                      <Text className="font-poppins-regular text-xs text-secondary-light-grey mb-0.5">
                         Card Holder Name
                       </Text>
                       <Text className="font-poppins-medium text-base text-primary-white">
@@ -127,7 +127,7 @@ const PaymentScreen = () => {
                       </Text>
                     </View>
                     <View className="items-end">
-                      <Text className="font-poppins-regular text-xs text-secondary-light-grey">
+                      <Text className="font-poppins-regular text-xs text-secondary-light-grey mb-0.5">
                         Expiry Date
                       </Text>
                       <Text className="font-poppins-medium text-base text-primary-white">

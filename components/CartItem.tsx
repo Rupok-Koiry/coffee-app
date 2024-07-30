@@ -34,7 +34,8 @@ const CartItem: React.FC<CartItemProps> = ({
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-          className="flex-1 p-3 rounded-2xl"
+          className="p-3 rounded-2xl"
+          style={{ flex: 1 }}
         >
           <View className="flex-row flex-1">
             <Image source={imagelink_square} className="w-32 h-32 rounded-xl" />
@@ -47,7 +48,7 @@ const CartItem: React.FC<CartItemProps> = ({
                   {special_ingredient}
                 </Text>
               </View>
-              <View className="h-12 w-[132px] rounded-xl justify-center items-center bg-primary-dark-grey">
+              <View className="h-12 w-[132px] rounded-lg justify-center items-center bg-primary-dark-grey">
                 <Text className="font-poppins-regular text-xs text-primary-white">
                   {roasted}
                 </Text>
@@ -61,7 +62,7 @@ const CartItem: React.FC<CartItemProps> = ({
                 className="flex-1 items-center flex-row justify-center space-x-5"
               >
                 <View className="flex-1 items-center flex-row justify-between">
-                  <View className="bg-primary-black h-10 w-16 rounded-lg justify-center items-center">
+                  <View className="bg-primary-black h-10 w-20 rounded-lg justify-center items-center">
                     <Text
                       className={`font-poppins-medium ${
                         type === "Bean"
@@ -87,10 +88,10 @@ const CartItem: React.FC<CartItemProps> = ({
                     <Ionicons
                       name="remove"
                       color={COLORS.primaryWhiteHex}
-                      size={14}
+                      size={16}
                     />
                   </TouchableOpacity>
-                  <View className="bg-primary-black w-14 rounded-lg border border-primary-orange items-center py-0.5">
+                  <View className="bg-primary-black w-14 rounded-lg border border-primary-orange items-center py-1">
                     <Text className="font-poppins-semibold text-base text-primary-white">
                       {price.quantity}
                     </Text>
@@ -104,7 +105,7 @@ const CartItem: React.FC<CartItemProps> = ({
                     <Ionicons
                       name="add"
                       color={COLORS.primaryWhiteHex}
-                      size={14}
+                      size={16}
                     />
                   </TouchableOpacity>
                 </View>
@@ -117,7 +118,8 @@ const CartItem: React.FC<CartItemProps> = ({
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-          className="flex-row flex-1 items-center p-3 rounded-2xl"
+          className="flex-row items-center p-3 rounded-2xl"
+          style={{ flex: 1 }}
         >
           <View>
             <Image source={imagelink_square} className="w-36 h-36 rounded-xl" />
@@ -157,11 +159,11 @@ const CartItem: React.FC<CartItemProps> = ({
               >
                 <Ionicons
                   name="remove"
-                  size={14}
+                  size={16}
                   color={COLORS.primaryWhiteHex}
                 />
               </TouchableOpacity>
-              <View className="bg-primary-black w-14 rounded-lg border border-primary-orange items-center py-0.5">
+              <View className="bg-primary-black w-14 rounded-lg border border-primary-orange items-center py-1">
                 <Text className="font-poppins-semibold text-base text-primary-white">
                   {prices[0].quantity}
                 </Text>
@@ -172,7 +174,7 @@ const CartItem: React.FC<CartItemProps> = ({
                   incrementCartItemQuantityHandler(id, prices[0].size);
                 }}
               >
-                <Ionicons name="add" color={COLORS.primaryWhiteHex} size={14} />
+                <Ionicons name="add" color={COLORS.primaryWhiteHex} size={16} />
               </TouchableOpacity>
             </View>
           </View>
