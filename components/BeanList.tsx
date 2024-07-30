@@ -27,9 +27,6 @@ const BeanList = () => {
           >
             <CoffeeCard
               id={item.id}
-              index={item.index}
-              type={item.type}
-              roasted={item.roasted}
               imagelinkSquare={item.imagelink_square}
               name={item.name}
               specialIngredient={item.special_ingredient}

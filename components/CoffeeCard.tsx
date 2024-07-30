@@ -64,7 +64,7 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
         {specialIngredient}
       </Text>
       <View className="flex-row justify-between items-center mt-4">
-        <Text className="font-semibold text-primary-orange text-lg">
+        <Text className="font-poppins-semibold text-primary-orange text-lg">
           $ <Text className="text-primary-white">{price.price}</Text>
         </Text>
         <TouchableOpacity

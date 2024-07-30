@@ -178,7 +178,9 @@ const AddProductScreen: React.FC = () => {
           </View>
 
           <View>
-            <Text className="text-lg font-bold text-white my-2">Prices</Text>
+            <Text className="text-lg font-poppins-bold text-white my-2">
+              Prices
+            </Text>
             {fields.map((item, index) => (
               <View
                 key={item.id}

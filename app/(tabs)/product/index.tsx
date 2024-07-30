@@ -14,7 +14,7 @@ const HomeScreen = () => {
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
       <ScrollView>
         <HeaderBar />
-        <View className="p-5">
+        <View className="px-5">
           <Text className="font-poppins-semibold text-3xl text-primary-white">
             Find the best{"\n"}coffee for you
           </Text>

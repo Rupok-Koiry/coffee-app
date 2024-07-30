@@ -143,7 +143,7 @@ const CartItem: React.FC<CartItemProps> = ({
                   {prices[0].size}
                 </Text>
               </View>
-              <Text className="text-base text-primary-orange font-semibold">
+              <Text className="text-base text-primary-orange font-poppins-semibold">
                 {prices[0].currency}
                 <Text className="text-primary-white">{prices[0].price}</Text>
               </Text>

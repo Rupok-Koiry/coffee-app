@@ -20,6 +20,7 @@ const DetailsScreen = () => {
   const { productId, type } = useLocalSearchParams();
 
   const product = CoffeeData[0];
+
   const [fullDesc, setFullDesc] = useState(false);
   const [selectedPrice, setSelectedPrice] = useState(product.prices[0]);
 
@@ -47,41 +48,29 @@ const DetailsScreen = () => {
           <Text className="font-poppins-semibold text-secondary-light-grey text-base mb-3">
             Description
           </Text>
-          {fullDesc ? (
-            <TouchableWithoutFeedback
-              onPress={() => {
-                setFullDesc((prev) => !prev);
-              }}
+          <TouchableWithoutFeedback
+            onPress={() => {
+              setFullDesc((prev) => !prev);
+            }}
+          >
+            <Text
+              numberOfLines={fullDesc ? undefined : 3}
+              className="font-poppins-regular text-sm mb-8 text-primary-white tracking-wider"
             >
-              <Text className="font-poppins-regular text-sm mb-8 text-primary-white tracking-wider">
-                {product.description}
-              </Text>
-            </TouchableWithoutFeedback>
-          ) : (
-            <TouchableWithoutFeedback
-              onPress={() => {
-                setFullDesc((prev) => !prev);
-              }}
-            >
-              <Text
-                numberOfLines={3}
-                className="font-poppins-regular text-sm mb-8 text-primary-white tracking-wider"
-              >
-                {product.description}
-              </Text>
-            </TouchableWithoutFeedback>
-          )}
+              {product.description}
+            </Text>
+          </TouchableWithoutFeedback>
           <Text className="font-poppins-semibold  text-secondary-light-grey text-base mb-3">
             Size
           </Text>
-          <View className="flex-row flex-1 justify-between" style={{ gap: 20 }}>
+          <View className="flex-row  justify-between" style={{ gap: 20 }}>
             {product.prices.map((price: PricesType) => (
               <TouchableOpacity
                 key={price.size}
                 onPress={() => {
                   setSelectedPrice(price);
                 }}
-                className={`flex-1 bg-primary-dark-grey items-center justify-center  rounded-xl h-12
+                className={`flex-1 bg-primary-dark-grey items-center justify-center  rounded-xl py-3
                 border-2
                 ${
                   price.size == selectedPrice.size

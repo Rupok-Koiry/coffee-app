@@ -102,10 +102,10 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
           <View className="justify-between space-y-4">
             <View className="flex-row justify-between items-center">
               <View>
-                <Text className="font-semibold text-2xl text-primary-white">
+                <Text className="font-poppins-semibold text-2xl text-primary-white">
                   {name}
                 </Text>
-                <Text className="font-medium text-xs text-primary-white">
+                <Text className="font-poppins-medium text-xs text-secondary-light-grey">
                   {specialIngredient}
                 </Text>
               </View>
@@ -125,7 +125,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                     />
                   )}
                   <Text
-                    className={`font-medium text-xs text-secondary-light-grey mt-0.5`}
+                    className={`font-poppins-medium text-xs text-secondary-light-grey mt-0.5`}
                   >
                     {type}
                   </Text>
@@ -136,7 +136,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                     size={24}
                     color={COLORS.primaryOrangeHex}
                   />
-                  <Text className="font-medium text-xs text-secondary-light-grey mt-0.5">
+                  <Text className="font-poppins-medium text-xs text-secondary-light-grey mt-0.5">
                     {ingredients}
                   </Text>
                 </View>
@@ -149,15 +149,15 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                   color={COLORS.primaryOrangeHex}
                   size={20}
                 />
-                <Text className="font-semibold text-lg text-primary-white">
+                <Text className="font-poppins-semibold text-lg text-primary-white">
                   {averageRating}
                 </Text>
-                <Text className="font-regular text-xs text-primary-white">
+                <Text className="font-poppins-regular text-xs text-primary-white">
                   ({ratingsCount})
                 </Text>
               </View>
-              <View className="h-14 w-[132px]  rounded-lg justify-center items-center bg-primary-dark-grey">
-                <Text className="font-regular text-xs text-primary-white">
+              <View className="h-14 w-[132px] rounded-lg justify-center items-center bg-primary-dark-grey">
+                <Text className="font-poppins-regular text-xs text-secondary-light-grey">
                   {roastedLevel}
                 </Text>
               </View>
