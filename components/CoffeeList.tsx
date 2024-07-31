@@ -1,11 +1,31 @@
 import { Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
-import React from "react";
-import CoffeeData from "@/data/CoffeeData";
+import React, { useCallback } from "react";
 import CoffeeCard from "./CoffeeCard";
 import { useRouter } from "expo-router";
+import { useProducts } from "@/api/products/useProducts";
+import CoffeeCardSkeleton from "./loader/CoffeeCardSkeleton";
+import ErrorText from "./ErrorText";
 
-const CoffeeList = () => {
+type CoffeeListProps = {
+  activeCategory: string;
+};
+const CoffeeList = ({ activeCategory }: CoffeeListProps) => {
   const router = useRouter();
+  const {
+    products: coffees,
+    isFetching,
+    error,
+    hasNextPage,
+    fetchNextPage,
+  } = useProducts({ type: "COFFEE", filter: activeCategory });
+
+  const loadMore = useCallback(() => {
+    if (hasNextPage) fetchNextPage();
+  }, [hasNextPage, fetchNextPage]);
+
+  if (isFetching) return <CoffeeCardSkeleton />;
+  if (error) return <ErrorText message={error.message} />;
+
   return (
     <FlatList
       horizontal
@@ -15,9 +35,9 @@ const CoffeeList = () => {
         </Text>
       }
       showsHorizontalScrollIndicator={false}
-      data={CoffeeData}
+      data={coffees}
       contentContainerStyle={styles.FlatListContainer}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => {
         return (
           <TouchableOpacity
@@ -26,17 +46,18 @@ const CoffeeList = () => {
             }}
           >
             <CoffeeCard
-              id={item.id}
-              imagelinkSquare={item.imagelink_square}
+              image_square={item.image_square}
               name={item.name}
-              specialIngredient={item.special_ingredient}
-              averageRating={item.average_rating}
-              price={item.prices[2]}
+              special_ingredient={item.special_ingredient}
+              average_rating={item.average_rating}
+              price={item.prices[2].price}
               buttonPressHandler={() => {}}
             />
           </TouchableOpacity>
         );
       }}
+      onEndReached={loadMore}
+      onEndReachedThreshold={0.5}
     />
   );
 };

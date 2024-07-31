@@ -22,3 +22,4 @@ export type UpdateTables<T extends keyof Database["public"]["Tables"]> =
 
 export type Enums<T extends keyof Database["public"]["Enums"]> =
   Database["public"]["Enums"][T];
+//  npx supabase gen types typescript --project-id ufhlgxxhlsmrrkxildzo > constants/database.types.ts

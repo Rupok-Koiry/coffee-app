@@ -1,5 +1,6 @@
 import * as SecureStore from "expo-secure-store";
 import { createClient } from "@supabase/supabase-js";
+import { Database } from "@/constants/database.types";
 
 // Secure Store Adapter
 const ExpoSecureStoreAdapter = {
@@ -14,12 +15,12 @@ const ExpoSecureStoreAdapter = {
   },
 };
 
-const SUPABASE_URL = "https://ufhlgxxhlsmrrkxildzo.supabase.co";
+export const SUPABASE_URL = "https://ufhlgxxhlsmrrkxildzo.supabase.co";
 const SUPABASE_PUBLIC_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmaGxneHhobHNtcnJreGlsZHpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjIzNjUxMTQsImV4cCI6MjAzNzk0MTExNH0.ZgB2HTRri3y6a6n4MFpPRIcubHopKomQW4IiHxfT9Ts";
 
 // Initialize Supabase Client
-const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLIC_API_KEY, {
+const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLIC_API_KEY, {
   auth: {
     storage: ExpoSecureStoreAdapter,
     autoRefreshToken: true,

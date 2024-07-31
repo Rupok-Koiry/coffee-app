@@ -1,10 +1,16 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 
-const Categories = () => {
-  const categories = ["All", "Espresso", "Latte", "Cappuccino", "Macchiato"];
-  const [activeCategory, setActiveCategory] = useState("All");
-
+type CategoriesProps = {
+  categories: string[];
+  activeCategory: string;
+  setActiveCategory: (category: string) => void;
+};
+const Categories = ({
+  categories,
+  activeCategory,
+  setActiveCategory,
+}: CategoriesProps) => {
   return (
     <ScrollView
       horizontal

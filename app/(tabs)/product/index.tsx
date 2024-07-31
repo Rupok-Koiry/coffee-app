@@ -1,5 +1,5 @@
 import { Text, ScrollView, StatusBar, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
 import SearchInput from "@/components/SearchInput";
@@ -9,6 +9,8 @@ import BeanList from "@/components/BeanList";
 import { COLORS } from "@/theme/theme";
 
 const HomeScreen = () => {
+  const categories = ["All", "Espresso", "Latte", "Cappuccino", "Macchiato"];
+  const [activeCategory, setActiveCategory] = useState("All");
   return (
     <SafeAreaView className="bg-primary-black flex-1">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -19,8 +21,12 @@ const HomeScreen = () => {
             Find the best{"\n"}coffee for you
           </Text>
           <SearchInput searchCoffee={() => {}} resetSearchCoffee={() => {}} />
-          <Categories />
-          <CoffeeList />
+          <Categories
+            categories={categories}
+            activeCategory={activeCategory}
+            setActiveCategory={setActiveCategory}
+          />
+          <CoffeeList activeCategory={activeCategory} />
           <Text className="text-lg mt-5 font-poppins-medium text-primary-white">
             Coffee Beans
           </Text>

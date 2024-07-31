@@ -4,33 +4,29 @@ import React from "react";
 import {
   Dimensions,
   ImageBackground,
-  ImageProps,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import { PricesType } from "@/constants/types";
 import BgIcon from "./BgIcon";
 import { COLORS } from "@/theme/theme";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.32;
 
-interface CoffeeCardProps {
-  id: string;
-  imagelinkSquare: ImageProps;
+type CoffeeCardProps = {
+  image_square: string;
   name: string;
-  specialIngredient: string;
-  averageRating: number;
-  price: PricesType;
+  special_ingredient: string;
+  average_rating: number;
   buttonPressHandler: () => void;
-}
+  price: number;
+};
 
 const CoffeeCard: React.FC<CoffeeCardProps> = ({
-  id,
-  imagelinkSquare,
+  image_square,
   name,
-  specialIngredient,
-  averageRating,
+  special_ingredient,
+  average_rating,
   price,
   buttonPressHandler,
 }) => {
@@ -42,7 +38,9 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
       colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
     >
       <ImageBackground
-        source={imagelinkSquare}
+        source={{
+          uri: image_square,
+        }}
         className="w-full h-full rounded-2xl mb-4 overflow-hidden"
         style={{ width: CARD_WIDTH, height: CARD_WIDTH }}
         resizeMode="cover"
@@ -53,7 +51,7 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
         >
           <Ionicons name={"star"} color={COLORS.primaryOrangeHex} size={12} />
           <Text className="font-poppins-medium text-primary-white text-xs">
-            {averageRating}
+            {average_rating}
           </Text>
         </View>
       </ImageBackground>
@@ -61,11 +59,11 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
         {name}
       </Text>
       <Text className="font-poppins-regular text-primary-white text-xs">
-        {specialIngredient}
+        {special_ingredient}
       </Text>
       <View className="flex-row justify-between items-center mt-4">
         <Text className="font-poppins-semibold text-primary-orange text-lg">
-          $ <Text className="text-primary-white">{price.price}</Text>
+          $ <Text className="text-primary-white">{price}</Text>
         </Text>
         <TouchableOpacity
           onPress={() => {
