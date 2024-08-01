@@ -1,49 +1,47 @@
 import React from "react";
-import {
-  Text,
-  View,
-  ImageProps,
-  TouchableOpacity,
-  ImageBackground,
-} from "react-native";
+import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import GradientIcon from "./GradientIcon";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "@/theme/theme";
+import { Enums } from "@/constants/types";
+import { SUPABASE_URL } from "@/services/supabase";
 
 interface ImageBackgroundInfoProps {
-  enableBackHandler: boolean;
-  imagelinkPortrait: ImageProps;
-  type: string;
-  id: string;
+  id: number;
+  image_portrait: string;
+  type: Enums<"product_type_enum">;
   isFavorite: boolean;
   name: string;
-  specialIngredient: string;
+  special_ingredient: string;
   ingredients: string;
-  averageRating: number;
-  ratingsCount: string;
-  roastedLevel: string;
+  average_rating: number;
+  ratings_count: number;
+  roasted: string;
+  enableBackHandler: boolean;
   backHandler?: () => void;
   toggleFavorite: () => void;
 }
 
 const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
   enableBackHandler,
-  imagelinkPortrait,
+  image_portrait,
   type,
   isFavorite,
   name,
-  specialIngredient,
+  special_ingredient,
   ingredients,
-  averageRating,
-  ratingsCount,
-  roastedLevel,
+  average_rating,
+  ratings_count,
+  roasted,
   backHandler,
   toggleFavorite,
 }) => {
   return (
     <View>
       <ImageBackground
-        source={imagelinkPortrait}
+        source={{
+          uri: `${SUPABASE_URL}/storage/v1/object/public/product-images/portrait/${image_portrait}`,
+        }}
         className="w-full aspect-[4/5] justify-between"
       >
         {enableBackHandler ? (
@@ -106,12 +104,12 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                   {name}
                 </Text>
                 <Text className="font-poppins-medium text-xs text-secondary-light-grey">
-                  {specialIngredient}
+                  {special_ingredient}
                 </Text>
               </View>
               <View className="flex-row items-center space-x-5">
                 <View className="h-14 w-14 rounded-lg justify-center items-center bg-primary-dark-grey">
-                  {type === "Bean" ? (
+                  {type === "BEAN" ? (
                     <MaterialCommunityIcons
                       name="fruit-cherries"
                       size={24}
@@ -125,14 +123,14 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                     />
                   )}
                   <Text
-                    className={`font-poppins-medium text-xs text-secondary-light-grey mt-0.5`}
+                    className={`font-poppins-medium text-xs text-secondary-light-grey mt-0.5 capitalize`}
                   >
                     {type}
                   </Text>
                 </View>
                 <View className="h-14 w-14 rounded-xl justify-center items-center bg-primary-dark-grey">
                   <Ionicons
-                    name={type === "Bean" ? "location" : "water"}
+                    name={type === "BEAN" ? "location" : "water"}
                     size={24}
                     color={COLORS.primaryOrangeHex}
                   />
@@ -150,15 +148,15 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                   size={20}
                 />
                 <Text className="font-poppins-semibold text-lg text-primary-white">
-                  {averageRating}
+                  {average_rating}
                 </Text>
                 <Text className="font-poppins-regular text-xs text-primary-white">
-                  ({ratingsCount})
+                  ({ratings_count})
                 </Text>
               </View>
               <View className="h-14 w-[132px] rounded-lg justify-center items-center bg-primary-dark-grey">
                 <Text className="font-poppins-regular text-xs text-secondary-light-grey">
-                  {roastedLevel}
+                  {roasted}
                 </Text>
               </View>
             </View>

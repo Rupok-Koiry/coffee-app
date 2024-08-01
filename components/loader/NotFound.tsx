@@ -5,7 +5,17 @@ import LottieView from "lottie-react-native";
 import { StatusBar, Text, View, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function NotFoundScreen() {
+type NotFoundProps = {
+  message: string;
+  redirectTo?: string;
+  label?: string;
+};
+
+export default function NotFound({
+  message,
+  redirectTo = "/",
+  label = "Go to Home",
+}: NotFoundProps) {
   const router = useRouter();
 
   return (
@@ -23,13 +33,13 @@ export default function NotFoundScreen() {
           loop
         />
         <Text className="font-poppins-semibold text-3xl text-primary-white text-center my-4">
-          Oops! Page not found.
+          {message}
         </Text>
         <Button
           containerClassName="self-center"
-          onPress={() => router.replace("/(tabs)/product")}
+          onPress={() => router.replace(redirectTo)}
         >
-          Go to Home
+          {label}
         </Button>
       </View>
     </SafeAreaView>

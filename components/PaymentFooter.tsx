@@ -2,13 +2,8 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import Button from "./Button";
 
-type PriceProps = {
-  price: string;
-  currency: string;
-};
-
 type PaymentFooterProps = {
-  price: PriceProps;
+  price: number;
   buttonPressHandler: () => void;
   buttonTitle: string;
 };
@@ -28,8 +23,7 @@ const PaymentFooter: React.FC<PaymentFooterProps> = ({
           Price
         </Text>
         <Text className="font-poppins-semibold text-2xl text-primary-orange">
-          {price.currency}
-          <Text className="text-primary-white">{price.price}</Text>
+          $<Text className="text-primary-white">{price}</Text>
         </Text>
       </View>
       <Button containerClassName="flex-1" onPress={buttonPressHandler}>

@@ -48,3 +48,18 @@ export async function getProducts({
 
   return data;
 }
+
+export async function getProduct(productId: number) {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*, prices(*)")
+    .eq("id", productId)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Product not found");
+  }
+
+  return data;
+}

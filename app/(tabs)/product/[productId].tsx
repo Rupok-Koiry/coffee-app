@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   Text,
@@ -7,22 +7,32 @@ import {
   TouchableOpacity,
   StatusBar,
 } from "react-native";
-
-import CoffeeData from "@/data/CoffeeData";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PaymentFooter from "@/components/PaymentFooter";
 import ImageBackgroundInfo from "@/components/ImageBackgroundInfo";
-import { useLocalSearchParams } from "expo-router";
-import { PricesType } from "@/constants/types";
 import { COLORS } from "@/theme/theme";
+import { useProduct } from "@/api/products/useProduct";
+import Loader from "@/components/loader/Loader";
+import { Tables } from "@/constants/types";
+import NotFound from "@/components/loader/NotFound";
 
-const DetailsScreen = () => {
-  const { productId, type } = useLocalSearchParams();
-
-  const product = CoffeeData[0];
-
+const DetailsScreen: React.FC = () => {
+  const { product, isLoading } = useProduct();
   const [fullDesc, setFullDesc] = useState(false);
-  const [selectedPrice, setSelectedPrice] = useState(product.prices[0]);
+  const [selectedPrice, setSelectedPrice] = useState<Tables<"prices"> | null>(
+    null
+  );
+  useEffect(() => {
+    if (product && product.prices.length > 0) {
+      setSelectedPrice(product.prices[0]);
+    }
+  }, [product]);
+
+  if (isLoading) return <Loader />;
+  if (!product)
+    return (
+      <NotFound message="Product not found!" redirectTo="/(tabs)/product" />
+    );
 
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
@@ -30,16 +40,16 @@ const DetailsScreen = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackgroundInfo
           enableBackHandler={true}
-          imagelinkPortrait={product.imagelink_portrait}
+          image_portrait={product.image_portrait}
           type={product.type}
           id={product.id}
-          isFavorite={product.isFavorite}
+          isFavorite={true}
           name={product.name}
-          specialIngredient={product.special_ingredient}
+          special_ingredient={product.special_ingredient}
           ingredients={product.ingredients}
-          averageRating={product.average_rating}
-          ratingsCount={product.ratings_count}
-          roastedLevel={product.roasted}
+          average_rating={product.average_rating}
+          ratings_count={product.ratings_count}
+          roasted={product.roasted}
           backHandler={() => {}}
           toggleFavorite={() => {}}
         />
@@ -64,7 +74,7 @@ const DetailsScreen = () => {
             Size
           </Text>
           <View className="flex-row  justify-between" style={{ gap: 20 }}>
-            {product.prices.map((price: PricesType) => (
+            {product.prices.map((price) => (
               <TouchableOpacity
                 key={price.size}
                 onPress={() => {
@@ -73,7 +83,7 @@ const DetailsScreen = () => {
                 className={`flex-1 bg-primary-dark-grey items-center justify-center  rounded-xl h-12
                 border-2
                 ${
-                  price.size == selectedPrice.size
+                  price.size === selectedPrice?.size
                     ? "border-primary-orange"
                     : "border-primary-dark-grey"
                 }
@@ -82,12 +92,12 @@ const DetailsScreen = () => {
                 <Text
                   className={`font-poppins-medium
                   ${
-                    price.size == selectedPrice.size
+                    price.size === selectedPrice?.size
                       ? "text-primary-orange"
                       : "text-secondary-light-grey"
                   }
 
-                  ${product.type == "Bean" ? "text-sm" : "text-base"}
+                  ${product.type === "BEAN" ? "text-sm" : "text-base"}
                   `}
                 >
                   {price.size}
@@ -97,7 +107,7 @@ const DetailsScreen = () => {
           </View>
         </View>
         <PaymentFooter
-          price={selectedPrice}
+          price={selectedPrice?.price || 0}
           buttonTitle="Add to Cart"
           buttonPressHandler={() => {}}
         />
