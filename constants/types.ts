@@ -22,6 +22,11 @@ export type OrderItemType = {
   product: Tables<"products">;
   prices: PricesType[];
 };
+export enum OrderStatusEnum {
+  ACTIVE = "ACTIVE",
+  ARCHIVED = "ARCHIVED",
+}
+
 export type PaymentListType = {
   name: string;
   icon: any;

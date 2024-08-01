@@ -14,9 +14,6 @@ import { COLORS } from "@/theme/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
 import Button from "@/components/Button";
-import OrderHistoryCard from "@/components/OrderCard";
-import OrderData from "@/data/OrderData";
-import OrderStatus from "@/components/OrderStatus";
 
 const OrderTrackingScreen = () => {
   return (
@@ -35,17 +32,6 @@ const OrderTrackingScreen = () => {
             cursorColor={COLORS.primaryOrangeHex}
           />
           <Button>Track Order</Button>
-        </View>
-        <OrderStatus currentStatus="onTheWay" />
-
-        <View className="px-5">
-          <OrderHistoryCard
-            key={OrderData[0].id}
-            navigationHandler={() => {}}
-            cart={OrderData[0].cart}
-            totalPrice={OrderData[0].total_price}
-            orderDate={OrderData[0].order_date}
-          />
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -1,9 +1,9 @@
 import { PAGE_LIMIT } from "@/constants/constants";
 import supabase from "./supabase";
-import { Enums, Tables } from "@/constants/types";
+import { OrderStatusEnum, Tables, PricesType } from "@/constants/types";
 
 type GetOrdersParams = {
-  status?: Enums<"order_status_enum">;
+  status?: OrderStatusEnum;
   page?: number;
 };
 
@@ -17,12 +17,7 @@ type TransformedOrderItem = Omit<
 > & {
   product_id: number;
   product: Tables<"products">;
-  prices: {
-    size: string;
-    price: number;
-    quantity: number;
-    total_price: number;
-  }[];
+  prices: PricesType[];
 };
 
 type Order = Tables<"orders"> & {
@@ -33,7 +28,6 @@ export type TransformedOrder = Omit<Order, "order_items"> & {
   order_items: TransformedOrderItem[];
 };
 
-// Transform function with correct typings
 function transformOrderData(data: Order[]): TransformedOrder[] {
   return data.map((order) => {
     const productMap = new Map<number, TransformedOrderItem>();
@@ -70,7 +64,6 @@ function transformOrderData(data: Order[]): TransformedOrder[] {
   });
 }
 
-// Corrected getOrders function with proper typings
 export async function getOrders({
   status,
   page = 1,
@@ -80,25 +73,41 @@ export async function getOrders({
 
   let query = supabase
     .from("orders")
-    .select(
-      `
-      *,
-      order_items(*, product:products(*))
-    `
-    )
+    .select(`*, order_items(*, product:products(*))`)
     .range(from, to);
 
   if (status) {
-    query = query.eq("status", status);
+    const statusMapping: { [key in OrderStatusEnum]: string[] } = {
+      [OrderStatusEnum.ACTIVE]: ["PLACED", "CONFIRMED", "ON_THE_WAY"],
+      [OrderStatusEnum.ARCHIVED]: ["DELIVERED", "CANCELLED"],
+    };
+
+    query = query.in("status", statusMapping[status]);
   }
 
   const { data, error } = await query;
 
   if (error) {
-    console.error(error);
+    console.error("Error loading orders:", error);
     throw new Error("Orders could not be loaded");
   }
-  const transformedData = transformOrderData(data as Order[]);
 
-  return transformedData;
+  return transformOrderData(data as Order[]);
+}
+
+export async function getOrder(
+  orderId: number
+): Promise<TransformedOrder | null> {
+  const { data, error } = await supabase
+    .from("orders")
+    .select(`*, order_items(*, product:products(*))`)
+    .eq("id", orderId)
+    .single();
+
+  if (error) {
+    console.error("Error fetching order:", error);
+    throw new Error("Order not found");
+  }
+
+  return transformOrderData([data as Order])[0];
 }

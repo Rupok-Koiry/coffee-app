@@ -34,25 +34,25 @@ const statuses: Status[] = [
     description:
       "Your order has been successfully placed and is being processed.",
     icon: "cart",
-    status: "placed",
+    status: "PLACED",
   },
   {
     title: "Order Confirmed",
     description: "Your order has been confirmed and will be prepared shortly.",
     icon: "checkmark-circle",
-    status: "confirmed",
+    status: "CONFIRMED",
   },
   {
     title: "On The Way",
     description: "Your order is on its way! It will reach you soon.",
     icon: "bicycle",
-    status: "onTheWay",
+    status: "ON_THE_WAY",
   },
   {
     title: "Order Delivered",
     description: "Your order has been delivered. Enjoy your purchase!",
     icon: "home",
-    status: "delivered",
+    status: "DELIVERED",
   },
 ];
 

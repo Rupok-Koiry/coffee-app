@@ -1,9 +1,9 @@
-import { Enums } from "@/constants/types";
+import { Enums, OrderStatusEnum } from "@/constants/types";
 import { getOrders } from "@/services/apiOrders";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 type UseOrdersParams = {
-  status?: Enums<"order_status_enum">;
+  status?: OrderStatusEnum;
 };
 
 export function useOrders({ status }: UseOrdersParams) {
