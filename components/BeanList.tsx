@@ -1,7 +1,7 @@
-import { FlatList, TouchableOpacity, StyleSheet, Text } from "react-native";
+import { Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useCallback } from "react";
-import { useRouter } from "expo-router";
 import CoffeeCard from "./CoffeeCard";
+import { useRouter } from "expo-router";
 import { useProducts } from "@/api/products/useProducts";
 import CoffeeCardSkeleton from "./loader/CoffeeCardSkeleton";
 import ErrorText from "./ErrorText";
@@ -10,17 +10,22 @@ const BeanList = () => {
   const router = useRouter();
   const {
     products: beans,
-    fetchNextPage,
     isFetching,
     error,
     hasNextPage,
-  } = useProducts("BEAN");
+    fetchNextPage,
+  } = useProducts({ type: "BEAN" });
 
   const loadMore = useCallback(() => {
     if (hasNextPage) fetchNextPage();
   }, [hasNextPage, fetchNextPage]);
-  if (isFetching) return <CoffeeCardSkeleton />;
+
   if (error) return <ErrorText message={error.message} />;
+
+  // Add skeleton items when fetching
+  const dataWithSkeletons = isFetching
+    ? [...beans, ...Array(3).fill({ isSkeleton: true })]
+    : beans;
 
   return (
     <FlatList
@@ -31,10 +36,16 @@ const BeanList = () => {
         </Text>
       }
       showsHorizontalScrollIndicator={false}
-      data={beans}
+      data={dataWithSkeletons}
       contentContainerStyle={styles.FlatListContainer}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item, index) =>
+        item.isSkeleton ? `skeleton-${index}` : item.id.toString()
+      }
       renderItem={({ item }) => {
+        if (item.isSkeleton) {
+          return <CoffeeCardSkeleton />;
+        }
+
         return (
           <TouchableOpacity
             onPress={() => {
@@ -57,11 +68,12 @@ const BeanList = () => {
     />
   );
 };
+
+export default BeanList;
+
 const styles = StyleSheet.create({
   FlatListContainer: {
     gap: 16,
     paddingVertical: 20,
   },
 });
-
-export default BeanList;

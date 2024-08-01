@@ -4,19 +4,15 @@ import { COLORS } from "@/theme/theme";
 import { Ionicons } from "@expo/vector-icons";
 
 type SearchInputProps = {
-  searchCoffee: (text: string) => void;
-  resetSearchCoffee: () => void;
+  onSearch: (text: string) => void;
 };
 
-const SearchInput = ({ searchCoffee, resetSearchCoffee }: SearchInputProps) => {
+const SearchInput = ({ onSearch }: SearchInputProps) => {
   const [searchText, setSearchText] = useState("");
+
   return (
     <View className="flex-row my-5 rounded-xl bg-primary-dark-grey items-center border border-primary-grey">
-      <TouchableOpacity
-        onPress={() => {
-          searchCoffee(searchText);
-        }}
-      >
+      <TouchableOpacity onPress={() => onSearch(searchText)}>
         <Ionicons
           style={{ marginHorizontal: 12 }}
           name="search"
@@ -33,7 +29,6 @@ const SearchInput = ({ searchCoffee, resetSearchCoffee }: SearchInputProps) => {
         value={searchText}
         onChangeText={(text) => {
           setSearchText(text);
-          searchCoffee(text);
         }}
         placeholderTextColor={COLORS.primaryLightGreyHex}
         className="flex-1 font-poppins-medium text-sm text-primary-white py-3"
@@ -43,7 +38,6 @@ const SearchInput = ({ searchCoffee, resetSearchCoffee }: SearchInputProps) => {
         <TouchableOpacity
           onPress={() => {
             setSearchText("");
-            resetSearchCoffee();
           }}
         >
           <Ionicons

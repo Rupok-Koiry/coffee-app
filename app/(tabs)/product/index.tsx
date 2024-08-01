@@ -8,9 +8,34 @@ import CoffeeList from "@/components/CoffeeList";
 import BeanList from "@/components/BeanList";
 import { COLORS } from "@/theme/theme";
 
+const categories = [
+  {
+    label: "All",
+    value: "",
+  },
+  {
+    label: "Americano",
+    value: "Americano",
+  },
+  {
+    label: "Latte",
+    value: "Latte",
+  },
+  {
+    label: "Cappuccino",
+    value: "Cappuccino",
+  },
+  {
+    label: "Espresso",
+    value: "Espresso",
+  },
+  {
+    label: "Macchiato",
+    value: "Macchiato",
+  },
+];
 const HomeScreen = () => {
-  const categories = ["All", "Espresso", "Latte", "Cappuccino", "Macchiato"];
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState("");
   return (
     <SafeAreaView className="bg-primary-black flex-1">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -20,7 +45,11 @@ const HomeScreen = () => {
           <Text className="font-poppins-semibold text-3xl text-primary-white">
             Find the best{"\n"}coffee for you
           </Text>
-          <SearchInput searchCoffee={() => {}} resetSearchCoffee={() => {}} />
+          <SearchInput
+            onSearch={(text) => {
+              console.log(text);
+            }}
+          />
           <Categories
             categories={categories}
             activeCategory={activeCategory}

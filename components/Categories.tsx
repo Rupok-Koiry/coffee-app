@@ -2,7 +2,10 @@ import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 
 type CategoriesProps = {
-  categories: string[];
+  categories: {
+    label: string;
+    value: string;
+  }[];
   activeCategory: string;
   setActiveCategory: (category: string) => void;
 };
@@ -22,21 +25,21 @@ const Categories = ({
           <TouchableOpacity
             className="items-center"
             onPress={() => {
-              setActiveCategory(category);
+              setActiveCategory(category.value);
             }}
           >
             <Text
               className={`font-poppins-semibold 
               ${
-                category == activeCategory
+                category.value == activeCategory
                   ? "text-primary-orange"
                   : "text-primary-light-grey"
               }
                 `}
             >
-              {category}
+              {category.label}
             </Text>
-            {category === activeCategory && (
+            {category.value === activeCategory && (
               <View className="h-2 w-2 rounded-full bg-primary-orange" />
             )}
           </TouchableOpacity>

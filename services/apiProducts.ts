@@ -1,20 +1,23 @@
+import { PAGE_LIMIT } from "@/constants/constants";
+import { Enums } from "@/constants/database.types";
 import supabase from "./supabase";
+
 type getProductsParams = {
-  type: string;
+  type: Enums<"product_type_enum">;
   filter?: string;
+  searchText?: string;
   page?: number;
-  limit?: number;
 };
 export async function getProducts({
   type,
   filter,
+  searchText,
   page = 1,
-  limit = 10,
 }: getProductsParams) {
-  const from = (page - 1) * limit;
-  const to = from + limit - 1;
+  const from = (page - 1) * PAGE_LIMIT;
+  const to = from + PAGE_LIMIT - 1;
 
-  const { data, error } = await supabase
+  const query = supabase
     .from("products")
     .select(
       `
@@ -27,8 +30,16 @@ export async function getProducts({
     `
     )
     .eq("type", type)
-    .eq("name", filter || "")
     .range(from, to);
+
+  if (filter) {
+    query.eq("name", filter);
+  }
+  if (searchText) {
+    query.ilike("name", `%${searchText}%`);
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     console.error(error);

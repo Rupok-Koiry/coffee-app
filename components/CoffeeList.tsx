@@ -1,5 +1,5 @@
 import { Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import CoffeeCard from "./CoffeeCard";
 import { useRouter } from "expo-router";
 import { useProducts } from "@/api/products/useProducts";
@@ -9,6 +9,7 @@ import ErrorText from "./ErrorText";
 type CoffeeListProps = {
   activeCategory: string;
 };
+
 const CoffeeList = ({ activeCategory }: CoffeeListProps) => {
   const router = useRouter();
   const {
@@ -23,8 +24,12 @@ const CoffeeList = ({ activeCategory }: CoffeeListProps) => {
     if (hasNextPage) fetchNextPage();
   }, [hasNextPage, fetchNextPage]);
 
-  if (isFetching) return <CoffeeCardSkeleton />;
   if (error) return <ErrorText message={error.message} />;
+
+  // Add skeleton items when fetching
+  const dataWithSkeletons = isFetching
+    ? [...coffees, ...Array(3).fill({ isSkeleton: true })]
+    : coffees;
 
   return (
     <FlatList
@@ -35,10 +40,16 @@ const CoffeeList = ({ activeCategory }: CoffeeListProps) => {
         </Text>
       }
       showsHorizontalScrollIndicator={false}
-      data={coffees}
+      data={dataWithSkeletons}
       contentContainerStyle={styles.FlatListContainer}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item, index) =>
+        item.isSkeleton ? `skeleton-${index}` : item.id.toString()
+      }
       renderItem={({ item }) => {
+        if (item.isSkeleton) {
+          return <CoffeeCardSkeleton />;
+        }
+
         return (
           <TouchableOpacity
             onPress={() => {
@@ -63,6 +74,7 @@ const CoffeeList = ({ activeCategory }: CoffeeListProps) => {
 };
 
 export default CoffeeList;
+
 const styles = StyleSheet.create({
   FlatListContainer: {
     gap: 16,

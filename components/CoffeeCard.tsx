@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import BgIcon from "./BgIcon";
 import { COLORS } from "@/theme/theme";
+import { SUPABASE_URL } from "@/services/supabase";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.32;
 
@@ -39,7 +40,7 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
     >
       <ImageBackground
         source={{
-          uri: image_square,
+          uri: `${SUPABASE_URL}/storage/v1/object/public/product-images/square/${image_square}`,
         }}
         className="w-full h-full rounded-2xl mb-4 overflow-hidden"
         style={{ width: CARD_WIDTH, height: CARD_WIDTH }}
