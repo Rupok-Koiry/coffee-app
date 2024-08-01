@@ -14,7 +14,7 @@ const CoffeeList = ({ activeCategory }: CoffeeListProps) => {
   const router = useRouter();
   const {
     products: coffees,
-    isFetching,
+    isLoading,
     error,
     hasNextPage,
     fetchNextPage,
@@ -27,7 +27,7 @@ const CoffeeList = ({ activeCategory }: CoffeeListProps) => {
   if (error) return <ErrorText message={error.message} />;
 
   // Add skeleton items when fetching
-  const dataWithSkeletons = isFetching
+  const dataWithSkeletons = isLoading
     ? [...coffees, ...Array(3).fill({ isSkeleton: true })]
     : coffees;
 

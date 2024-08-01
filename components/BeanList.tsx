@@ -10,7 +10,7 @@ const BeanList = () => {
   const router = useRouter();
   const {
     products: beans,
-    isFetching,
+    isLoading,
     error,
     hasNextPage,
     fetchNextPage,
@@ -23,7 +23,7 @@ const BeanList = () => {
   if (error) return <ErrorText message={error.message} />;
 
   // Add skeleton items when fetching
-  const dataWithSkeletons = isFetching
+  const dataWithSkeletons = isLoading
     ? [...beans, ...Array(3).fill({ isSkeleton: true })]
     : beans;
 

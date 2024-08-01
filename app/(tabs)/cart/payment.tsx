@@ -159,7 +159,7 @@ const PaymentScreen = () => {
 
       <PaymentFooter
         buttonTitle={`Pay with ${paymentMode}`}
-        price={{ price: "20", currency: "$" }}
+        price={20}
         buttonPressHandler={buttonPressHandler}
       />
     </SafeAreaView>

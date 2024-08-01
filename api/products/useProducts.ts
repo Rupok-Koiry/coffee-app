@@ -13,7 +13,7 @@ export function useProducts({
   filter = "",
   searchText = "",
 }: UseProductsParams) {
-  const { data, error, fetchNextPage, hasNextPage, isFetching } =
+  const { data, error, fetchNextPage, hasNextPage, isLoading } =
     useInfiniteQuery({
       queryKey: ["products", type, filter, searchText],
       queryFn: ({ pageParam }) =>
@@ -31,6 +31,6 @@ export function useProducts({
     error,
     fetchNextPage,
     hasNextPage,
-    isFetching,
+    isLoading,
   };
 }
