@@ -1,16 +1,4 @@
 import { Database } from "./database.types";
-
-export type PricesType = {
-  size: string;
-  price: string;
-  currency: string;
-};
-
-export type PaymentListType = {
-  name: string;
-  icon: any;
-  isIcon: boolean;
-};
 export type Tables<T extends keyof Database["public"]["Tables"]> =
   Database["public"]["Tables"][T]["Row"];
 
@@ -22,4 +10,20 @@ export type UpdateTables<T extends keyof Database["public"]["Tables"]> =
 
 export type Enums<T extends keyof Database["public"]["Enums"]> =
   Database["public"]["Enums"][T];
-//  npx supabase gen types typescript --project-id ufhlgxxhlsmrrkxildzo > constants/database.types.ts
+
+export type PricesType = {
+  size: string;
+  price: number;
+  quantity: number;
+  total_price: number;
+};
+export type OrderItemType = {
+  id: number;
+  product: Tables<"products">;
+  prices: PricesType[];
+};
+export type PaymentListType = {
+  name: string;
+  icon: any;
+  isIcon: boolean;
+};

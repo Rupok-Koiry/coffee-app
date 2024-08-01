@@ -25,7 +25,7 @@ export async function getProducts({
       prices (
         size,
         price,
-        quantity
+        stock
       )
     `
     )

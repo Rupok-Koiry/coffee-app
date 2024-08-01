@@ -1,19 +1,22 @@
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import OrderItemCard from "./OrderItemCard";
+import { OrderItemType } from "@/constants/types";
 
 interface OrderHistoryCardProps {
   navigationHandler: () => void;
-  cart: any;
-  totalPrice: number;
-  orderDate: string;
+  order_id: number;
+  order_items: OrderItemType[];
+  total_price: number;
+  order_date: string;
 }
 
 const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({
   navigationHandler,
-  cart,
-  totalPrice,
-  orderDate,
+  order_id,
+  order_items,
+  total_price,
+  order_date,
 }) => {
   return (
     <View className="space-y-3">
@@ -23,7 +26,7 @@ const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({
             Order Time
           </Text>
           <Text className="font-poppins-light text-primary-white">
-            {orderDate}
+            {new Date(order_date).toLocaleDateString()}
           </Text>
         </View>
         <View>
@@ -31,7 +34,7 @@ const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({
             Order Id
           </Text>
           <Text className="font-poppins-light text-primary-white">
-            #12345678
+            # {order_id}
           </Text>
         </View>
         <View className="items-end">
@@ -39,20 +42,19 @@ const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({
             Total Amount
           </Text>
           <Text className="font-poppins-light text-primary-orange">
-            $ {totalPrice}
+            $ {total_price}
           </Text>
         </View>
       </View>
       <View className="space-y-5">
-        {cart.map((cartItem: any) => (
-          <TouchableOpacity key={cartItem.id} onPress={navigationHandler}>
+        {order_items.map((order_item: any) => (
+          <TouchableOpacity key={order_item.id} onPress={navigationHandler}>
             <OrderItemCard
-              type={cartItem.type}
-              name={cartItem.name}
-              imagelinkSquare={cartItem.imagelink_square}
-              specialIngredient={cartItem.special_ingredient}
-              prices={cartItem.prices}
-              itemPrice={cartItem.total_price}
+              type={order_item.product.type}
+              name={order_item.product.name}
+              image_square={order_item.product.image_square}
+              special_ingredient={order_item.product.special_ingredient}
+              prices={order_item.prices}
             />
           </TouchableOpacity>
         ))}

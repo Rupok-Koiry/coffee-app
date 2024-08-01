@@ -1,13 +1,80 @@
 import { PAGE_LIMIT } from "@/constants/constants";
-import { Enums } from "@/constants/database.types";
 import supabase from "./supabase";
+import { Enums, Tables } from "@/constants/types";
 
-type getOrdersParams = {
+type GetOrdersParams = {
   status?: Enums<"order_status_enum">;
   page?: number;
 };
 
-export async function getOrders({ status, page = 1 }: getOrdersParams) {
+type OrderItem = Tables<"order_items"> & {
+  product: Tables<"products">;
+};
+
+type TransformedOrderItem = Omit<
+  OrderItem,
+  "size" | "price" | "quantity" | "total_price"
+> & {
+  product_id: number;
+  product: Tables<"products">;
+  prices: {
+    size: string;
+    price: number;
+    quantity: number;
+    total_price: number;
+  }[];
+};
+
+type Order = Tables<"orders"> & {
+  order_items: OrderItem[];
+};
+
+export type TransformedOrder = Omit<Order, "order_items"> & {
+  order_items: TransformedOrderItem[];
+};
+
+// Transform function with correct typings
+function transformOrderData(data: Order[]): TransformedOrder[] {
+  return data.map((order) => {
+    const productMap = new Map<number, TransformedOrderItem>();
+
+    order.order_items.forEach((item) => {
+      const {
+        product_id,
+        size,
+        price,
+        quantity,
+        total_price,
+        product,
+        ...rest
+      } = item;
+
+      if (!productMap.has(product_id)) {
+        productMap.set(product_id, {
+          ...rest,
+          product_id,
+          product,
+          prices: [],
+        });
+      }
+
+      productMap
+        .get(product_id)!
+        .prices.push({ size, price, quantity, total_price });
+    });
+
+    return {
+      ...order,
+      order_items: Array.from(productMap.values()),
+    };
+  });
+}
+
+// Corrected getOrders function with proper typings
+export async function getOrders({
+  status,
+  page = 1,
+}: GetOrdersParams): Promise<TransformedOrder[]> {
   const from = (page - 1) * PAGE_LIMIT;
   const to = from + PAGE_LIMIT - 1;
 
@@ -31,24 +98,7 @@ export async function getOrders({ status, page = 1 }: getOrdersParams) {
     console.error(error);
     throw new Error("Orders could not be loaded");
   }
+  const transformedData = transformOrderData(data as Order[]);
 
-  // Group order items by order ID
-  const orderMap = new Map();
-  data.forEach((order) => {
-    if (!orderMap.has(order.id)) {
-      orderMap.set(order.id, { ...order, order_items: [] });
-    }
-    order.order_items.forEach((item) => {
-      orderMap.get(order.id).order_items.push({
-        ...item,
-        product: item.product,
-        total_price: item.total_price,
-        quantity: item.quantity,
-      });
-    });
-  });
-
-  const processedData = Array.from(orderMap.values());
-
-  return processedData;
+  return transformedData;
 }

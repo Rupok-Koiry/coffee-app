@@ -1,82 +1,95 @@
 import { Dimensions, FlatList, StatusBar, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { COLORS } from "@/theme/theme";
 import PopUpAnimation from "@/components/PopUpAnimation";
 import HeaderBar from "@/components/HeaderBar";
 import EmptyListAnimation from "@/components/EmptyListAnimation";
 import { SafeAreaView } from "react-native-safe-area-context";
-import OrderData from "@/data/OrderData";
 import OrderHistoryCard from "@/components/OrderCard";
-import Button from "@/components/Button";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
+import { useOrders } from "@/api/orders/useOrders";
+import { TransformedOrder } from "@/services/apiOrders";
+
 const initialLayout = { width: Dimensions.get("window").width };
 
 const OrderScreen = () => {
-  const [showAnimation, setShowAnimation] = useState(false);
-  const [index, setIndex] = useState(0);
-  const [routes] = useState([
-    { key: "active", title: "Active Orders" },
-    { key: "archived", title: "Archived Orders" },
-  ]);
-  const activeOrders = OrderData.filter(
-    (order) => order.status === "confirmed"
-  );
-  const archivedOrders = OrderData.filter(
-    (order) => order.status === "delivered"
-  );
+  const {
+    orders: activeOrders,
+    error: activeError,
+    fetchNextPage: fetchNextActivePage,
+    hasNextPage: hasNextActivePage,
+    isLoading: isLoadingActive,
+  } = useOrders({ status: "CONFIRMED" });
+  const {
+    orders: archivedOrders,
+    error: archivedError,
+    fetchNextPage: fetchNextArchivedPage,
+    hasNextPage: hasNextArchivedPage,
+    isLoading: isLoadingArchived,
+  } = useOrders({ status: "DELIVERED" });
 
-  const renderOrders = (orders: any) => (
+  const renderOrders = (
+    orders:TransformedOrder[],
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage
+  ) => (
     <View className="flex-1">
       <FlatList
         data={orders}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         ListEmptyComponent={<EmptyListAnimation title={"No Order History"} />}
-        contentContainerStyle={{
-          padding: 20,
-          gap: 32,
-        }}
+        contentContainerStyle={{ padding: 20, gap: 32 }}
         renderItem={({ item }) => (
           <OrderHistoryCard
             key={item.id}
             navigationHandler={() => {}}
-            cart={item.cart}
-            totalPrice={item.total_price}
-            orderDate={item.order_date}
+            order_id={item.id}
+            order_items={item.order_items}
+            total_price={item.total_price}
+            order_date={item.order_date}
           />
         )}
-        ListFooterComponent={
-          <Button onPress={buttonPressHandler}>Download</Button>
-        }
+        onEndReached={() => hasNextPage && fetchNextPage()}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={isLoading ? <Text>Loading...</Text> : null}
       />
+      {error && <Text>Error: {error.message}</Text>}
     </View>
   );
 
-  const ActiveOrdersRoute = () => renderOrders(activeOrders);
-  const ArchivedOrdersRoute = () => renderOrders(archivedOrders);
+  const ActiveOrdersRoute = () =>
+    renderOrders(
+      activeOrders,
+      isLoadingActive,
+      activeError,
+      fetchNextActivePage,
+      hasNextActivePage
+    );
+  const ArchivedOrdersRoute = () =>
+    renderOrders(
+      archivedOrders,
+      isLoadingArchived,
+      archivedError,
+      fetchNextArchivedPage,
+      hasNextArchivedPage
+    );
 
   const renderScene = SceneMap({
     active: ActiveOrdersRoute,
     archived: ArchivedOrdersRoute,
   });
 
-  const buttonPressHandler = () => {
-    setShowAnimation(true);
-    setTimeout(() => {
-      setShowAnimation(false);
-    }, 3000);
-  };
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: "active", title: "Active Orders" },
+    { key: "archived", title: "Archived Orders" },
+  ]);
 
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
-
-      {showAnimation && (
-        <PopUpAnimation
-          style={{ height: 300 }}
-          source={require("@/lottie/download.json")}
-        />
-      )}
-
       <View className="flex-1">
         <HeaderBar title="Order History" />
         <View className="flex-1 justify-between">
@@ -84,7 +97,7 @@ const OrderScreen = () => {
             navigationState={{ index, routes }}
             renderScene={renderScene}
             onIndexChange={setIndex}
-            initialLayout={{ width: Dimensions.get("window").width }}
+            initialLayout={initialLayout}
             renderTabBar={(props) => (
               <TabBar
                 {...props}
@@ -96,9 +109,9 @@ const OrderScreen = () => {
                 style={{
                   backgroundColor: COLORS.primaryBlackHex,
                 }}
-                renderLabel={({ route, focused, color }) => (
+                renderLabel={({ route, focused }) => (
                   <Text
-                    className={`mb-2  ${
+                    className={`mb-2 ${
                       focused ? "text-primary-orange" : "text-primary-white"
                     } font-poppins-medium text-base`}
                   >

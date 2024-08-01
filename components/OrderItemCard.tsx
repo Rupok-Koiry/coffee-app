@@ -1,24 +1,24 @@
-import { Text, View, Image, ImageProps } from "react-native";
+import { Text, View, Image } from "react-native";
 import React from "react";
 import { COLORS } from "../theme/theme";
 import { LinearGradient } from "expo-linear-gradient";
+import { SUPABASE_URL } from "@/services/supabase";
+import { PricesType } from "@/constants/types";
 
 interface OrderItemCardProps {
   type: string;
   name: string;
-  imagelinkSquare: ImageProps;
-  specialIngredient: string;
-  prices: any;
-  itemPrice: string;
+  image_square: string;
+  special_ingredient: string;
+  prices: PricesType[];
 }
 
 const OrderItemCard: React.FC<OrderItemCardProps> = ({
   type,
   name,
-  imagelinkSquare,
-  specialIngredient,
+  image_square,
+  special_ingredient,
   prices,
-  itemPrice,
 }) => {
   return (
     <LinearGradient
@@ -30,23 +30,34 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
     >
       <View className="flex-row justify-between items-center">
         <View className="flex-row  items-center" style={{ gap: 16 }}>
-          <Image source={imagelinkSquare} className="h-24 w-24 rounded-xl" />
+          <Image
+            source={{
+              uri: `${SUPABASE_URL}/storage/v1/object/public/product-images/square/${image_square}`,
+            }}
+            className="h-24 w-24 rounded-xl"
+          />
           <View>
             <Text className="font-poppins-medium text-lg text-primary-white">
               {name}
             </Text>
             <Text className="font-poppins-regular text-xs text-secondary-light-grey">
-              {specialIngredient}
+              {special_ingredient}
             </Text>
           </View>
         </View>
         <View>
           <Text className="font-poppins-semibold text-lg text-primary-orange">
-            $<Text className="text-primary-white">{itemPrice}</Text>
+            $
+            <Text className="text-primary-white">
+              {prices.reduce(
+                (acc, price) => acc + price.quantity * price.price,
+                0
+              )}
+            </Text>
           </Text>
         </View>
       </View>
-      {prices.map((price: any, index: any) => (
+      {prices.map((price, index) => (
         <View
           key={index.toString()}
           className="flex-1 flex-row justify-between items-center"
@@ -65,8 +76,7 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
             </View>
             <View className="bg-black h-10 flex-1 rounded-r-lg justify-center items-center border-l border-primary-grey">
               <Text className="font-poppins-semibold text-base text-primary-orange">
-                {price.currency}
-                <Text className="text-primary-white">{price.price}</Text>
+                $<Text className="text-primary-white">{price.price}</Text>
               </Text>
             </View>
           </View>
@@ -76,7 +86,7 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
               X <Text className="text-primary-white">{price.quantity}</Text>
             </Text>
             <Text className="flex-1 text-center font-poppins-semibold text-base text-primary-orange">
-              $ {(price.quantity * price.price).toFixed(2).toString()}
+              $ {price.quantity * price.price}
             </Text>
           </View>
         </View>
