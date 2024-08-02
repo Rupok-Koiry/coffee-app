@@ -19,7 +19,6 @@ type GradientIconProps<T extends IconSetName> = {
   width?: number;
   height?: number;
   iconSet: T;
-  onPress?: () => void;
 };
 
 const GradientIcon = <T extends IconSetName>({
@@ -29,7 +28,6 @@ const GradientIcon = <T extends IconSetName>({
   iconSet,
   width = 9,
   height = 9,
-  onPress,
   ...rest
 }: GradientIconProps<T>) => {
   const IconComponent = Icons[iconSet] as React.ComponentType<
@@ -37,10 +35,7 @@ const GradientIcon = <T extends IconSetName>({
   >;
 
   return (
-    <Pressable
-      className="rounded-xl border-2 border-secondary-dark-grey overflow-hidden"
-      onPress={onPress}
-    >
+    <View className="rounded-xl border-2 border-secondary-dark-grey overflow-hidden">
       <LinearGradient
         colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
         start={{ x: 0, y: 0 }}
@@ -49,7 +44,7 @@ const GradientIcon = <T extends IconSetName>({
       >
         <IconComponent size={size} name={name} color={color} {...rest} />
       </LinearGradient>
-    </Pressable>
+    </View>
   );
 };
 

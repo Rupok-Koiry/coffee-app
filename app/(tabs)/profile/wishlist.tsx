@@ -15,19 +15,23 @@ import {
   StyleSheet,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDeleteWishlist } from "@/api/wishlist/useDeleteWishlist";
 
 const WishlistScreen = () => {
   const router = useRouter();
   const { wishlist, isLoading, error, hasNextPage, fetchNextPage } =
     useWishlist();
+  const { deleteWishlist } = useDeleteWishlist();
 
   const loadMore = useCallback(() => {
     if (hasNextPage) fetchNextPage();
   }, [hasNextPage, fetchNextPage]);
 
+  const removeWishlist = async (productId: number) => {
+    await deleteWishlist(productId);
+  };
   if (isLoading) return <Loader />;
   if (error) return <ErrorMessage message={error.message} />;
-
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -37,7 +41,9 @@ const WishlistScreen = () => {
           ListHeaderComponent={
             <HeaderBar title="Favorites" containerClassName="px-0" />
           }
-          ListEmptyComponent={<EmptyListAnimation title={"No Favorites"} />}
+          ListEmptyComponent={
+            <EmptyListAnimation title="Your wishlist is currently empty!" />
+          }
           data={wishlist}
           contentContainerStyle={styles.FlatListContainer}
           keyExtractor={(item) => item.id.toString()}
@@ -61,7 +67,7 @@ const WishlistScreen = () => {
                   roasted={item.product.roasted}
                   description={item.product.description}
                   isFavorite={true}
-                  toggleFavorite={() => {}}
+                  toggleFavorite={() => removeWishlist(item.id)}
                 />
               )}
             </TouchableOpacity>
@@ -78,6 +84,7 @@ export default WishlistScreen;
 
 const styles = StyleSheet.create({
   FlatListContainer: {
+    flex: 1,
     gap: 20,
     padding: 20,
   },

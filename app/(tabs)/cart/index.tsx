@@ -19,7 +19,7 @@ const CartScreen = () => {
       >
         <HeaderBar title="Cart" />
         <View className="flex-1">
-          <View className="flex-1 justify-between">
+          <View className="flex-1">
             {[].length > 0 ? (
               <View className="px-5 space-y-5">
                 {CartData.map((item) => (

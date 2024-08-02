@@ -1,5 +1,6 @@
 import { PAGE_LIMIT } from "@/constants/constants";
 import supabase from "./supabase";
+import { InsertTables, Tables } from "@/constants/types";
 
 type getWishlistParams = {
   userId: string;
@@ -25,5 +26,30 @@ export async function getWishlist({ userId, page = 1 }: getWishlistParams) {
     throw new Error("Wishlist could not be loaded");
   }
 
+  return data;
+}
+
+export async function createWishlist(newWishlist: InsertTables<"wishlist">) {
+  const { data, error } = await supabase
+    .from("wishlist")
+    .insert([newWishlist])
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error("Failed to create wishlist");
+  }
+  return data;
+}
+
+export async function deleteWishlist(wishlistId: number) {
+  const { data, error } = await supabase
+    .from("wishlist")
+    .delete()
+    .eq("id", wishlistId);
+
+  if (error) {
+    throw new Error("Wishlist could not be deleted");
+  }
   return data;
 }

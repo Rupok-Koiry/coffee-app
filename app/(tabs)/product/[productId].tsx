@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   StatusBar,
+  StyleSheet,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PaymentFooter from "@/components/PaymentFooter";
@@ -15,6 +16,9 @@ import { useProduct } from "@/api/products/useProduct";
 import Loader from "@/components/loader/Loader";
 import { Tables } from "@/constants/types";
 import NotFound from "@/components/loader/NotFound";
+import { useCreateWishlist } from "@/api/wishlist/useCreateWishlist";
+import GradientIcon from "@/components/GradientIcon";
+import { useDeleteWishlist } from "@/api/wishlist/useDeleteWishlist";
 
 const DetailsScreen: React.FC = () => {
   const { product, isLoading } = useProduct();
@@ -22,9 +26,17 @@ const DetailsScreen: React.FC = () => {
   const [selectedPrice, setSelectedPrice] = useState<Tables<"prices"> | null>(
     null
   );
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const { createWishlist } = useCreateWishlist();
+  const { deleteWishlist } = useDeleteWishlist();
+
   useEffect(() => {
-    if (product && product.prices.length > 0) {
-      setSelectedPrice(product.prices[0]);
+    if (product) {
+      setIsFavorite(product.is_favorite);
+      if (product.prices.length > 0) {
+        setSelectedPrice(product.prices[0]);
+      }
     }
   }, [product]);
 
@@ -33,6 +45,18 @@ const DetailsScreen: React.FC = () => {
     return (
       <NotFound message="Product not found!" redirectTo="/(tabs)/product" />
     );
+
+  const toggleFavorite = async () => {
+    setIsFavorite(!isFavorite);
+    if (isFavorite) {
+      deleteWishlist(product.id);
+    } else {
+      createWishlist({
+        product_id: product.id,
+        user_id: "2c0cea61-c686-4f7a-b6d2-16983584e121",
+      });
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
@@ -43,7 +67,7 @@ const DetailsScreen: React.FC = () => {
           image_portrait={product.image_portrait}
           type={product.type}
           id={product.id}
-          isFavorite={product.is_favorite}
+          isFavorite={isFavorite}
           name={product.name}
           special_ingredient={product.special_ingredient}
           ingredients={product.ingredients}
@@ -51,7 +75,7 @@ const DetailsScreen: React.FC = () => {
           ratings_count={product.ratings_count}
           roasted={product.roasted}
           backHandler={() => {}}
-          toggleFavorite={() => {}}
+          toggleFavorite={toggleFavorite}
         />
 
         <View className="p-5">

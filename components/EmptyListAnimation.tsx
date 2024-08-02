@@ -8,7 +8,7 @@ interface EmptyListAnimationProps {
 
 const EmptyListAnimation: React.FC<EmptyListAnimationProps> = ({ title }) => {
   return (
-    <View className="flex-1 justify-center px-5">
+    <View className="flex-1 justify-center items-center px-5">
       <LottieView
         style={{
           width: Dimensions.get("window").width,

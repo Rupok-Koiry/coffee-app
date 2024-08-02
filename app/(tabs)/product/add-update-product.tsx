@@ -263,7 +263,7 @@ const AddProductScreen: React.FC = () => {
                   name="remove"
                   iconSet="Ionicons"
                   color={COLORS.primaryOrangeHex}
-                  onPress={() => remove(index)}
+                  // onPress={() => remove(index)}
                 />
               </View>
             ))}
