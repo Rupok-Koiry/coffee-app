@@ -16,7 +16,7 @@ import EmptyListAnimation from "@/components/EmptyListAnimation";
 import OrderHistoryCard from "@/components/OrderCard";
 import { useOrders } from "@/api/orders/useOrders";
 import { TransformedOrder } from "@/services/apiOrders";
-import ErrorText from "@/components/ErrorText";
+import ErrorMessage from "@/components/ErrorMessage";
 import { useRouter } from "expo-router";
 import { OrderStatusEnum } from "@/constants/types";
 
@@ -69,7 +69,7 @@ const OrderScreen: React.FC = () => {
           onEndReached={() => hasNextPage && fetchNextPage()}
           onEndReachedThreshold={0.5}
         />
-        {error && <ErrorText message="Order could not be load!" />}
+        {error && <ErrorMessage message="Order could not be load!" />}
       </View>
     ),
     []

@@ -8,18 +8,18 @@ interface EmptyListAnimationProps {
 
 const EmptyListAnimation: React.FC<EmptyListAnimationProps> = ({ title }) => {
   return (
-    <View className="flex-1 justify-center">
+    <View className="flex-1 justify-center px-5">
       <LottieView
         style={{
-          width: Dimensions.get("window").width / 2,
-          height: Dimensions.get("window").width / 2,
+          width: Dimensions.get("window").width,
+          height: Dimensions.get("window").width,
           alignSelf: "center",
         }}
-        source={require("../lottie/coffeecup.json")}
+        source={require("../lottie/coffee.json")}
         autoPlay
         loop
       />
-      <Text className="font-poppins-medium text-lg text-primary-orange text-center">
+      <Text className="font-poppins-medium text-lg text-primary-orange text-center -mt-20">
         {title}
       </Text>
     </View>

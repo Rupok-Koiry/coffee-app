@@ -11,7 +11,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link } from "expo-router";
 import Button from "@/components/Button";
 import { COLORS } from "@/theme/theme";
 import ProfileOption from "@/components/ProfileOption";
@@ -74,7 +73,7 @@ const ProfileScreen: React.FC = () => {
             <ProfileOption
               iconName="heart"
               label="Wishlist"
-              link="/(tabs)/profile/favorite"
+              link="/(tabs)/profile/wishlist"
             />
             <ProfileOption
               iconName="storefront"

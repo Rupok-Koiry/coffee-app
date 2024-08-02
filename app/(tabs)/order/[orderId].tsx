@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import OrderData from "@/data/OrderData";
 import OrderHistoryCard from "@/components/OrderCard";
 import OrderStatus from "@/components/OrderStatus";
-import { useOrder } from "@/api/orders/useProduct";
+import { useOrder } from "@/api/orders/useOrder";
 import Loader from "@/components/loader/Loader";
 import NotFound from "@/components/loader/NotFound";
 

@@ -10,6 +10,7 @@ type HeaderBarProps = {
   iconName?: string;
   iconSet?: keyof typeof Icons;
   showProfilePic?: boolean;
+  containerClassName?: string;
 };
 
 const HeaderBar = ({
@@ -17,9 +18,12 @@ const HeaderBar = ({
   iconName = "chevron-back",
   iconSet = "Ionicons",
   showProfilePic = true,
+  containerClassName,
 }: HeaderBarProps) => {
   return (
-    <View className="flex-row justify-between items-center p-5">
+    <View
+      className={`flex-row justify-between items-center px-5 py-5 ${containerClassName}`}
+    >
       <GradientIcon
         name={iconName}
         size={20}

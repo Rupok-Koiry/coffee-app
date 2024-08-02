@@ -1,34 +1,35 @@
-import { StyleSheet, Text, View, ImageProps } from "react-native";
+import { Text, View } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import ImageBackgroundInfo from "./ImageBackgroundInfo";
 import { COLORS } from "@/theme/theme";
+import { Enums } from "@/constants/database.types";
 
-interface FavoritesItemCardProps {
-  id: string;
-  imagelinkPortrait: ImageProps;
+interface WishlistItemCardProps {
+  id: number;
+  image_portrait: string;
   name: string;
-  specialIngredient: string;
-  type: string;
+  special_ingredient: string;
+  type: Enums<"product_type_enum">;
   ingredients: string;
-  averageRating: number;
-  ratingsCount: string;
-  roastedLevel: string;
+  average_rating: number;
+  ratings_count: number;
+  roasted: string;
   description: string;
   isFavorite: boolean;
   toggleFavorite: () => void;
 }
 
-const FavoritesItemCard: React.FC<FavoritesItemCardProps> = ({
+const WishlistItemCard: React.FC<WishlistItemCardProps> = ({
   id,
-  imagelinkPortrait,
+  image_portrait,
   name,
-  specialIngredient,
+  special_ingredient,
   type,
   ingredients,
-  averageRating,
-  ratingsCount,
-  roastedLevel,
+  average_rating,
+  ratings_count,
+  roasted,
   description,
   isFavorite,
   toggleFavorite,
@@ -38,15 +39,15 @@ const FavoritesItemCard: React.FC<FavoritesItemCardProps> = ({
       <ImageBackgroundInfo
         id={id}
         enableBackHandler={false}
-        imagelinkPortrait={imagelinkPortrait}
+        image_portrait={image_portrait}
         type={type}
         isFavorite={isFavorite}
         name={name}
-        specialIngredient={specialIngredient}
+        special_ingredient={special_ingredient}
         ingredients={ingredients}
-        averageRating={averageRating}
-        ratingsCount={ratingsCount}
-        roastedLevel={roastedLevel}
+        average_rating={average_rating}
+        ratings_count={ratings_count}
+        roasted={roasted}
         toggleFavorite={toggleFavorite}
       />
       <LinearGradient
@@ -70,4 +71,4 @@ const FavoritesItemCard: React.FC<FavoritesItemCardProps> = ({
   );
 };
 
-export default FavoritesItemCard;
+export default WishlistItemCard;

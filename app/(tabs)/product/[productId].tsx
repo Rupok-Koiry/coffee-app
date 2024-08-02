@@ -43,7 +43,7 @@ const DetailsScreen: React.FC = () => {
           image_portrait={product.image_portrait}
           type={product.type}
           id={product.id}
-          isFavorite={true}
+          isFavorite={product.is_favorite}
           name={product.name}
           special_ingredient={product.special_ingredient}
           ingredients={product.ingredients}

@@ -8,32 +8,6 @@ import CoffeeList from "@/components/CoffeeList";
 import BeanList from "@/components/BeanList";
 import { COLORS } from "@/theme/theme";
 
-const categories = [
-  {
-    label: "All",
-    value: "",
-  },
-  {
-    label: "Americano",
-    value: "Americano",
-  },
-  {
-    label: "Latte",
-    value: "Latte",
-  },
-  {
-    label: "Cappuccino",
-    value: "Cappuccino",
-  },
-  {
-    label: "Espresso",
-    value: "Espresso",
-  },
-  {
-    label: "Macchiato",
-    value: "Macchiato",
-  },
-];
 const HomeScreen = () => {
   const [activeCategory, setActiveCategory] = useState("");
   return (
@@ -51,7 +25,6 @@ const HomeScreen = () => {
             }}
           />
           <Categories
-            categories={categories}
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
           />

@@ -8,6 +8,7 @@ type getProductsParams = {
   searchText?: string;
   page?: number;
 };
+
 export async function getProducts({
   type,
   filter,
@@ -49,17 +50,41 @@ export async function getProducts({
   return data;
 }
 
-export async function getProduct(productId: number) {
-  const { data, error } = await supabase
-    .from("products")
-    .select("*, prices(*)")
-    .eq("id", productId)
-    .single();
+export async function getProduct(productId: number, userId: string) {
+  // Run both queries in parallel
+  const [productResponse, wishlistResponse] = await Promise.all([
+    supabase
+      .from("products")
+      .select("*, prices(*)")
+      .eq("id", productId)
+      .single(),
+    supabase
+      .from("wishlist")
+      .select("product_id")
+      .eq("user_id", userId)
+      .eq("product_id", productId)
+      .single(),
+  ]);
 
-  if (error) {
-    console.error(error);
+  // Destructure data and errors from the responses
+  const { data: productData, error: productError } = productResponse;
+  const { data: wishlistData, error: wishlistError } = wishlistResponse;
+
+  // Handle product fetch error
+  if (productError) {
+    console.error(productError);
     throw new Error("Product not found");
   }
 
-  return data;
+  // Handle wishlist fetch error (excluding no rows returned error)
+  if (wishlistError && wishlistError.code !== "PGRST116") {
+    // PGRST116 indicates no rows returned
+    console.error(wishlistError);
+    throw new Error("Could not check favorite status");
+  }
+
+  // Determine if the product is in the wishlist
+  const is_favorite = !!wishlistData;
+
+  return { ...productData, is_favorite };
 }

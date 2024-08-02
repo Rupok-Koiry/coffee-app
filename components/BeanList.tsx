@@ -4,13 +4,13 @@ import CoffeeCard from "./CoffeeCard";
 import { useRouter } from "expo-router";
 import { useProducts } from "@/api/products/useProducts";
 import CoffeeCardSkeleton from "./loader/CoffeeCardSkeleton";
-import ErrorText from "./ErrorText";
+import ErrorMessage from "./ErrorMessage";
 
 const BeanList = () => {
   const router = useRouter();
   const {
     products: beans,
-    isLoading,
+    isFetching,
     error,
     hasNextPage,
     fetchNextPage,
@@ -20,10 +20,10 @@ const BeanList = () => {
     if (hasNextPage) fetchNextPage();
   }, [hasNextPage, fetchNextPage]);
 
-  if (error) return <ErrorText message={error.message} />;
+  if (error) return <ErrorMessage message={error.message} />;
 
   // Add skeleton items when fetching
-  const dataWithSkeletons = isLoading
+  const dataWithSkeletons = isFetching
     ? [...beans, ...Array(3).fill({ isSkeleton: true })]
     : beans;
 
