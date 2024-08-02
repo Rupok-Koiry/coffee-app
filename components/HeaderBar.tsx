@@ -22,7 +22,7 @@ const HeaderBar = ({
 }: HeaderBarProps) => {
   return (
     <View
-      className={`flex-row justify-between items-center px-5 py-5 ${containerClassName}`}
+      className={`flex-row justify-between items-center p-5 ${containerClassName}`}
     >
       <GradientIcon
         name={iconName}

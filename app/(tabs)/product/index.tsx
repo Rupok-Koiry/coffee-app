@@ -7,21 +7,23 @@ import Categories from "@/components/Categories";
 import CoffeeList from "@/components/CoffeeList";
 import BeanList from "@/components/BeanList";
 import { COLORS } from "@/theme/theme";
+import { useRouter } from "expo-router";
 
 const HomeScreen = () => {
   const [activeCategory, setActiveCategory] = useState("");
+  const router = useRouter();
   return (
     <SafeAreaView className="bg-primary-black flex-1">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
       <ScrollView>
         <HeaderBar />
         <View className="px-5">
-          <Text className="font-poppins-semibold text-3xl text-primary-white">
+          <Text className="font-poppins-semibold text-3xl text-primary-white mb-5">
             Find the best{"\n"}coffee for you
           </Text>
           <SearchInput
             onSearch={(text) => {
-              console.log(text);
+              router.push(`/(tabs)/product/search?search=${text}`);
             }}
           />
           <Categories

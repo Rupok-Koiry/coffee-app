@@ -30,22 +30,23 @@ const WishlistScreen = () => {
   const removeWishlist = async (productId: number) => {
     await deleteWishlist(productId);
   };
+
   if (isLoading) return <Loader />;
   if (error) return <ErrorMessage message={error.message} />;
+
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
-
       <View className="flex-1">
         <FlatList
           ListHeaderComponent={
-            <HeaderBar title="Favorites" containerClassName="px-0" />
+            <HeaderBar title="Wishlist" containerClassName="p-0" />
           }
           ListEmptyComponent={
-            <EmptyListAnimation title="Your wishlist is currently empty!" />
+            <EmptyListAnimation title="Your wishlist is empty!" />
           }
           data={wishlist}
-          contentContainerStyle={styles.FlatListContainer}
+          contentContainerStyle={styles.flatListContainer}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity
@@ -83,8 +84,7 @@ const WishlistScreen = () => {
 export default WishlistScreen;
 
 const styles = StyleSheet.create({
-  FlatListContainer: {
-    flex: 1,
+  flatListContainer: {
     gap: 20,
     padding: 20,
   },

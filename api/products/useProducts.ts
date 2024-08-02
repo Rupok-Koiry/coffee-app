@@ -1,23 +1,22 @@
 import { Enums } from "@/constants/types";
 import { getProducts } from "@/services/apiProducts";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useLocalSearchParams } from "expo-router";
 
 type UseProductsParams = {
-  type: Enums<"product_type_enum">;
+  type?: Enums<"product_type_enum">;
   filter?: string;
-  searchText?: string;
 };
 
-export function useProducts({
-  type,
-  filter = "",
-  searchText = "",
-}: UseProductsParams) {
+export function useProducts({ type, filter = "" }: UseProductsParams) {
+  const { search } = useLocalSearchParams();
+  const convertedSearch = search as string;
+
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
-      queryKey: ["products", type, filter, searchText],
+      queryKey: ["products", type, filter, search],
       queryFn: ({ pageParam }) =>
-        getProducts({ type, filter, searchText, page: pageParam }),
+        getProducts({ type, filter, search: convertedSearch, page: pageParam }),
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages) => {
         if (lastPage.length === 0) return;

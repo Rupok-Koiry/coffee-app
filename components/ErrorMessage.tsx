@@ -10,7 +10,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => {
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
       <View className="flex-1 justify-center">
-        <Text className="font-poppins-medium text-lg text-primary-orange text-center">
+        <Text className="font-poppins-medium text-lg text-secondary-light-grey text-center">
           {message}
         </Text>
       </View>

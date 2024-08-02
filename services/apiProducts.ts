@@ -3,16 +3,17 @@ import { Enums } from "@/constants/database.types";
 import supabase from "./supabase";
 
 type getProductsParams = {
-  type: Enums<"product_type_enum">;
+  type?: Enums<"product_type_enum">;
   filter?: string;
-  searchText?: string;
+  search?: string;
   page?: number;
 };
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function getProducts({
   type,
   filter,
-  searchText,
+  search,
   page = 1,
 }: getProductsParams) {
   const from = (page - 1) * PAGE_LIMIT;
@@ -30,15 +31,20 @@ export async function getProducts({
       )
     `
     )
-    .eq("type", type)
     .range(from, to);
+
+  if (type) {
+    query.eq("type", type);
+  }
 
   if (filter) {
     query.eq("name", filter);
   }
-  if (searchText) {
-    query.ilike("name", `%${searchText}%`);
+  if (search) {
+    query.ilike("name", `%${search}%`);
   }
+
+  await delay(5000);
 
   const { data, error } = await query;
 
