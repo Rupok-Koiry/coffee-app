@@ -47,15 +47,16 @@ const DetailsScreen: React.FC = () => {
     );
 
   const toggleFavorite = async () => {
-    setIsFavorite(!isFavorite);
     if (isFavorite) {
-      deleteWishlist(product.id);
+      console.log("Hello");
+      await deleteWishlist(product.id);
     } else {
-      createWishlist({
+      await createWishlist({
         product_id: product.id,
         user_id: "2c0cea61-c686-4f7a-b6d2-16983584e121",
       });
     }
+    setIsFavorite(!isFavorite);
   };
 
   return (

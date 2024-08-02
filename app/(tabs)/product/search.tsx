@@ -1,10 +1,8 @@
 import {
   View,
-  Text,
   StatusBar,
   FlatList,
   TouchableOpacity,
-  StyleSheet,
   ScrollView,
 } from "react-native";
 import React, { useCallback } from "react";
@@ -13,7 +11,6 @@ import { COLORS } from "@/theme/theme";
 import HeaderBar from "@/components/HeaderBar";
 import SearchInput from "@/components/SearchInput";
 import { useProducts } from "@/api/products/useProducts";
-import { SUPABASE_URL } from "@/services/supabase";
 import { useRouter } from "expo-router";
 import SearchCard from "@/components/SearchCard";
 import SearchCardSkeleton from "@/components/loader/SearchCardSkeleton";
@@ -25,11 +22,7 @@ const SearchScreen = () => {
     useProducts({});
 
   const loadMore = useCallback(() => {
-    if (hasNextPage) {
-      console.log("FETCHING NEXT PAGE");
-
-      fetchNextPage();
-    }
+    if (hasNextPage) fetchNextPage();
   }, [hasNextPage, fetchNextPage]);
 
   if (error) return <ErrorMessage message={error.message} />;
@@ -53,7 +46,7 @@ const SearchScreen = () => {
           <FlatList
             data={dataWithSkeletons}
             scrollEnabled={false}
-            contentContainerStyle={styles.FlatListContainer}
+            contentContainerStyle={{ gap: 16 }}
             ListEmptyComponent={
               <ErrorMessage
                 message={
@@ -89,9 +82,3 @@ const SearchScreen = () => {
 };
 
 export default SearchScreen;
-
-const styles = StyleSheet.create({
-  FlatListContainer: {
-    gap: 16,
-  },
-});

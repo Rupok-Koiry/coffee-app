@@ -13,6 +13,7 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDeleteWishlist } from "@/api/wishlist/useDeleteWishlist";
@@ -37,46 +38,47 @@ const WishlistScreen = () => {
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
-      <View className="flex-1">
-        <FlatList
-          ListHeaderComponent={
-            <HeaderBar title="Wishlist" containerClassName="p-0" />
-          }
-          ListEmptyComponent={
-            <EmptyListAnimation title="Your wishlist is empty!" />
-          }
-          data={wishlist}
-          contentContainerStyle={styles.flatListContainer}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => {
-                router.push(`/(tabs)/product/${item.product_id}`);
-              }}
-              key={item.id}
-            >
-              {item.product && (
-                <WishlistItemCard
-                  id={item.id}
-                  image_portrait={item.product.image_portrait}
-                  name={item.product.name}
-                  special_ingredient={item.product.special_ingredient}
-                  type={item.product.type}
-                  ingredients={item.product.ingredients}
-                  average_rating={item.product.average_rating}
-                  ratings_count={item.product.ratings_count}
-                  roasted={item.product.roasted}
-                  description={item.product.description}
-                  isFavorite={true}
-                  toggleFavorite={() => removeWishlist(item.id)}
-                />
-              )}
-            </TouchableOpacity>
-          )}
-          onEndReached={loadMore}
-          onEndReachedThreshold={0.5}
-        />
-      </View>
+      <ScrollView>
+        <View className="flex-1">
+          <HeaderBar title="Wishlist" />
+          <FlatList
+            scrollEnabled={false}
+            ListEmptyComponent={
+              <EmptyListAnimation title="Your wishlist is empty!" />
+            }
+            data={wishlist}
+            contentContainerStyle={styles.flatListContainer}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => {
+                  router.push(`/(tabs)/product/${item.product_id}`);
+                }}
+                key={item.id}
+              >
+                {item.product && (
+                  <WishlistItemCard
+                    id={item.id}
+                    image_portrait={item.product.image_portrait}
+                    name={item.product.name}
+                    special_ingredient={item.product.special_ingredient}
+                    type={item.product.type}
+                    ingredients={item.product.ingredients}
+                    average_rating={item.product.average_rating}
+                    ratings_count={item.product.ratings_count}
+                    roasted={item.product.roasted}
+                    description={item.product.description}
+                    isFavorite={true}
+                    toggleFavorite={() => removeWishlist(item.id)}
+                  />
+                )}
+              </TouchableOpacity>
+            )}
+            onEndReached={loadMore}
+            onEndReachedThreshold={0.5}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

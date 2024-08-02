@@ -44,8 +44,6 @@ export async function getProducts({
     query.ilike("name", `%${search}%`);
   }
 
-  await delay(5000);
-
   const { data, error } = await query;
 
   if (error) {

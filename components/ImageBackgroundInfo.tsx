@@ -100,7 +100,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
           <View className="justify-between space-y-4">
             <View className="flex-row justify-between items-center">
               <View>
-                <Text className="font-poppins-semibold text-2xl text-primary-white">
+                <Text className="font-poppins-semibold text-xl text-primary-white mb-0.5">
                   {name}
                 </Text>
                 <Text className="font-poppins-medium text-xs text-secondary-light-grey">
