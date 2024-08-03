@@ -1,31 +1,13 @@
+import { Tables } from "@/constants/database.types";
+import { PricesType } from "@/constants/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface Price {
-  size: string;
-  price: number;
-  currency: string;
-  quantity: number;
-}
-
-interface CartItem {
-  id: string;
-  name: string;
-  description: string;
-  roasted: string;
-  imagelink_square: string;
-  imagelink_portrait: string;
-  ingredients: string;
-  special_ingredient: string;
-  prices: Price[];
-  average_rating: number;
-  ratings_count: number;
-  is_favorite: boolean;
-  type: string;
-  total_price: number;
-}
-
 interface CartState {
-  items: CartItem[];
+  items: {
+    product: Tables<"products">;
+    prices: PricesType[];
+    total_price: number;
+  }[];
   total_price: number;
 }
 
@@ -34,14 +16,14 @@ const initialState: CartState = {
   total_price: 0,
 };
 
-const calculateItemTotalPrice = (item: CartItem): number => {
+const calculateItemTotalPrice = (item: { prices: PricesType[] }): number => {
   return item.prices.reduce(
     (total, price) => total + price.price * price.quantity,
     0
   );
 };
 
-const calculateTotalPrice = (items: CartItem[]): number => {
+const calculateTotalPrice = (items: { prices: PricesType[] }[]): number => {
   return items.reduce(
     (total, item) => total + calculateItemTotalPrice(item),
     0
@@ -52,9 +34,17 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addItemToCart(state, action: PayloadAction<CartItem>) {
+    addItemToCart(
+      state,
+      action: PayloadAction<{
+        product: Tables<"products">;
+        prices: PricesType[];
+      }>
+    ) {
       const newItem = action.payload;
-      const existingItem = state.items.find((item) => item.id === newItem.id);
+      const existingItem = state.items.find(
+        (item) => item.product.id === newItem.product.id
+      );
 
       if (existingItem) {
         newItem.prices.forEach((newPrice) => {
@@ -69,22 +59,27 @@ const cartSlice = createSlice({
         });
         existingItem.total_price = calculateItemTotalPrice(existingItem);
       } else {
-        newItem.total_price = calculateItemTotalPrice(newItem);
-        state.items.push(newItem);
+        const newItemWithTotal = {
+          ...newItem,
+          total_price: calculateItemTotalPrice(newItem),
+        };
+        state.items.push(newItemWithTotal);
       }
 
       state.total_price = calculateTotalPrice(state.items);
     },
-    removeItemFromCart(state, action: PayloadAction<string>) {
-      state.items = state.items.filter((item) => item.id !== action.payload);
+    removeItemFromCart(state, action: PayloadAction<number>) {
+      state.items = state.items.filter(
+        (item) => item.product.id !== action.payload
+      );
       state.total_price = calculateTotalPrice(state.items);
     },
     updateItemQuantity(
       state,
-      action: PayloadAction<{ id: string; size: string; quantity: number }>
+      action: PayloadAction<{ id: number; size: string; quantity: number }>
     ) {
       const { id, size, quantity } = action.payload;
-      const item = state.items.find((cartItem) => cartItem.id === id);
+      const item = state.items.find((item) => item.product.id === id);
 
       if (item) {
         const price = item.prices.find((price) => price.size === size);
