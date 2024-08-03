@@ -1,17 +1,8 @@
 import { Tables } from "@/constants/database.types";
-import { PricesType } from "@/constants/types";
+import { CartType, PricesType } from "@/constants/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface CartState {
-  items: {
-    product: Tables<"products">;
-    prices: PricesType[];
-    total_price: number;
-  }[];
-  total_price: number;
-}
-
-const initialState: CartState = {
+const initialState: CartType = {
   items: [],
   total_price: 0.0,
 };
@@ -31,7 +22,7 @@ const calculateTotalPrice = (items: { prices: PricesType[] }[]): number => {
 };
 
 const formatPrice = (price: number): number => {
-  return Number(price.toFixed(2));
+  return parseFloat(price.toFixed(2));
 };
 
 const cartSlice = createSlice({

@@ -3,14 +3,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
 import { Dimensions, Text, View } from "react-native";
-import GradientIcon from "./GradientIcon";
 
-interface ProfileOptionProps {
+type ProfileOptionProps = {
   iconName: keyof typeof Ionicons.glyphMap;
   label: string;
   link?: string;
   extraContent?: React.ReactNode;
-}
+};
 
 const ProfileOption: React.FC<ProfileOptionProps> = ({
   iconName,

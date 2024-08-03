@@ -30,7 +30,7 @@ const OrderScreen: React.FC = () => {
     fetchNextPage: fetchNextActivePage,
     hasNextPage: hasNextActivePage,
     isLoading: isLoadingActive,
-  } = useOrders({ status: OrderStatusEnum.ACTIVE });
+  } = useOrders(OrderStatusEnum.ACTIVE);
 
   const {
     orders: archivedOrders,
@@ -38,7 +38,7 @@ const OrderScreen: React.FC = () => {
     fetchNextPage: fetchNextArchivedPage,
     hasNextPage: hasNextArchivedPage,
     isLoading: isLoadingArchived,
-  } = useOrders({ status: OrderStatusEnum.ARCHIVED });
+  } = useOrders(OrderStatusEnum.ARCHIVED);
 
   const renderOrders = useCallback(
     (

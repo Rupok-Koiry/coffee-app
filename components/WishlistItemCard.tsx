@@ -3,51 +3,25 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import ImageBackgroundInfo from "./ImageBackgroundInfo";
 import { COLORS } from "@/theme/theme";
-import { Enums } from "@/constants/database.types";
+import { Tables } from "@/constants/types";
 
-interface WishlistItemCardProps {
-  id: number;
-  image_portrait: string;
-  name: string;
-  special_ingredient: string;
-  type: Enums<"product_type_enum">;
-  ingredients: string;
-  average_rating: number;
-  ratings_count: number;
-  roasted: string;
-  description: string;
+type WishlistItemCardProps = {
+  product: Tables<"products">;
   isFavorite: boolean;
   toggleFavorite: () => void;
-}
+};
 
 const WishlistItemCard: React.FC<WishlistItemCardProps> = ({
-  id,
-  image_portrait,
-  name,
-  special_ingredient,
-  type,
-  ingredients,
-  average_rating,
-  ratings_count,
-  roasted,
-  description,
+  product,
   isFavorite,
   toggleFavorite,
 }) => {
   return (
     <View className="rounded-2xl overflow-hidden">
       <ImageBackgroundInfo
-        id={id}
-        enableBackHandler={false}
-        image_portrait={image_portrait}
-        type={type}
+        product={product}
         isFavorite={isFavorite}
-        name={name}
-        special_ingredient={special_ingredient}
-        ingredients={ingredients}
-        average_rating={average_rating}
-        ratings_count={ratings_count}
-        roasted={roasted}
+        enableBackHandler={false}
         toggleFavorite={toggleFavorite}
       />
       <LinearGradient
@@ -64,7 +38,7 @@ const WishlistItemCard: React.FC<WishlistItemCardProps> = ({
           className="font-poppins-regular text-sm text-primary-white"
           numberOfLines={5}
         >
-          {description}
+          {product.description}
         </Text>
       </LinearGradient>
     </View>

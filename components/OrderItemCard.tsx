@@ -5,13 +5,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import { SUPABASE_URL } from "@/services/supabase";
 import { PricesType } from "@/constants/types";
 
-interface OrderItemCardProps {
+type OrderItemCardProps = {
   type: string;
   name: string;
   image_square: string;
   special_ingredient: string;
   prices: PricesType[];
-}
+};
 
 const OrderItemCard: React.FC<OrderItemCardProps> = ({
   type,

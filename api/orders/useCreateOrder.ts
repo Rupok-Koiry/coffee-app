@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createOrder as createOrderApi } from "@/services/apiOrders";
 import { useCreateOrderItems } from "../order-items/useCreateOrderItems";
-import { Tables } from "@/constants/types";
+import { InsertTables, Tables } from "@/constants/types";
 
 export function useCreateOrder() {
   const queryClient = useQueryClient();
@@ -14,7 +14,7 @@ export function useCreateOrder() {
       orderItems,
     }: {
       order: Tables<"orders">;
-      orderItems: Tables<"order_items">[];
+      orderItems: InsertTables<"order_items">[];
     }) => {
       await createOrderItems(orderItems);
       queryClient.invalidateQueries({ queryKey: ["orders"] });

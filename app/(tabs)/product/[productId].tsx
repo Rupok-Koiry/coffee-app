@@ -67,18 +67,10 @@ const DetailsScreen: React.FC = () => {
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackgroundInfo
-          enableBackHandler={true}
-          image_portrait={product.image_portrait}
-          type={product.type}
-          id={product.id}
+          product={product}
           isFavorite={isFavorite}
-          name={product.name}
-          special_ingredient={product.special_ingredient}
-          ingredients={product.ingredients}
-          average_rating={product.average_rating}
-          ratings_count={product.ratings_count}
-          roasted={product.roasted}
           backHandler={() => {}}
+          enableBackHandler={true}
           toggleFavorite={toggleFavorite}
         />
 

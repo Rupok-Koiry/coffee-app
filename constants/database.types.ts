@@ -99,7 +99,6 @@ export type Database = {
           price: number
           product_id: number
           size: string
-          stock: number
         }
         Insert: {
           created_at?: string
@@ -107,7 +106,6 @@ export type Database = {
           price: number
           product_id: number
           size: string
-          stock: number
         }
         Update: {
           created_at?: string
@@ -115,7 +113,6 @@ export type Database = {
           price?: number
           product_id?: number
           size?: string
-          stock?: number
         }
         Relationships: [
           {

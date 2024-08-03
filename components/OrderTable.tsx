@@ -16,6 +16,8 @@ import { Picker as SelectPicker } from "@react-native-picker/picker";
 import Button from "./Button";
 import GradientIcon from "./GradientIcon";
 import Tag from "./Tag";
+import { useOrders } from "@/api/orders/useOrders";
+import { SUPABASE_URL } from "@/services/supabase";
 
 type Status = {
   title: string;
@@ -81,9 +83,11 @@ const getStatusClassNames = (status: string) => {
 const OrderTable: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState<string>("");
-  const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
+  const [currentOrderId, setCurrentOrderId] = useState<number | null>(null);
 
-  const openModal = (orderId: string) => {
+  const { orders } = useOrders();
+
+  const openModal = (orderId: number) => {
     setCurrentOrderId(orderId);
     setModalVisible(true);
   };
@@ -97,12 +101,12 @@ const OrderTable: React.FC = () => {
     <ScrollView horizontal className="flex-1">
       <View className="flex-1 border-2 border-primary-grey rounded-2xl overflow-hidden">
         <View className="flex-row border-b border-primary-grey p-3 space-x-5">
-          <View style={{ width: 120 }}>
+          <View style={{ width: 80 }}>
             <Text className="text-secondary-light-grey font-poppins-semibold uppercase">
               Order ID
             </Text>
           </View>
-          <View style={{ width: 200 }}>
+          <View style={{ width: 150 }}>
             <Text className="text-secondary-light-grey font-poppins-semibold uppercase">
               Items
             </Text>
@@ -133,7 +137,7 @@ const OrderTable: React.FC = () => {
           start={[0, 0]}
           end={[1, 1]}
         >
-          {OrderData.map((order) => {
+          {orders.map((order) => {
             const { containerClassName, textClassName } = getStatusClassNames(
               order.status
             );
@@ -142,20 +146,22 @@ const OrderTable: React.FC = () => {
                 key={order.id}
                 className="flex-row border-b border-primary-grey space-x-5"
               >
-                <View className="p-3" style={{ width: 120 }}>
+                <View className="p-3" style={{ width: 80 }}>
                   <Text className="text-primary-white font-poppins-regular text-base">
                     {order.id}
                   </Text>
                 </View>
-                <View className="p-3 space-y-2" style={{ width: 200 }}>
-                  {order.cart.map((item, itemIndex) => (
+                <View className="p-3 space-y-2" style={{ width: 150 }}>
+                  {order.order_items.map((item, itemIndex) => (
                     <View key={itemIndex} className="flex-row items-center">
                       <Image
-                        source={item.imagelink_square}
+                        source={{
+                          uri: `${SUPABASE_URL}/storage/v1/object/public/product-images/square/${item.product.image_square}`,
+                        }}
                         className="w-9 h-9 mr-2 rounded-lg"
                       />
                       <Text className="text-secondary-light-grey font-poppins-regular">
-                        {item.name}
+                        {item.product.name}
                       </Text>
                     </View>
                   ))}
@@ -167,7 +173,7 @@ const OrderTable: React.FC = () => {
                 </View>
                 <View className="p-3" style={{ width: 120 }}>
                   <Text className="text-primary-white font-poppins-regular">
-                    {order.order_date}
+                    {new Date(order.order_date).toLocaleDateString()}
                   </Text>
                 </View>
                 <View className="p-3" style={{ width: 120 }}>
@@ -175,7 +181,9 @@ const OrderTable: React.FC = () => {
                     containerClassName={containerClassName}
                     textClassName={textClassName}
                   >
-                    {order.status}
+                    {order.status === "ON_THE_WAY"
+                      ? "ON THE WAY"
+                      : order.status}
                   </Tag>
                 </View>
                 <View className="flex-row space-x-3 p-3" style={{ width: 120 }}>
@@ -198,32 +206,6 @@ const OrderTable: React.FC = () => {
             );
           })}
         </LinearGradient>
-        <View className="flex-row justify-between items-center p-3">
-          <Text className="text-secondary-light-grey font-poppins-medium">
-            Showing 1 to 10 of 331 results
-          </Text>
-          <View
-            className="flex-row justify-between items-center"
-            style={{ gap: 12 }}
-          >
-            <GradientIcon
-              name="chevron-back"
-              iconSet="Ionicons"
-              color={COLORS.primaryOrangeHex}
-              width={6}
-              height={6}
-              size={16}
-            />
-            <GradientIcon
-              name="chevron-forward"
-              iconSet="Ionicons"
-              color={COLORS.primaryOrangeHex}
-              width={6}
-              height={6}
-              size={16}
-            />
-          </View>
-        </View>
       </View>
 
       <Modal

@@ -2,9 +2,9 @@ import { Dimensions, Text, View } from "react-native";
 import React from "react";
 import LottieView from "lottie-react-native";
 
-interface EmptyListAnimationProps {
+type EmptyListAnimationProps = {
   title: string;
-}
+};
 
 const EmptyListAnimation: React.FC<EmptyListAnimationProps> = ({ title }) => {
   return (

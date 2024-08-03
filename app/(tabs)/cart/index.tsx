@@ -7,8 +7,9 @@ import HeaderBar from "@/components/HeaderBar";
 import CartItem from "@/components/CartItem";
 import EmptyListAnimation from "@/components/EmptyListAnimation";
 import PaymentFooter from "@/components/PaymentFooter";
-import { updateItemQuantity } from "@/features/cartSlice";
+import { clearCart, updateItemQuantity } from "@/features/cartSlice";
 import { RootState } from "@/features/store";
+import Button from "@/components/Button";
 
 const CartScreen: React.FC = () => {
   const router = useRouter();
@@ -56,11 +57,19 @@ const CartScreen: React.FC = () => {
             <EmptyListAnimation title="Your cart is empty!" />
           )}
           {cart.items.length > 0 && (
-            <PaymentFooter
-              buttonPressHandler={() => router.push("/(tabs)/cart/payment")}
-              buttonTitle="Pay"
-              price={cart.total_price}
-            />
+            <View>
+              <Button
+                containerClassName="mx-5 mt-5"
+                onPress={() => dispatch(clearCart())}
+              >
+                Reset Cart
+              </Button>
+              <PaymentFooter
+                buttonPressHandler={() => router.push("/(tabs)/cart/payment")}
+                buttonTitle="Pay"
+                price={cart.total_price}
+              />
+            </View>
           )}
         </View>
       </ScrollView>

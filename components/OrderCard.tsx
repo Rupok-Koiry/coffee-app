@@ -3,13 +3,13 @@ import { Text, TouchableOpacity, View } from "react-native";
 import OrderItemCard from "./OrderItemCard";
 import { OrderItemType } from "@/constants/types";
 
-interface OrderHistoryCardProps {
+type OrderHistoryCardProps = {
   navigationHandler: () => void;
   order_id: number;
   order_items: OrderItemType[];
   total_price: number;
   order_date: string;
-}
+};
 
 const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({
   navigationHandler,

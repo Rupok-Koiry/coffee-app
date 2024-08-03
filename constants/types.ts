@@ -32,3 +32,13 @@ export type PaymentListType = {
   icon: any;
   isIcon: boolean;
 };
+export type CartItemType = {
+  product: Tables<"products">;
+  prices: PricesType[];
+  total_price: number;
+};
+
+export type CartType = {
+  items: CartItemType[];
+  total_price: number;
+};

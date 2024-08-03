@@ -58,16 +58,7 @@ const WishlistScreen = () => {
               >
                 {item.product && (
                   <WishlistItemCard
-                    id={item.id}
-                    image_portrait={item.product.image_portrait}
-                    name={item.product.name}
-                    special_ingredient={item.product.special_ingredient}
-                    type={item.product.type}
-                    ingredients={item.product.ingredients}
-                    average_rating={item.product.average_rating}
-                    ratings_count={item.product.ratings_count}
-                    roasted={item.product.roasted}
-                    description={item.product.description}
+                    product={item.product}
                     isFavorite={true}
                     toggleFavorite={() => removeWishlist(item.id)}
                   />

@@ -3,36 +3,30 @@ import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import GradientIcon from "./GradientIcon";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "@/theme/theme";
-import { Enums } from "@/constants/types";
+import { Tables } from "@/constants/types";
 import { SUPABASE_URL } from "@/services/supabase";
 
-interface ImageBackgroundInfoProps {
-  id: number;
-  image_portrait: string;
-  type: Enums<"product_type_enum">;
-  isFavorite: boolean;
-  name: string;
-  special_ingredient: string;
-  ingredients: string;
-  average_rating: number;
-  ratings_count: number;
-  roasted: string;
+type ImageBackgroundInfoProps = {
+  product: Tables<"products">;
   enableBackHandler: boolean;
+  isFavorite: boolean;
   backHandler?: () => void;
   toggleFavorite: () => void;
-}
+};
 
 const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
-  enableBackHandler,
-  image_portrait,
-  type,
+  product: {
+    image_portrait,
+    name,
+    special_ingredient,
+    type,
+    ingredients,
+    average_rating,
+    ratings_count,
+    roasted,
+  },
   isFavorite,
-  name,
-  special_ingredient,
-  ingredients,
-  average_rating,
-  ratings_count,
-  roasted,
+  enableBackHandler,
   backHandler,
   toggleFavorite,
 }) => {

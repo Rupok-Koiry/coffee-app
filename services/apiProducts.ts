@@ -21,16 +21,7 @@ export async function getProducts({
 
   const query = supabase
     .from("products")
-    .select(
-      `
-      *,
-      prices (
-        size,
-        price,
-        stock
-      )
-    `
-    )
+    .select(`*, prices(size, price)`)
     .range(from, to);
 
   if (type) {

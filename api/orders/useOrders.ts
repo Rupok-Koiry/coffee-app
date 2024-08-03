@@ -2,11 +2,7 @@ import { Enums, OrderStatusEnum } from "@/constants/types";
 import { getOrders } from "@/services/apiOrders";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-type UseOrdersParams = {
-  status?: OrderStatusEnum;
-};
-
-export function useOrders({ status }: UseOrdersParams) {
+export function useOrders(status?: OrderStatusEnum) {
   const { data, error, fetchNextPage, hasNextPage, isLoading } =
     useInfiniteQuery({
       queryKey: ["orders", status],

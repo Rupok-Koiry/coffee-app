@@ -16,8 +16,9 @@ import PopUpAnimation from "@/components/PopUpAnimation";
 import { PaymentListType } from "@/constants/types";
 import HeaderBar from "@/components/HeaderBar";
 import { useCreateOrder } from "@/api/orders/useCreateOrder";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/features/store";
+import { clearCart } from "@/features/cartSlice";
 
 const paymentList: PaymentListType[] = [
   {
@@ -45,19 +46,26 @@ const paymentList: PaymentListType[] = [
 const PaymentScreen = () => {
   const [paymentMode, setPaymentMode] = useState("Credit Card");
   const [showAnimation, setShowAnimation] = useState(false);
-
+  const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
   const { createOrder } = useCreateOrder();
-  const buttonPressHandler = () => {
-    // setShowAnimation(true);
-    // setTimeout(() => {
-    //   setShowAnimation(false);
-    // }, 3000);
 
-    createOrder({
-      cart,
-      userId: "2c0cea61-c686-4f7a-b6d2-16983584e121",
-    });
+  const buttonPressHandler = () => {
+    createOrder(
+      {
+        cart,
+        userId: "2c0cea61-c686-4f7a-b6d2-16983584e121",
+      },
+      {
+        onSuccess: () => {
+          dispatch(clearCart());
+          setShowAnimation(true);
+          setTimeout(() => {
+            setShowAnimation(false);
+          }, 3000);
+        },
+      }
+    );
   };
 
   return (
