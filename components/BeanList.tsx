@@ -1,12 +1,15 @@
 import { Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import CoffeeCard from "./CoffeeCard";
 import { useRouter } from "expo-router";
 import { useProducts } from "@/api/products/useProducts";
 import CoffeeCardSkeleton from "./loader/CoffeeCardSkeleton";
 import ErrorMessage from "./ErrorMessage";
+import { addItemToCart } from "@/features/cartSlice";
 
 const BeanList = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const {
     products: beans,
@@ -58,7 +61,21 @@ const BeanList = () => {
               special_ingredient={item.special_ingredient}
               average_rating={item.average_rating}
               price={item.prices[2].price}
-              buttonPressHandler={() => {}}
+              buttonPressHandler={() =>
+                dispatch(
+                  addItemToCart({
+                    product: item,
+                    prices: [
+                      {
+                        size: item.prices[0].size,
+                        price: item.prices[0].price,
+                        quantity: 1,
+                        total_price: item.prices[0].price,
+                      },
+                    ],
+                  })
+                )
+              }
             />
           </TouchableOpacity>
         );

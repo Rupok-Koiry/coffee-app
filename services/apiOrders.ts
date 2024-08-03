@@ -111,3 +111,48 @@ export async function getOrder(
 
   return transformOrderData([data as Order])[0];
 }
+
+const transformCartToOrderData = (cart) => {
+  return cart.items.map((item) => ({
+    product_id: item.product.id,
+    prices: item.prices.map((price) => ({
+      size: price.size,
+      price: price.price,
+      quantity: price.quantity,
+      total_price: price.total_price,
+    })),
+  }));
+};
+
+export const createOrder = async ({ cart, userId }) => {
+  // Create the order
+  const { data: order, error: orderError } = await supabase
+    .from("orders")
+    .insert([
+      {
+        user_id: userId,
+        total_price: parseFloat(cart.total_price), // Ensure the total_price is a number
+        status: "CONFIRMED",
+      },
+    ])
+    .select()
+    .single();
+
+  if (orderError) throw orderError;
+
+  // Transform cart items to order items data
+  const orderItems = transformCartToOrderData(cart);
+
+  const orderItemsData = orderItems.flatMap((item) =>
+    item.prices.map((price) => ({
+      order_id: order.id,
+      product_id: item.product_id,
+      size: price.size,
+      price: price.price,
+      quantity: price.quantity,
+      total_price: price.total_price,
+    }))
+  );
+
+  return { order, orderItems: orderItemsData };
+};

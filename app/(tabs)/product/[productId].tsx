@@ -20,6 +20,8 @@ import { useCreateWishlist } from "@/api/wishlist/useCreateWishlist";
 import GradientIcon from "@/components/GradientIcon";
 import { useDeleteWishlist } from "@/api/wishlist/useDeleteWishlist";
 import { useWishlistStatus } from "@/api/wishlist/useWishlistStatus";
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "@/features/cartSlice";
 
 const DetailsScreen: React.FC = () => {
   const { product, isLoading } = useProduct();
@@ -28,7 +30,7 @@ const DetailsScreen: React.FC = () => {
     null
   );
   const [isFavorite, setIsFavorite] = useState(false);
-
+  const dispatch = useDispatch();
   const { createWishlist } = useCreateWishlist();
   const { deleteWishlist } = useDeleteWishlist();
   const { wishlistId } = useWishlistStatus();
@@ -135,7 +137,21 @@ const DetailsScreen: React.FC = () => {
         <PaymentFooter
           price={selectedPrice?.price || 0}
           buttonTitle="Add to Cart"
-          buttonPressHandler={() => {}}
+          buttonPressHandler={() =>
+            dispatch(
+              addItemToCart({
+                product: product,
+                prices: [
+                  {
+                    size: selectedPrice?.size || "",
+                    price: selectedPrice?.price || 0,
+                    quantity: 1,
+                    total_price: selectedPrice?.price || 0,
+                  },
+                ],
+              })
+            )
+          }
         />
       </ScrollView>
     </SafeAreaView>

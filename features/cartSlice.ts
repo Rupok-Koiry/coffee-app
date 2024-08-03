@@ -13,7 +13,7 @@ interface CartState {
 
 const initialState: CartState = {
   items: [],
-  total_price: 0,
+  total_price: 0.0,
 };
 
 const calculateItemTotalPrice = (item: { prices: PricesType[] }): number => {
@@ -28,6 +28,10 @@ const calculateTotalPrice = (items: { prices: PricesType[] }[]): number => {
     (total, item) => total + calculateItemTotalPrice(item),
     0
   );
+};
+
+const formatPrice = (price: number): number => {
+  return Number(price.toFixed(2));
 };
 
 const cartSlice = createSlice({
@@ -57,22 +61,24 @@ const cartSlice = createSlice({
             existingItem.prices.push(newPrice);
           }
         });
-        existingItem.total_price = calculateItemTotalPrice(existingItem);
+        existingItem.total_price = formatPrice(
+          calculateItemTotalPrice(existingItem)
+        );
       } else {
         const newItemWithTotal = {
           ...newItem,
-          total_price: calculateItemTotalPrice(newItem),
+          total_price: formatPrice(calculateItemTotalPrice(newItem)),
         };
         state.items.push(newItemWithTotal);
       }
 
-      state.total_price = calculateTotalPrice(state.items);
+      state.total_price = formatPrice(calculateTotalPrice(state.items));
     },
     removeItemFromCart(state, action: PayloadAction<number>) {
       state.items = state.items.filter(
         (item) => item.product.id !== action.payload
       );
-      state.total_price = calculateTotalPrice(state.items);
+      state.total_price = formatPrice(calculateTotalPrice(state.items));
     },
     updateItemQuantity(
       state,
@@ -82,17 +88,31 @@ const cartSlice = createSlice({
       const item = state.items.find((item) => item.product.id === id);
 
       if (item) {
-        const price = item.prices.find((price) => price.size === size);
-        if (price && quantity >= 0) {
-          price.quantity = quantity;
-          item.total_price = calculateItemTotalPrice(item);
-          state.total_price = calculateTotalPrice(state.items);
+        const priceIndex = item.prices.findIndex(
+          (price) => price.size === size
+        );
+        if (priceIndex !== -1) {
+          if (quantity > 0) {
+            item.prices[priceIndex].quantity = quantity;
+          } else {
+            item.prices.splice(priceIndex, 1);
+            // If the prices array is empty, remove the item from the cart
+            if (item.prices.length === 0) {
+              state.items = state.items.filter(
+                (cartItem) => cartItem.product.id !== id
+              );
+            }
+          }
+          if (item.prices.length > 0) {
+            item.total_price = formatPrice(calculateItemTotalPrice(item));
+          }
         }
+        state.total_price = formatPrice(calculateTotalPrice(state.items));
       }
     },
     clearCart(state) {
       state.items = [];
-      state.total_price = 0;
+      state.total_price = 0.0;
     },
   },
 });

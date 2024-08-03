@@ -52,7 +52,7 @@ export async function getWishlistStatus(productId: number, userId: string) {
 
   if (error && error.code !== "PGRST116") {
     console.error(error);
-    throw new Error("Could not check favorite status");
+    throw new Error("Could not get wishlist status");
   }
 
   return data ? data.id : null;

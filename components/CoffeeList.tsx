@@ -5,6 +5,8 @@ import { useRouter } from "expo-router";
 import { useProducts } from "@/api/products/useProducts";
 import CoffeeCardSkeleton from "./loader/CoffeeCardSkeleton";
 import ErrorMessage from "./ErrorMessage";
+import { useDispatch, useSelector } from "react-redux";
+import { addItemToCart } from "@/features/cartSlice";
 
 type CoffeeListProps = {
   activeCategory: string;
@@ -12,6 +14,8 @@ type CoffeeListProps = {
 
 const CoffeeList = ({ activeCategory }: CoffeeListProps) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const {
     products: coffees,
     isFetching,
@@ -61,8 +65,22 @@ const CoffeeList = ({ activeCategory }: CoffeeListProps) => {
               name={item.name}
               special_ingredient={item.special_ingredient}
               average_rating={item.average_rating}
-              price={item.prices[2].price}
-              buttonPressHandler={() => {}}
+              price={item.prices[0].price}
+              buttonPressHandler={() =>
+                dispatch(
+                  addItemToCart({
+                    product: item,
+                    prices: [
+                      {
+                        size: item.prices[0].size,
+                        price: item.prices[0].price,
+                        quantity: 1,
+                        total_price: item.prices[0].price,
+                      },
+                    ],
+                  })
+                )
+              }
             />
           </TouchableOpacity>
         );
