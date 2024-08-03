@@ -42,6 +42,22 @@ export async function createWishlist(newWishlist: InsertTables<"wishlist">) {
   return data;
 }
 
+export async function getWishlistStatus(productId: number, userId: string) {
+  const { data, error } = await supabase
+    .from("wishlist")
+    .select("id")
+    .eq("product_id", productId)
+    .eq("user_id", userId)
+    .single();
+
+  if (error && error.code !== "PGRST116") {
+    console.error(error);
+    throw new Error("Could not check favorite status");
+  }
+
+  return data ? data.id : null;
+}
+
 export async function deleteWishlist(wishlistId: number) {
   const { data, error } = await supabase
     .from("wishlist")

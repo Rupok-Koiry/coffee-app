@@ -10,11 +10,13 @@ type UseProductsParams = {
 
 export function useProducts({ type, filter = "" }: UseProductsParams) {
   const { search } = useLocalSearchParams();
-  const convertedSearch = search as string;
+  const convertedSearch = Array.isArray(search)
+    ? search[0]
+    : (search as string);
 
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
-      queryKey: ["products", type, filter, search],
+      queryKey: ["products", type, filter, convertedSearch],
       queryFn: ({ pageParam }) =>
         getProducts({ type, filter, search: convertedSearch, page: pageParam }),
       initialPageParam: 1,

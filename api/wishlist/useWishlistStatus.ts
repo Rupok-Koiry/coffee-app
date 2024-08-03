@@ -1,21 +1,23 @@
-import { getProduct } from "@/services/apiProducts";
+import { getWishlistStatus } from "@/services/apiWishlist";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
 
-export function useProduct() {
+export function useWishlistStatus() {
   const { productId } = useLocalSearchParams();
+  const userId = "2c0cea61-c686-4f7a-b6d2-16983584e121";
   const convertedProductId = Array.isArray(productId)
     ? Number(productId[0])
     : Number(productId);
+
   const {
     isLoading,
-    data: product,
+    data: wishlistId,
     error,
   } = useQuery({
-    queryKey: ["product", convertedProductId],
-    queryFn: () => getProduct(convertedProductId),
+    queryKey: ["wishlist", convertedProductId],
+    queryFn: () => getWishlistStatus(convertedProductId, userId),
     retry: false,
   });
 
-  return { isLoading, error, product };
+  return { isLoading, error, wishlistId };
 }

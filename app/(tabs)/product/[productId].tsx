@@ -19,6 +19,7 @@ import NotFound from "@/components/loader/NotFound";
 import { useCreateWishlist } from "@/api/wishlist/useCreateWishlist";
 import GradientIcon from "@/components/GradientIcon";
 import { useDeleteWishlist } from "@/api/wishlist/useDeleteWishlist";
+import { useWishlistStatus } from "@/api/wishlist/useWishlistStatus";
 
 const DetailsScreen: React.FC = () => {
   const { product, isLoading } = useProduct();
@@ -30,10 +31,11 @@ const DetailsScreen: React.FC = () => {
 
   const { createWishlist } = useCreateWishlist();
   const { deleteWishlist } = useDeleteWishlist();
+  const { wishlistId } = useWishlistStatus();
 
   useEffect(() => {
     if (product) {
-      setIsFavorite(product.is_favorite);
+      setIsFavorite(!!wishlistId);
       if (product.prices.length > 0) {
         setSelectedPrice(product.prices[0]);
       }
@@ -46,17 +48,16 @@ const DetailsScreen: React.FC = () => {
       <NotFound message="Product not found!" redirectTo="/(tabs)/product" />
     );
 
-  const toggleFavorite = async () => {
-    if (isFavorite) {
-      console.log("Hello");
-      await deleteWishlist(product.id);
+  const toggleFavorite = () => {
+    if (isFavorite && wishlistId) {
+      deleteWishlist(wishlistId);
     } else {
-      await createWishlist({
+      createWishlist({
         product_id: product.id,
         user_id: "2c0cea61-c686-4f7a-b6d2-16983584e121",
       });
     }
-    setIsFavorite(!isFavorite);
+    setIsFavorite((prev) => !prev);
   };
 
   return (
