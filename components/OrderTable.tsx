@@ -3,7 +3,7 @@ import { COLORS } from "@/theme/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   ScrollView,
   View,
@@ -11,6 +11,7 @@ import {
   Image,
   Modal,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 import { Picker as SelectPicker } from "@react-native-picker/picker";
 import Button from "./Button";
@@ -18,85 +19,78 @@ import GradientIcon from "./GradientIcon";
 import Tag from "./Tag";
 import { useOrders } from "@/api/orders/useOrders";
 import { SUPABASE_URL } from "@/services/supabase";
+import { useUpdateOrderStatus } from "@/api/orders/useUpdateOrderStatus";
+import { Enums, orderStatuses } from "@/constants/types";
 
-type Status = {
-  title: string;
-  description: string;
-  icon: string;
-  status: string;
-  containerClassName: string;
-  textClassName: string;
+const getStatusDesign = (status: Enums<"order_status_enum">) => {
+  switch (status) {
+    case "PLACED":
+      return {
+        containerClassName: "bg-indigo-600",
+        textClassName: "text-indigo-200",
+      };
+    case "CONFIRMED":
+      return {
+        containerClassName: "bg-yellow-600",
+        textClassName: "text-yellow-200",
+      };
+    case "ON_THE_WAY":
+      return {
+        containerClassName: "bg-green-600",
+        textClassName: "text-green-200",
+      };
+    case "DELIVERED":
+      return {
+        containerClassName: "bg-emerald-600",
+        textClassName: "text-emerald-200",
+      };
+    case "CANCELLED":
+      return {
+        containerClassName: "bg-red-600",
+        textClassName: "text-red-200",
+      };
+    default:
+      return {
+        containerClassName: "bg-gray-500",
+        textClassName: "text-gray-800",
+      };
+  }
 };
 
-const statuses: Status[] = [
-  {
-    title: "Order Placed",
-    description:
-      "Your order has been successfully placed and is being processed.",
-    icon: "cart",
-    status: "placed",
-    containerClassName: "bg-blue-900",
-    textClassName: "text-blue-300",
-  },
-  {
-    title: "Order Confirmed",
-    description: "Your order has been confirmed and will be prepared shortly.",
-    icon: "checkmark-circle",
-    status: "confirmed",
-    containerClassName: "bg-gray-700",
-    textClassName: "text-gray-300",
-  },
-  {
-    title: "On The Way",
-    description: "Your order is on its way! It will reach you soon.",
-    icon: "bicycle",
-    status: "onTheWay",
-    containerClassName: "bg-green-900",
-    textClassName: "text-green-300",
-  },
-  {
-    title: "Order Delivered",
-    description: "Your order has been delivered. Enjoy your purchase!",
-    icon: "home",
-    status: "delivered",
-    containerClassName: "bg-green-900",
-    textClassName: "text-green-300",
-  },
-  {
-    title: "Order Cancelled",
-    description: "Your order has been cancelled. We hope to see you soon!",
-    icon: "close-circle",
-    status: "cancelled",
-    containerClassName: "bg-red-900",
-    textClassName: "text-red-300",
-  },
-];
-
-const getStatusClassNames = (status: string) => {
-  const statusObj = statuses.find((s) => s.status === status);
-  return {
-    containerClassName: statusObj?.containerClassName || "bg-gray-500",
-    textClassName: statusObj?.textClassName || "text-gray-800",
-  };
+type OrderTableProps = {
+  filterStatus: Enums<"order_status_enum">;
 };
-
-const OrderTable: React.FC = () => {
+const OrderTable = ({ filterStatus }: OrderTableProps) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState<string>("");
+  const [selectedStatus, setSelectedStatus] =
+    useState<Enums<"order_status_enum"> | null>(null);
   const [currentOrderId, setCurrentOrderId] = useState<number | null>(null);
 
-  const { orders } = useOrders();
+  const { orders, hasNextPage, fetchNextPage } = useOrders(filterStatus);
+  const { updateOrderStatus } = useUpdateOrderStatus();
 
-  const openModal = (orderId: number) => {
+  const openModal = (
+    orderId: number,
+    currentStatus: Enums<"order_status_enum">
+  ) => {
     setCurrentOrderId(orderId);
+    setSelectedStatus(currentStatus);
     setModalVisible(true);
   };
 
-  const updateStatus = () => {
-    console.log(`Updating order ${currentOrderId} to status ${selectedStatus}`);
-    setModalVisible(false);
+  const updateStatus = async () => {
+    if (currentOrderId && selectedStatus) {
+      await updateOrderStatus({
+        orderId: currentOrderId,
+        status: selectedStatus,
+      });
+      setModalVisible(false);
+    }
   };
 
+  const loadMore = useCallback(() => {
+    if (hasNextPage) fetchNextPage();
+  }, [hasNextPage, fetchNextPage]);
   return (
     <ScrollView horizontal className="flex-1">
       <View className="flex-1 border-2 border-primary-grey rounded-2xl overflow-hidden">
@@ -137,22 +131,24 @@ const OrderTable: React.FC = () => {
           start={[0, 0]}
           end={[1, 1]}
         >
-          {orders.map((order) => {
-            const { containerClassName, textClassName } = getStatusClassNames(
-              order.status
-            );
-            return (
-              <View
-                key={order.id}
-                className="flex-row border-b border-primary-grey space-x-5"
-              >
+          <FlatList
+            ListEmptyComponent={
+              <Text className="font-poppins-semibold text-primary-light-grey text-lg text-center">
+                No Order Available
+              </Text>
+            }
+            showsHorizontalScrollIndicator={false}
+            data={orders}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <View className="flex-row border-b border-primary-grey space-x-5">
                 <View className="p-3" style={{ width: 80 }}>
                   <Text className="text-primary-white font-poppins-regular text-base">
-                    {order.id}
+                    {item.id}
                   </Text>
                 </View>
                 <View className="p-3 space-y-2" style={{ width: 150 }}>
-                  {order.order_items.map((item, itemIndex) => (
+                  {item.order_items.map((item, itemIndex) => (
                     <View key={itemIndex} className="flex-row items-center">
                       <Image
                         source={{
@@ -167,34 +163,36 @@ const OrderTable: React.FC = () => {
                   ))}
                 </View>
                 <View className="p-3" style={{ width: 120 }}>
-                  <Text className="text-primary-white font-poppins-regular">{`$${order.total_price.toFixed(
+                  <Text className="text-primary-white font-poppins-regular">{`$${item.total_price.toFixed(
                     2
                   )}`}</Text>
                 </View>
                 <View className="p-3" style={{ width: 120 }}>
                   <Text className="text-primary-white font-poppins-regular">
-                    {new Date(order.order_date).toLocaleDateString()}
+                    {new Date(item.order_date).toLocaleDateString()}
                   </Text>
                 </View>
                 <View className="p-3" style={{ width: 120 }}>
                   <Tag
-                    containerClassName={containerClassName}
-                    textClassName={textClassName}
+                    containerClassName={
+                      getStatusDesign(item.status).containerClassName
+                    }
+                    textClassName={getStatusDesign(item.status).textClassName}
                   >
-                    {order.status === "ON_THE_WAY"
-                      ? "ON THE WAY"
-                      : order.status}
+                    {item.status === "ON_THE_WAY" ? "ON THE WAY" : item.status}
                   </Tag>
                 </View>
                 <View className="flex-row space-x-3 p-3" style={{ width: 120 }}>
-                  <Link href={`/(tabs)/order/${order.id}`}>
+                  <Link href={`/(tabs)/order/${item.id}`}>
                     <Ionicons
                       name="eye"
                       size={20}
                       color={COLORS.primaryLightGreyHex}
                     />
                   </Link>
-                  <TouchableOpacity onPress={() => openModal(order.id)}>
+                  <TouchableOpacity
+                    onPress={() => openModal(item.id, item.status)}
+                  >
                     <Ionicons
                       name="ellipsis-vertical"
                       size={20}
@@ -203,8 +201,10 @@ const OrderTable: React.FC = () => {
                   </TouchableOpacity>
                 </View>
               </View>
-            );
-          })}
+            )}
+            onEndReached={loadMore}
+            onEndReachedThreshold={0.5}
+          />
         </LinearGradient>
       </View>
 
@@ -241,7 +241,7 @@ const OrderTable: React.FC = () => {
                 }}
                 dropdownIconColor={COLORS.secondaryLightGreyHex}
               >
-                {statuses.map((status) => (
+                {orderStatuses.map((status) => (
                   <SelectPicker.Item
                     key={status.status}
                     label={status.title}
@@ -250,7 +250,7 @@ const OrderTable: React.FC = () => {
                 ))}
               </SelectPicker>
             </View>
-            <Button>Update</Button>
+            <Button onPress={updateStatus}>Update</Button>
           </LinearGradient>
         </View>
       </Modal>

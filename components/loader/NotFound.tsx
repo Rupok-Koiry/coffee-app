@@ -9,12 +9,14 @@ type NotFoundProps = {
   message: string;
   redirectTo?: string;
   label?: string;
+  goBack?: boolean;
 };
 
 export default function NotFound({
   message,
   redirectTo = "/",
   label = "Go to Home",
+  goBack = false,
 }: NotFoundProps) {
   const router = useRouter();
 
@@ -37,7 +39,10 @@ export default function NotFound({
         </Text>
         <Button
           containerClassName="self-center"
-          onPress={() => router.replace(redirectTo)}
+          onPress={() => {
+            if (goBack) router.back();
+            else router.push(redirectTo);
+          }}
         >
           {label}
         </Button>

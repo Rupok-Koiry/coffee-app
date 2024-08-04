@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   ScrollView,
   View,
@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -14,18 +15,30 @@ import CoffeeData from "@/data/CoffeeData";
 import Tag from "./Tag";
 import { Link } from "expo-router";
 import Button from "./Button";
+import { useProducts } from "@/api/products/useProducts";
+import { SUPABASE_URL } from "@/services/supabase";
 
-const ProductTable: React.FC = () => {
+type ProductTableProps = {
+  type?: string;
+};
+
+const ProductTable: React.FC = ({ type }: ProductTableProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
   );
+  const { products, fetchNextPage, hasNextPage } = useProducts({
+    type,
+  });
 
   const openModal = (productId: string) => {
     setSelectedProductId(productId);
     setIsModalVisible(true);
   };
 
+  const loadMore = useCallback(() => {
+    if (hasNextPage) fetchNextPage();
+  }, [hasNextPage, fetchNextPage]);
   return (
     <ScrollView horizontal className="flex-1">
       <View className="flex-1 border-2 border-primary-grey rounded-2xl overflow-hidden">
@@ -66,25 +79,35 @@ const ProductTable: React.FC = () => {
           start={[0, 0]}
           end={[1, 1]}
         >
-          {CoffeeData.map((product) => {
-            return (
+          <FlatList
+            ListEmptyComponent={
+              <Text className="font-poppins-semibold text-primary-light-grey text-lg text-center">
+                No Product Available
+              </Text>
+            }
+            showsHorizontalScrollIndicator={false}
+            data={products}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
               <View
-                key={product.id}
+                key={item.id}
                 className="flex-row border-b border-primary-grey space-x-5"
               >
                 <View className="p-3" style={{ width: 120 }}>
                   <Text className="text-primary-white font-poppins-regular text-base">
-                    {product.id}
+                    {item.id}
                   </Text>
                 </View>
                 <View className="p-3" style={{ width: 200 }}>
                   <View className="flex-row items-center">
                     <Image
-                      source={product.imagelink_square}
+                      source={{
+                        uri: `${SUPABASE_URL}/storage/v1/object/public/product-images/square/${item.image_square}`,
+                      }}
                       className="w-12 h-12 mr-2 rounded-lg"
                     />
                     <Text className="text-secondary-light-grey font-poppins-regular">
-                      {product.name}
+                      {item.name}
                     </Text>
                   </View>
                 </View>
@@ -93,16 +116,16 @@ const ProductTable: React.FC = () => {
                     containerClassName={`bg-primary-orange`}
                     textClassName={`text-primary-white`}
                   >
-                    {product.type}
+                    {item.type}
                   </Tag>
                 </View>
                 <View className="p-3" style={{ width: 120 }}>
                   <Text className="text-primary-white font-poppins-regular">
-                    {product.roasted}
+                    {item.roasted}
                   </Text>
                 </View>
                 <View className="p-3" style={{ width: 150 }}>
-                  {product.prices.map((price, index) => (
+                  {item.prices.map((price, index) => (
                     <Text
                       key={index}
                       className="text-primary-white font-poppins-regular"
@@ -110,12 +133,12 @@ const ProductTable: React.FC = () => {
                       <Text className="font-poppins-semibold text-primary-orange">
                         {price.size}
                       </Text>
-                      {` : ${price.currency}${price.price}`}
+                      {` : $${price.price}`}
                     </Text>
                   ))}
                 </View>
                 <View className="flex-row space-x-3 p-3">
-                  <Link href={`/(tabs)/product/${product.id}`}>
+                  <Link href={`/(tabs)/product/${item.id}`}>
                     <Ionicons
                       name="eye"
                       size={20}
@@ -129,7 +152,7 @@ const ProductTable: React.FC = () => {
                       color={COLORS.primaryLightGreyHex}
                     />
                   </Link>
-                  <TouchableOpacity onPress={() => openModal(product.id)}>
+                  <TouchableOpacity onPress={() => openModal(item.id)}>
                     <Ionicons
                       name="trash"
                       size={20}
@@ -138,29 +161,11 @@ const ProductTable: React.FC = () => {
                   </TouchableOpacity>
                 </View>
               </View>
-            );
-          })}
+            )}
+            onEndReached={loadMore}
+            onEndReachedThreshold={0.5}
+          />
         </LinearGradient>
-        <View className="flex-row justify-between items-center p-3">
-          <Text className="text-secondary-light-grey font-poppins-medium">
-            Showing 1 to 2 of 2 results
-          </Text>
-          <View
-            className="flex-row justify-between items-center"
-            style={{ gap: 12 }}
-          >
-            <Ionicons
-              name="chevron-back"
-              size={16}
-              color={COLORS.primaryOrangeHex}
-            />
-            <Ionicons
-              name="chevron-forward"
-              size={16}
-              color={COLORS.primaryOrangeHex}
-            />
-          </View>
-        </View>
       </View>
       <Modal
         transparent={true}

@@ -15,7 +15,14 @@ const OrderDetailsScreen = () => {
 
   if (isLoading) return <Loader />;
   if (!order)
-    return <NotFound message="Order not found!" redirectTo="/(tabs)/order" />;
+    return (
+      <NotFound
+        message="Order not found!"
+        redirectTo="/(tabs)/order"
+        label="Go Back"
+        goBack
+      />
+    );
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />

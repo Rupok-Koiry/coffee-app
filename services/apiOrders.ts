@@ -1,11 +1,11 @@
 import { PAGE_LIMIT } from "@/constants/constants";
 import supabase from "./supabase";
 import {
-  OrderStatusEnum,
   Tables,
   PricesType,
   InsertTables,
   CartType,
+  Enums,
 } from "@/constants/types";
 
 // Type definition for an OrderItem, which includes product details
@@ -70,32 +70,27 @@ function transformOrderData(data: Order[]): TransformedOrder[] {
   });
 }
 
-// Type definition for parameters used in getOrders function
-type GetOrdersParams = {
-  status?: OrderStatusEnum;
-  page?: number;
-};
-
 // Function to fetch orders from Supabase with optional status filtering and pagination
 export async function getOrders({
   status,
   page = 1,
-}: GetOrdersParams): Promise<TransformedOrder[]> {
+}: {
+  status?: Enums<"order_status_enum"> | Enums<"order_status_enum">[];
+  page?: number;
+}): Promise<TransformedOrder[]> {
   const from = (page - 1) * PAGE_LIMIT; // Calculate the starting index for pagination
   const to = from + PAGE_LIMIT - 1; // Calculate the ending index for pagination
 
   let query = supabase
     .from("orders")
     .select(`*, order_items(*, product:products(*))`)
-    .range(from, to);
+    .range(from, to)
+    .order("order_date", { ascending: false });
 
   if (status) {
-    const statusMapping: { [key in OrderStatusEnum]: string[] } = {
-      [OrderStatusEnum.ACTIVE]: ["PLACED", "CONFIRMED", "ON_THE_WAY"],
-      [OrderStatusEnum.ARCHIVED]: ["DELIVERED", "CANCELLED"],
-    };
-
-    query = query.in("status", statusMapping[status]); // Filter orders by status
+    query = Array.isArray(status)
+      ? query.in("status", status)
+      : query.eq("status", status);
   }
 
   const { data, error } = await query;
@@ -187,4 +182,24 @@ export const createOrder = async ({
   );
 
   return { order, orderItems }; // Return the created order and its items
+};
+
+export const updateOrderStatus = async ({
+  orderId,
+  status,
+}: {
+  orderId: number;
+  status: Enums<"order_status_enum">;
+}) => {
+  const { data, error } = await supabase
+    .from("orders")
+    .update({ status })
+    .eq("id", orderId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Order status could not be updated");
+  }
+
+  return data;
 };

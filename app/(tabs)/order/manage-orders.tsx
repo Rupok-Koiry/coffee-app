@@ -10,41 +10,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
 import { COLORS } from "@/theme/theme";
 import OrderTable from "@/components/OrderTable";
-const statuses = [
-  {
-    title: "All",
-
-    status: "all",
-  },
-  {
-    title: "Placed",
-
-    status: "placed",
-  },
-  {
-    title: "Confirmed",
-
-    status: "confirmed",
-  },
-  {
-    title: "On The Way",
-
-    status: "onTheWay",
-  },
-  {
-    title: "Delivered",
-
-    status: "delivered",
-  },
-  {
-    title: "Cancelled",
-
-    status: "cancelled",
-  },
-];
+import { Enums, orderStatuses } from "@/constants/types";
 
 const ManageOrderScreen = () => {
-  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useState<
+    Enums<"order_status_enum"> | ""
+  >("");
+
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -57,9 +29,21 @@ const ManageOrderScreen = () => {
         <View className="p-5">
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View className="flex-row space-x-3 mb-5">
-              {statuses.map((status) => (
+              <TouchableOpacity
+                className={`items-center justify-center rounded-2xl px-3 py-2 ${
+                  selectedStatus === ""
+                    ? "bg-primary-orange"
+                    : "bg-primary-grey"
+                }`}
+                onPress={() => setSelectedStatus("")}
+              >
+                <Text className="font-poppins-semibold text-xs text-primary-white">
+                  All
+                </Text>
+              </TouchableOpacity>
+              {orderStatuses.map((status) => (
                 <TouchableOpacity
-                  className={` items-center justify-center rounded-2xl px-3 py-2 ${
+                  className={`items-center justify-center rounded-2xl px-3 py-2 ${
                     selectedStatus === status.status
                       ? "bg-primary-orange"
                       : "bg-primary-grey"
@@ -74,7 +58,7 @@ const ManageOrderScreen = () => {
               ))}
             </View>
           </ScrollView>
-          <OrderTable />
+          <OrderTable filterStatus={selectedStatus} />
         </View>
       </ScrollView>
     </SafeAreaView>

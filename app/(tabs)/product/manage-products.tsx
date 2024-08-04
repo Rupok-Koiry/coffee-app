@@ -13,12 +13,12 @@ import OrderTable from "@/components/OrderTable";
 import ProductTable from "@/components/ProductTable";
 
 const statuses = [
-  { title: "All", status: "all" },
-  { title: "Coffee", status: "coffee" },
-  { title: "Beans", status: "beans" },
+  { title: "All", status: "" },
+  { title: "Coffee", status: "COFFEE" },
+  { title: "Beans", status: "BEAN" },
 ];
 const ManageProductScreen = () => {
-  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useState("");
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -39,7 +39,9 @@ const ManageProductScreen = () => {
                       : "bg-primary-grey"
                   }`}
                   key={status.status}
-                  onPress={() => setSelectedStatus(status.status)}
+                  onPress={() => {
+                    setSelectedStatus(status.status);
+                  }}
                 >
                   <Text className="font-poppins-semibold text-xs text-primary-white">
                     {status.title}
@@ -48,7 +50,7 @@ const ManageProductScreen = () => {
               ))}
             </View>
           </ScrollView>
-          <ProductTable />
+          <ProductTable type={selectedStatus} />
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -1,12 +1,5 @@
 import React, { useState, useCallback } from "react";
-import {
-  Dimensions,
-  FlatList,
-  StatusBar,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Dimensions, FlatList, StatusBar, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import { COLORS } from "@/theme/theme";
@@ -18,7 +11,6 @@ import { useOrders } from "@/api/orders/useOrders";
 import { TransformedOrder } from "@/services/apiOrders";
 import ErrorMessage from "@/components/ErrorMessage";
 import { useRouter } from "expo-router";
-import { OrderStatusEnum } from "@/constants/types";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
@@ -30,7 +22,7 @@ const OrderScreen: React.FC = () => {
     fetchNextPage: fetchNextActivePage,
     hasNextPage: hasNextActivePage,
     isLoading: isLoadingActive,
-  } = useOrders(OrderStatusEnum.ACTIVE);
+  } = useOrders(["PLACED", "ON_THE_WAY", "CONFIRMED"]);
 
   const {
     orders: archivedOrders,
@@ -38,7 +30,7 @@ const OrderScreen: React.FC = () => {
     fetchNextPage: fetchNextArchivedPage,
     hasNextPage: hasNextArchivedPage,
     isLoading: isLoadingArchived,
-  } = useOrders(OrderStatusEnum.ARCHIVED);
+  } = useOrders(["DELIVERED", "CANCELLED"]);
 
   const renderOrders = useCallback(
     (

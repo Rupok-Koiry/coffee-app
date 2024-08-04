@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { View, Text } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import GradientIcon from "./GradientIcon";
 import { COLORS } from "@/theme/theme";
 import Animated, {
@@ -10,54 +9,17 @@ import Animated, {
   withRepeat,
   withTiming,
 } from "react-native-reanimated";
-import { type ComponentProps } from "react";
+import { Enums, orderStatuses } from "@/constants/types";
 
 const ANIMATION_DURATION = 500;
 const ICON_SIZE = 24;
 
 type OrderStatusProps = {
-  currentStatus: string;
+  currentStatus: Enums<"order_status_enum">;
 };
 
-type IoniconsName = ComponentProps<typeof Ionicons>["name"];
-
-type Status = {
-  title: string;
-  description: string;
-  icon: IoniconsName;
-  status: string;
-};
-
-const statuses: Status[] = [
-  {
-    title: "Order Placed",
-    description:
-      "Your order has been successfully placed and is being processed.",
-    icon: "cart",
-    status: "PLACED",
-  },
-  {
-    title: "Order Confirmed",
-    description: "Your order has been confirmed and will be prepared shortly.",
-    icon: "checkmark-circle",
-    status: "CONFIRMED",
-  },
-  {
-    title: "On The Way",
-    description: "Your order is on its way! It will reach you soon.",
-    icon: "bicycle",
-    status: "ON_THE_WAY",
-  },
-  {
-    title: "Order Delivered",
-    description: "Your order has been delivered. Enjoy your purchase!",
-    icon: "home",
-    status: "DELIVERED",
-  },
-];
-
-const getColor = (status: string, currentIndex: number) => {
-  const statusOrder = statuses.map((s) => s.status);
+const getColor = (status: Enums<"order_status_enum">, currentIndex: number) => {
+  const statusOrder = orderStatuses.map((s) => s.status);
   const statusIndex = statusOrder.indexOf(status);
   return statusIndex <= currentIndex
     ? COLORS.primaryOrangeHex
@@ -97,7 +59,9 @@ const ProgressBar = ({
 
 const OrderStatus = ({ currentStatus }: OrderStatusProps) => {
   const progress = useSharedValue(0);
-  const currentIndex = statuses.findIndex((s) => s.status === currentStatus);
+  const currentIndex = orderStatuses.findIndex(
+    (s) => s.status === currentStatus
+  );
 
   useEffect(() => {
     progress.value = withRepeat(
@@ -109,7 +73,7 @@ const OrderStatus = ({ currentStatus }: OrderStatusProps) => {
 
   return (
     <View className="flex-col p-5">
-      {statuses.map((status, index) => (
+      {orderStatuses.map((status, index) => (
         <View key={status.status} className="flex-row items-start">
           <View className="items-center mr-3">
             <GradientIcon
@@ -118,7 +82,7 @@ const OrderStatus = ({ currentStatus }: OrderStatusProps) => {
               color={getColor(status.status, currentIndex)}
               iconSet="Ionicons"
             />
-            {index < statuses.length - 1 && (
+            {index < orderStatuses.length - 1 && (
               <>
                 {index === currentIndex ? (
                   <ProgressBar
@@ -130,7 +94,7 @@ const OrderStatus = ({ currentStatus }: OrderStatusProps) => {
                     className="w-0.5 h-8 rounded-sm my-3"
                     style={{
                       backgroundColor: getColor(
-                        statuses[index + 1].status,
+                        orderStatuses[index + 1].status,
                         currentIndex
                       ),
                     }}
