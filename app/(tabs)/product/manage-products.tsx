@@ -11,14 +11,11 @@ import HeaderBar from "@/components/HeaderBar";
 import { COLORS } from "@/theme/theme";
 import OrderTable from "@/components/OrderTable";
 import ProductTable from "@/components/ProductTable";
+import { Enums } from "@/constants/types";
 
-const statuses = [
-  { title: "All", status: "" },
-  { title: "Coffee", status: "COFFEE" },
-  { title: "Beans", status: "BEAN" },
-];
+const productTypes: Enums<"product_type_enum">[] = ["COFFEE", "BEAN"];
 const ManageProductScreen = () => {
-  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedType, setSelectedType] = useState("");
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -31,26 +28,38 @@ const ManageProductScreen = () => {
         <View className="p-5">
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View className="flex-row space-x-3 mb-5">
-              {statuses.map((status) => (
+              <TouchableOpacity
+                className={` items-center justify-center rounded-2xl px-3 py-2 ${
+                  selectedType === "" ? "bg-primary-orange" : "bg-primary-grey"
+                }`}
+                onPress={() => {
+                  setSelectedType("");
+                }}
+              >
+                <Text className="font-poppins-semibold text-xs text-primary-white ">
+                  All
+                </Text>
+              </TouchableOpacity>
+              {productTypes.map((type) => (
                 <TouchableOpacity
                   className={` items-center justify-center rounded-2xl px-3 py-2 ${
-                    selectedStatus === status.status
+                    selectedType === type
                       ? "bg-primary-orange"
                       : "bg-primary-grey"
                   }`}
-                  key={status.status}
+                  key={type}
                   onPress={() => {
-                    setSelectedStatus(status.status);
+                    setSelectedType(type);
                   }}
                 >
-                  <Text className="font-poppins-semibold text-xs text-primary-white">
-                    {status.title}
+                  <Text className="font-poppins-semibold text-xs text-primary-white ">
+                    {type}
                   </Text>
                 </TouchableOpacity>
               ))}
             </View>
           </ScrollView>
-          <ProductTable type={selectedStatus} />
+          <ProductTable type={selectedType} />
         </View>
       </ScrollView>
     </SafeAreaView>

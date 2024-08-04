@@ -17,21 +17,22 @@ import { Link } from "expo-router";
 import Button from "./Button";
 import { useProducts } from "@/api/products/useProducts";
 import { SUPABASE_URL } from "@/services/supabase";
+import { Enums } from "@/constants/types";
 
 type ProductTableProps = {
-  type?: string;
+  type?: Enums<"product_type_enum">;
 };
 
 const ProductTable: React.FC = ({ type }: ProductTableProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null
   );
   const { products, fetchNextPage, hasNextPage } = useProducts({
     type,
   });
 
-  const openModal = (productId: string) => {
+  const openModal = (productId: number) => {
     setSelectedProductId(productId);
     setIsModalVisible(true);
   };
