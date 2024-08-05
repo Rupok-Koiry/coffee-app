@@ -211,13 +211,13 @@ const ProductTable: React.FC = ({ type }: ProductTableProps) => {
               <Button
                 onPress={() => setIsModalVisible(false)}
                 containerClassName="px-3 py-2 rounded"
-                textClassName="text-sm"
+                textClassName="text-xs font-poppins-medium"
               >
                 Cancel
               </Button>
               <Button
                 containerClassName="px-3 py-2 rounded"
-                textClassName="text-sm"
+                textClassName="text-xs font-poppins-medium"
                 onPress={handleDelete}
               >
                 Delete

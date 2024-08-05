@@ -9,14 +9,12 @@ export function useCreateOrder() {
 
   const { mutate: createOrder, isPending: isCreating } = useMutation({
     mutationFn: createOrderApi,
-    onSuccess: async ({
-      order,
+    onSuccess: ({
       orderItems,
     }: {
-      order: Tables<"orders">;
       orderItems: InsertTables<"order_items">[];
     }) => {
-      await createOrderItems(orderItems);
+      createOrderItems(orderItems);
       queryClient.invalidateQueries({ queryKey: ["orders"] });
     },
     onError: (err) => console.warn(err.message),

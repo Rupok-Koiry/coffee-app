@@ -22,23 +22,25 @@ import Button from "@/components/Button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
 import GradientIcon from "@/components/GradientIcon";
+import { useCreateProduct } from "@/api/products/useCreateProduct";
 
 interface FormValues {
   name: string;
   description: string;
   ingredients: string;
   special_ingredient: string;
+  roasted: string;
   type: string;
   prices: {
     size: string;
     price: string;
-    currency: string;
   }[];
-  imagelink_square: string;
-  imagelink_portrait: string;
+  image_square: string;
+  image_portrait: string;
 }
 
 const AddProductScreen: React.FC = () => {
+  const { createProduct } = useCreateProduct();
   const {
     control,
     handleSubmit,
@@ -51,10 +53,11 @@ const AddProductScreen: React.FC = () => {
       description: "",
       ingredients: "",
       special_ingredient: "",
+      roasted: "",
       type: "",
-      prices: [{ size: "", price: "", currency: "" }],
-      imagelink_square: "",
-      imagelink_portrait: "",
+      prices: [{ size: "", price: "" }],
+      image_square: "",
+      image_portrait: "",
     },
   });
 
@@ -65,29 +68,31 @@ const AddProductScreen: React.FC = () => {
 
   useEffect(() => {
     if (fields.length === 0) {
-      append({ size: "", price: "", currency: "" });
+      append({ size: "", price: "" });
     }
   }, [fields, append]);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
-    reset();
+    createProduct({
+      newProduct: data,
+    });
+    // reset();
   };
 
   const pickImage = async (type: "square" | "portrait") => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: type === "square" ? [1, 1] : [3, 4],
+      aspect: type === "square" ? [1, 1] : [4, 5],
       quality: 1,
     });
 
     if (!result.canceled) {
       const uri = result.assets[0].uri;
       if (type === "square") {
-        setValue("imagelink_square", uri);
+        setValue("image_square", uri);
       } else {
-        setValue("imagelink_portrait", uri);
+        setValue("image_portrait", uri);
       }
     }
   };
@@ -165,6 +170,21 @@ const AddProductScreen: React.FC = () => {
           <View>
             <Input
               control={control}
+              name="roasted"
+              placeholder="Roasted level"
+              iconName="star"
+              rules={{ required: "Roasted level is required" }}
+            />
+            {errors.roasted && (
+              <Text className="text-xs text-primary-red my-0.5 mx-2">
+                {errors.roasted.message}
+              </Text>
+            )}
+          </View>
+
+          <View>
+            <Input
+              control={control}
               name="type"
               placeholder="Type 'coffee' OR 'bean'"
               iconName="cafe"
@@ -235,35 +255,11 @@ const AddProductScreen: React.FC = () => {
                     </Text>
                   )}
                 </View>
-                <View className="flex-1">
-                  <Controller
-                    control={control}
-                    name={`prices.${index}.currency` as const}
-                    rules={{ required: "Required" }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                      <TextInput
-                        className="flex-1 font-poppins-medium text-sm text-primary-white px-3 py-2
-                      flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
-                        onBlur={onBlur}
-                        onChangeText={onChange}
-                        value={value}
-                        placeholder="Currency"
-                        placeholderTextColor={COLORS.primaryLightGreyHex}
-                        cursorColor={COLORS.primaryOrangeHex}
-                      />
-                    )}
-                  />
-                  {errors.prices?.[index]?.currency && (
-                    <Text className="text-xs text-primary-red my-0.5 mx-2">
-                      {errors.prices[index]?.currency?.message}
-                    </Text>
-                  )}
-                </View>
                 <GradientIcon
                   name="remove"
                   iconSet="Ionicons"
                   color={COLORS.primaryOrangeHex}
-                  // onPress={() => remove(index)}
+                  onPress={() => remove(index)}
                 />
               </View>
             ))}
@@ -272,9 +268,7 @@ const AddProductScreen: React.FC = () => {
                 At least one price row is required
               </Text>
             )}
-            <Button
-              onPress={() => append({ size: "", price: "", currency: "" })}
-            >
+            <Button onPress={() => append({ size: "", price: "" })}>
               Add Price
             </Button>
           </View>
@@ -289,7 +283,7 @@ const AddProductScreen: React.FC = () => {
             >
               <Controller
                 control={control}
-                name="imagelink_square"
+                name="image_square"
                 rules={{ required: "Square Image is required" }}
                 render={({ field: { value } }) =>
                   value ? (
@@ -312,9 +306,9 @@ const AddProductScreen: React.FC = () => {
                 }
               />
             </TouchableOpacity>
-            {errors.imagelink_square && (
+            {errors.image_square && (
               <Text className="text-xs text-primary-red my-0.5 mx-2">
-                {errors.imagelink_square.message}
+                {errors.image_square.message}
               </Text>
             )}
           </View>
@@ -329,7 +323,7 @@ const AddProductScreen: React.FC = () => {
             >
               <Controller
                 control={control}
-                name="imagelink_portrait"
+                name="image_portrait"
                 rules={{ required: "Portrait Image is required" }}
                 render={({ field: { value } }) =>
                   value ? (
@@ -352,9 +346,9 @@ const AddProductScreen: React.FC = () => {
                 }
               />
             </TouchableOpacity>
-            {errors.imagelink_portrait && (
+            {errors.image_portrait && (
               <Text className="text-xs text-primary-red my-0.5 mx-2">
-                {errors.imagelink_portrait.message}
+                {errors.image_portrait.message}
               </Text>
             )}
           </View>
