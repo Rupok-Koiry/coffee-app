@@ -133,7 +133,7 @@ const OrderTable = ({ filterStatus }: OrderTableProps) => {
         >
           <FlatList
             ListEmptyComponent={
-              <Text className="font-poppins-semibold text-primary-light-grey text-lg text-center">
+              <Text className="font-poppins-semibold text-primary-light-grey text-lg text-center my-2">
                 No Order Available
               </Text>
             }

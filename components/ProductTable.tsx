@@ -18,6 +18,8 @@ import Button from "./Button";
 import { useProducts } from "@/api/products/useProducts";
 import { SUPABASE_URL } from "@/services/supabase";
 import { Enums } from "@/constants/types";
+import Toast from "react-native-toast-message";
+import { useDeleteProduct } from "@/api/products/useDeleteProduct";
 
 type ProductTableProps = {
   type?: Enums<"product_type_enum">;
@@ -31,10 +33,21 @@ const ProductTable: React.FC = ({ type }: ProductTableProps) => {
   const { products, fetchNextPage, hasNextPage } = useProducts({
     type,
   });
+  const { deleteProduct } = useDeleteProduct();
 
   const openModal = (productId: number) => {
     setSelectedProductId(productId);
     setIsModalVisible(true);
+  };
+
+  const handleDelete = async () => {
+    if (selectedProductId) {
+      deleteProduct(selectedProductId, {
+        onSuccess: () => {
+          setIsModalVisible(false);
+        },
+      });
+    }
   };
 
   const loadMore = useCallback(() => {
@@ -205,6 +218,7 @@ const ProductTable: React.FC = ({ type }: ProductTableProps) => {
               <Button
                 containerClassName="px-3 py-2 rounded"
                 textClassName="text-sm"
+                onPress={handleDelete}
               >
                 Delete
               </Button>

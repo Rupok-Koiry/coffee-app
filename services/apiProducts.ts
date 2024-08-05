@@ -60,3 +60,18 @@ export async function getProduct(productId: number) {
   }
   return data;
 }
+
+export async function deleteProduct(productId: number) {
+  // Delete product
+  const { data, error } = await supabase
+    .from("products")
+    .delete()
+    .eq("id", productId);
+
+  // Handle product delete error
+  if (error) {
+    console.error(error);
+    throw new Error("Product could not be deleted");
+  }
+  return data;
+}

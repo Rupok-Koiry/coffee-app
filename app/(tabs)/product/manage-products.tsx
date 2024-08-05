@@ -9,7 +9,6 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
 import { COLORS } from "@/theme/theme";
-import OrderTable from "@/components/OrderTable";
 import ProductTable from "@/components/ProductTable";
 import { Enums } from "@/constants/types";
 
