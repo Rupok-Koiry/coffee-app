@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { SUPABASE_URL } from "@/services/supabase";
 import { COLORS } from "@/theme/theme";
 import { Tables } from "@/constants/database.types";
-import { CartItemType, PricesType } from "@/constants/types";
+import { CartItemType } from "@/constants/types";
 
 type CartItemProps = {
   item: CartItemType;

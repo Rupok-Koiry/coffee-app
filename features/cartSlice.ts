@@ -1,5 +1,5 @@
 import { Tables } from "@/constants/database.types";
-import { CartType, PricesType } from "@/constants/types";
+import { CartType, PriceType } from "@/constants/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: CartType = {
@@ -7,14 +7,14 @@ const initialState: CartType = {
   total_price: 0.0,
 };
 
-const calculateItemTotalPrice = (item: { prices: PricesType[] }): number => {
+const calculateItemTotalPrice = (item: { prices: PriceType[] }): number => {
   return item.prices.reduce(
     (total, price) => total + price.price * price.quantity,
     0
   );
 };
 
-const calculateTotalPrice = (items: { prices: PricesType[] }[]): number => {
+const calculateTotalPrice = (items: { prices: PriceType[] }[]): number => {
   return items.reduce(
     (total, item) => total + calculateItemTotalPrice(item),
     0
@@ -33,7 +33,7 @@ const cartSlice = createSlice({
       state,
       action: PayloadAction<{
         product: Tables<"products">;
-        prices: PricesType[];
+        prices: PriceType[];
       }>
     ) {
       const newItem = action.payload;

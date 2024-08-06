@@ -36,6 +36,8 @@ type FormValues = InsertTables<"products"> & {
 };
 const AddProductScreen: React.FC = () => {
   const { productId } = useLocalSearchParams();
+  console.log(productId);
+
   const { createProduct } = useCreateProduct();
   const { updateProduct } = useUpdateProduct();
   const { product } = useProduct();

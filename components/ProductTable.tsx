@@ -22,10 +22,10 @@ import Toast from "react-native-toast-message";
 import { useDeleteProduct } from "@/api/products/useDeleteProduct";
 
 type ProductTableProps = {
-  type?: Enums<"product_type_enum">;
+  type: Enums<"product_type_enum"> | "";
 };
 
-const ProductTable: React.FC = ({ type }: ProductTableProps) => {
+const ProductTable = ({ type }: ProductTableProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null
@@ -83,23 +83,32 @@ const ProductTable: React.FC = ({ type }: ProductTableProps) => {
             </Text>
           </View>
           <View>
-            <Text className="text-secondary-light-grey font-poppins-semibold uppercase">
-              Actions
-            </Text>
+            <View className="flex-row items-center space-x-2">
+              <Text className="text-secondary-light-grey font-poppins-semibold uppercase">
+                Actions
+              </Text>
+              <Link href={`/(tabs)/product/add-update-product`}>
+                <Ionicons
+                  name="add-circle-outline"
+                  size={20}
+                  color={COLORS.primaryLightGreyHex}
+                />
+              </Link>
+            </View>
           </View>
         </View>
         <LinearGradient
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
           start={[0, 0]}
           end={[1, 1]}
+          className="pb-12"
         >
           <FlatList
             ListEmptyComponent={
-              <Text className="font-poppins-semibold text-primary-light-grey text-lg text-center">
+              <Text className="font-poppins-semibold text-primary-light-grey text-lg text-center my-2">
                 No Product Available
               </Text>
             }
-            showsHorizontalScrollIndicator={false}
             data={products}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (

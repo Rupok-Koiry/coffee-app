@@ -3,7 +3,7 @@ import { getOrders } from "@/services/apiOrders";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 export function useOrders(
-  status?: Enums<"order_status_enum"> | Enums<"order_status_enum">[]
+  status?: Enums<"order_status_enum"> | Enums<"order_status_enum">[] | ""
 ) {
   const { data, error, fetchNextPage, hasNextPage, isLoading } =
     useInfiniteQuery({

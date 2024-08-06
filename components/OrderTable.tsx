@@ -57,15 +57,15 @@ const getStatusDesign = (status: Enums<"order_status_enum">) => {
 };
 
 type OrderTableProps = {
-  filterStatus: Enums<"order_status_enum">;
+  status: Enums<"order_status_enum"> | "";
 };
-const OrderTable = ({ filterStatus }: OrderTableProps) => {
+const OrderTable = ({ status }: OrderTableProps) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedStatus, setSelectedStatus] =
     useState<Enums<"order_status_enum"> | null>(null);
   const [currentOrderId, setCurrentOrderId] = useState<number | null>(null);
 
-  const { orders, hasNextPage, fetchNextPage } = useOrders(filterStatus);
+  const { orders, hasNextPage, fetchNextPage } = useOrders(status);
   const { updateOrderStatus } = useUpdateOrderStatus();
 
   const openModal = (
@@ -136,7 +136,6 @@ const OrderTable = ({ filterStatus }: OrderTableProps) => {
                 No Order Available
               </Text>
             }
-            showsHorizontalScrollIndicator={false}
             data={orders}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (

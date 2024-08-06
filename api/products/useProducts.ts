@@ -4,7 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
 
 type UseProductsParams = {
-  type?: Enums<"product_type_enum">;
+  type?: Enums<"product_type_enum"> | "";
   filter?: string;
 };
 

@@ -6,7 +6,7 @@ import { decode } from "base64-arraybuffer";
 import * as FileSystem from "expo-file-system";
 
 type getProductsParams = {
-  type?: Enums<"product_type_enum">;
+  type?: Enums<"product_type_enum"> | "";
   filter?: string;
   search?: string;
   page?: number;

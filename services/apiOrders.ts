@@ -2,7 +2,7 @@ import { PAGE_LIMIT } from "@/constants/constants";
 import supabase from "./supabase";
 import {
   Tables,
-  PricesType,
+  PriceType,
   InsertTables,
   CartType,
   Enums,
@@ -20,7 +20,7 @@ type TransformedOrderItem = Omit<
 > & {
   product_id: number;
   product: Tables<"products">;
-  prices: PricesType[];
+  prices: PriceType[];
 };
 
 // Type definition for Order, which includes an array of OrderItems
@@ -75,11 +75,11 @@ export async function getOrders({
   status,
   page = 1,
 }: {
-  status?: Enums<"order_status_enum"> | Enums<"order_status_enum">[];
+  status?: Enums<"order_status_enum"> | Enums<"order_status_enum">[] | "";
   page?: number;
 }): Promise<TransformedOrder[]> {
-  const from = (page - 1) * PAGE_LIMIT; // Calculate the starting index for pagination
-  const to = from + PAGE_LIMIT - 1; // Calculate the ending index for pagination
+  const from = (page - 1) * PAGE_LIMIT;
+  const to = from + PAGE_LIMIT - 1;
 
   let query = supabase
     .from("orders")
@@ -124,7 +124,7 @@ export async function getOrder(
 // Function to transform cart data into a format suitable for order items
 const transformCartToOrderData = (
   cart: CartType
-): { product_id: number; prices: PricesType[] }[] => {
+): { product_id: number; prices: PriceType[] }[] => {
   return cart.items.map((item) => ({
     product_id: item.product.id,
     prices: item.prices.map((price) => ({

@@ -30,17 +30,16 @@ const toastConfig: ToastConfig = {
       {...props}
       style={{
         borderLeftColor: COLORS.primaryRedHex,
-        marginBottom: 50,
-        overflow: "hidden",
+        backgroundColor: COLORS.primaryDarkGreyHex,
+        marginBottom: 32,
       }}
       contentContainerStyle={{
-        backgroundColor: COLORS.primaryDarkGreyHex,
         paddingHorizontal: 0,
       }}
       text1Style={{
         color: COLORS.secondaryLightGreyHex,
         fontSize: 16,
-        fontWeight: "600",
+        fontWeight: 500,
       }}
       text2Style={{ color: COLORS.primaryWhiteHex }}
       text1={text1}
@@ -61,17 +60,16 @@ const toastConfig: ToastConfig = {
       {...props}
       style={{
         borderLeftColor: COLORS.successGreenHex,
-        marginBottom: 50,
-        overflow: "hidden",
+        marginBottom: 32,
+        backgroundColor: COLORS.primaryDarkGreyHex,
       }}
       contentContainerStyle={{
-        backgroundColor: COLORS.primaryDarkGreyHex,
         paddingHorizontal: 0,
       }}
       text1Style={{
         color: COLORS.secondaryLightGreyHex,
         fontSize: 16,
-        fontWeight: "600",
+        fontWeight: 500,
       }}
       text2Style={{ color: COLORS.primaryWhiteHex }}
       text1={text1}

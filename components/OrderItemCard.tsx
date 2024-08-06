@@ -3,14 +3,14 @@ import React from "react";
 import { COLORS } from "../theme/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { SUPABASE_URL } from "@/services/supabase";
-import { PricesType } from "@/constants/types";
+import { PriceType } from "@/constants/types";
 
 type OrderItemCardProps = {
   type: string;
   name: string;
   image_square: string;
   special_ingredient: string;
-  prices: PricesType[];
+  prices: PriceType[];
 };
 
 const OrderItemCard: React.FC<OrderItemCardProps> = ({
