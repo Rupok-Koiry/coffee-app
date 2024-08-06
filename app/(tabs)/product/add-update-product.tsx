@@ -23,24 +23,23 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
 import GradientIcon from "@/components/GradientIcon";
 import { useCreateProduct } from "@/api/products/useCreateProduct";
+import Toast from "react-native-toast-message";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useProduct } from "@/api/products/useProduct";
+import { SUPABASE_URL } from "@/services/supabase";
+import { useUpdateProduct } from "@/api/products/useUpdateProduct";
+import { InsertTables } from "@/constants/types";
+import { Picker as SelectPicker } from "@react-native-picker/picker";
 
-interface FormValues {
-  name: string;
-  description: string;
-  ingredients: string;
-  special_ingredient: string;
-  roasted: string;
-  type: string;
-  prices: {
-    size: string;
-    price: string;
-  }[];
-  image_square: string;
-  image_portrait: string;
-}
-
+type FormValues = InsertTables<"products"> & {
+  prices: InsertTables<"prices">[];
+};
 const AddProductScreen: React.FC = () => {
+  const { productId } = useLocalSearchParams();
   const { createProduct } = useCreateProduct();
+  const { updateProduct } = useUpdateProduct();
+  const { product } = useProduct();
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -54,8 +53,8 @@ const AddProductScreen: React.FC = () => {
       ingredients: "",
       special_ingredient: "",
       roasted: "",
-      type: "",
-      prices: [{ size: "", price: "" }],
+      type: "COFFEE",
+      prices: [{ size: "", price: 0, product_id: 0 }],
       image_square: "",
       image_portrait: "",
     },
@@ -66,34 +65,76 @@ const AddProductScreen: React.FC = () => {
     name: "prices",
   });
 
+  // Load product data if editing
+  useEffect(() => {
+    if (productId && product) {
+      reset(product);
+    }
+  }, [productId, product, reset]);
+
+  // Ensure at least one price field is present
   useEffect(() => {
     if (fields.length === 0) {
-      append({ size: "", price: "" });
+      append({ size: "", price: 0, product_id: 0 });
     }
   }, [fields, append]);
 
+  const redirect = () => {
+    router.push("/(tabs)/product/manage-products");
+  };
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    createProduct({
-      newProduct: data,
-    });
-    // reset();
+    if (productId) {
+      const convertedProductId = Array.isArray(productId)
+        ? Number(productId[0])
+        : Number(productId);
+      updateProduct(
+        {
+          newProduct: data,
+          productId: convertedProductId,
+        },
+        {
+          onSuccess: () => {
+            redirect();
+          },
+        }
+      );
+    } else {
+      createProduct(
+        {
+          newProduct: data,
+        },
+        {
+          onSuccess: () => {
+            redirect();
+          },
+        }
+      );
+    }
   };
 
   const pickImage = async (type: "square" | "portrait") => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: type === "square" ? [1, 1] : [4, 5],
-      quality: 1,
-    });
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: type === "square" ? [1, 1] : [4, 5],
+        quality: 1,
+      });
 
-    if (!result.canceled) {
-      const uri = result.assets[0].uri;
-      if (type === "square") {
-        setValue("image_square", uri);
-      } else {
-        setValue("image_portrait", uri);
+      if (!result.canceled && result.assets) {
+        const uri = result.assets[0].uri;
+        if (type === "square") {
+          setValue("image_square", uri);
+        } else {
+          setValue("image_portrait", uri);
+        }
       }
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Image Pick Error",
+        text2: "An error occurred while picking the image.",
+      });
     }
   };
 
@@ -143,7 +184,7 @@ const AddProductScreen: React.FC = () => {
               name="ingredients"
               placeholder="Ingredients"
               iconName="nutrition"
-              rules={{ required: "Ingredients is required" }}
+              rules={{ required: "Ingredients are required" }}
             />
             {errors.ingredients && (
               <Text className="text-xs text-primary-red my-0.5 mx-2">
@@ -172,7 +213,7 @@ const AddProductScreen: React.FC = () => {
               control={control}
               name="roasted"
               placeholder="Roasted level"
-              iconName="star"
+              iconName="trending-up"
               rules={{ required: "Roasted level is required" }}
             />
             {errors.roasted && (
@@ -183,12 +224,39 @@ const AddProductScreen: React.FC = () => {
           </View>
 
           <View>
-            <Input
+            <Controller
               control={control}
               name="type"
-              placeholder="Type 'coffee' OR 'bean'"
-              iconName="cafe"
               rules={{ required: "Type is required" }}
+              render={({ field: { onChange, value } }) => (
+                <View className="flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey">
+                  <Ionicons
+                    style={{ marginLeft: 12 }}
+                    name={"cafe"}
+                    size={20}
+                    color={COLORS.primaryOrangeHex}
+                  />
+                  <SelectPicker
+                    selectedValue={value}
+                    onValueChange={onChange}
+                    style={{
+                      color: COLORS.primaryWhiteHex,
+                      fontWeight: "medium",
+                      flex: 1,
+                      marginTop: -2.5,
+                    }}
+                    dropdownIconColor={COLORS.secondaryLightGreyHex}
+                  >
+                    {["COFFEE", "BEAN"].map((status) => (
+                      <SelectPicker.Item
+                        key={status}
+                        label={status}
+                        value={status}
+                      />
+                    ))}
+                  </SelectPicker>
+                </View>
+              )}
             />
             {errors.type && (
               <Text className="text-xs text-primary-red my-0.5 mx-2">
@@ -204,7 +272,7 @@ const AddProductScreen: React.FC = () => {
             {fields.map((item, index) => (
               <View
                 key={item.id}
-                className="flex-row items-center mb-3 justify-between"
+                className="flex-row items-start mb-3 justify-between"
                 style={{ gap: 12 }}
               >
                 <View className="flex-1">
@@ -214,8 +282,7 @@ const AddProductScreen: React.FC = () => {
                     rules={{ required: "Required" }}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <TextInput
-                        className="flex-1 font-poppins-medium text-sm text-primary-white px-3 py-2
-                      flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
+                        className="font-poppins-medium text-sm text-primary-white px-3 py-2 flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
                         onBlur={onBlur}
                         onChangeText={onChange}
                         value={value}
@@ -238,11 +305,11 @@ const AddProductScreen: React.FC = () => {
                     rules={{ required: "Required" }}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <TextInput
-                        className="flex-1 font-poppins-medium text-sm text-primary-white px-3 py-2
-                      flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
+                        className="font-poppins-medium text-sm text-primary-white px-3 py-2 flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
                         onBlur={onBlur}
                         onChangeText={onChange}
-                        value={value}
+                        value={value.toString()}
+                        keyboardType="numeric"
                         placeholder="Price"
                         placeholderTextColor={COLORS.primaryLightGreyHex}
                         cursorColor={COLORS.primaryOrangeHex}
@@ -255,12 +322,16 @@ const AddProductScreen: React.FC = () => {
                     </Text>
                   )}
                 </View>
-                <GradientIcon
-                  name="remove"
-                  iconSet="Ionicons"
-                  color={COLORS.primaryOrangeHex}
+                <TouchableOpacity
                   onPress={() => remove(index)}
-                />
+                  className="py-0.5"
+                >
+                  <GradientIcon
+                    name="remove"
+                    iconSet="Ionicons"
+                    color={COLORS.primaryOrangeHex}
+                  />
+                </TouchableOpacity>
               </View>
             ))}
             {errors.prices && !errors.prices.length && (
@@ -268,7 +339,9 @@ const AddProductScreen: React.FC = () => {
                 At least one price row is required
               </Text>
             )}
-            <Button onPress={() => append({ size: "", price: "" })}>
+            <Button
+              onPress={() => append({ size: "", price: 0, product_id: 0 })}
+            >
               Add Price
             </Button>
           </View>
@@ -278,7 +351,7 @@ const AddProductScreen: React.FC = () => {
               Square Image
             </Text>
             <TouchableOpacity
-              className="items-center justify-center h-32 bg-primary-dark-grey rounded-2xl  border-2 border-primary-grey overflow-hidden"
+              className="items-center justify-center h-32 bg-primary-dark-grey rounded-2xl border-2 border-primary-grey overflow-hidden"
               onPress={() => pickImage("square")}
             >
               <Controller
@@ -288,7 +361,11 @@ const AddProductScreen: React.FC = () => {
                 render={({ field: { value } }) =>
                   value ? (
                     <Image
-                      source={{ uri: value }}
+                      source={{
+                        uri: value.startsWith("file")
+                          ? value
+                          : `${SUPABASE_URL}/storage/v1/object/public/product-images/square/${value}`,
+                      }}
                       className="w-full h-full rounded"
                     />
                   ) : (
@@ -318,7 +395,7 @@ const AddProductScreen: React.FC = () => {
               Portrait Image
             </Text>
             <TouchableOpacity
-              className="items-center justify-center h-32 bg-primary-dark-grey rounded-2xl  border-2 border-primary-grey overflow-hidden"
+              className="items-center justify-center h-32 bg-primary-dark-grey rounded-2xl border-2 border-primary-grey overflow-hidden"
               onPress={() => pickImage("portrait")}
             >
               <Controller
@@ -328,7 +405,11 @@ const AddProductScreen: React.FC = () => {
                 render={({ field: { value } }) =>
                   value ? (
                     <Image
-                      source={{ uri: value }}
+                      source={{
+                        uri: value.startsWith("file")
+                          ? value
+                          : `${SUPABASE_URL}/storage/v1/object/public/product-images/portrait/${value}`,
+                      }}
                       className="w-full h-full rounded"
                     />
                   ) : (
@@ -353,7 +434,9 @@ const AddProductScreen: React.FC = () => {
             )}
           </View>
 
-          <Button onPress={handleSubmit(onSubmit)}>Add Product</Button>
+          <Button onPress={handleSubmit(onSubmit)}>
+            {productId ? "Update Product" : "Add Product"}
+          </Button>
         </View>
       </ScrollView>
     </SafeAreaView>

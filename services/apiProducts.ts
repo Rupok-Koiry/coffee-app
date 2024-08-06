@@ -88,10 +88,8 @@ export async function createUpdateProduct({
   };
   productId?: number;
 }) {
-  const hasSquareImagePath =
-    newProduct.image_square?.startsWith?.(SUPABASE_URL);
-  const hasPortraitImagePath =
-    newProduct.image_portrait?.startsWith?.(SUPABASE_URL);
+  const hasSquareImagePath = !newProduct.image_square?.startsWith?.("file");
+  const hasPortraitImagePath = !newProduct.image_portrait?.startsWith?.("file");
 
   const squareImageName = `${
     newProduct.name

@@ -15,7 +15,6 @@ import {
 } from "react-native";
 import { Picker as SelectPicker } from "@react-native-picker/picker";
 import Button from "./Button";
-import GradientIcon from "./GradientIcon";
 import Tag from "./Tag";
 import { useOrders } from "@/api/orders/useOrders";
 import { SUPABASE_URL } from "@/services/supabase";

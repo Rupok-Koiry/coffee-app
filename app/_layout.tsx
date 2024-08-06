@@ -60,7 +60,7 @@ const toastConfig: ToastConfig = {
     <BaseToast
       {...props}
       style={{
-        borderLeftColor: COLORS.primaryRedHex,
+        borderLeftColor: COLORS.successGreenHex,
         marginBottom: 50,
         overflow: "hidden",
       }}
@@ -81,7 +81,7 @@ const toastConfig: ToastConfig = {
           <Ionicons
             name="checkmark-circle"
             size={24}
-            color={COLORS.primaryOrangeHex}
+            color={COLORS.successGreenHex}
           />
         </View>
       )}

@@ -159,7 +159,9 @@ const ProductTable: React.FC = ({ type }: ProductTableProps) => {
                       color={COLORS.primaryLightGreyHex}
                     />
                   </Link>
-                  <Link href={`/(tabs)/product/add-update-product`}>
+                  <Link
+                    href={`/(tabs)/product/add-update-product?productId=${item.id}`}
+                  >
                     <Ionicons
                       name="pencil"
                       size={20}

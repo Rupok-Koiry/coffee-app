@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createUpdateProduct as createUpdateProductApi } from "@/services/apiProducts";
 import { useCreatePrices } from "../prices/useCreatePrices";
 import { InsertTables } from "@/constants/types";
+import Toast from "react-native-toast-message";
 
 export function useCreateProduct() {
   const queryClient = useQueryClient();
@@ -11,6 +12,10 @@ export function useCreateProduct() {
     mutationFn: createUpdateProductApi,
     onSuccess: ({ prices }) => {
       createPrices(prices);
+      Toast.show({
+        type: "success",
+        text1: "Product Created Successfully!",
+      });
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
     onError: (err) => console.warn(err.message),

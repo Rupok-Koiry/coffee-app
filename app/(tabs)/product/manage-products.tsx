@@ -11,6 +11,8 @@ import HeaderBar from "@/components/HeaderBar";
 import { COLORS } from "@/theme/theme";
 import ProductTable from "@/components/ProductTable";
 import { Enums } from "@/constants/types";
+import { Link } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 const productTypes: Enums<"product_type_enum">[] = ["COFFEE", "BEAN"];
 const ManageProductScreen = () => {
@@ -25,6 +27,14 @@ const ManageProductScreen = () => {
         <HeaderBar title="Manage Order" />
 
         <View className="p-5">
+          <Link href={`/(tabs)/product/add-update-product`}>
+            <Ionicons
+              name="add-circle"
+              size={20}
+              color={COLORS.primaryLightGreyHex}
+            />
+          </Link>
+
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View className="flex-row space-x-3 mb-5">
               <TouchableOpacity

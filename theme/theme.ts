@@ -9,6 +9,7 @@ interface Color {
   primaryLightGreyHex: string;
   secondaryLightGreyHex: string;
   primaryWhiteHex: string;
+  successGreenHex: string;
   primaryBlackRGBA: string;
   secondaryBlackRGBA: string;
 }
@@ -24,6 +25,7 @@ export const COLORS: Color = {
   primaryLightGreyHex: "#52555A",
   secondaryLightGreyHex: "#AEAEAE",
   primaryWhiteHex: "#FFFFFF",
+  successGreenHex: "#4BB543",
   primaryBlackRGBA: "rgba(12,15,20,0.5)",
   secondaryBlackRGBA: "rgba(0,0,0,0.7)",
 };

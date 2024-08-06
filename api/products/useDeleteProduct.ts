@@ -12,7 +12,7 @@ export function useDeleteProduct() {
         queryKey: ["products"],
       });
       Toast.show({
-        type: "error",
+        type: "success",
         text1: "Product Deleted Successfully!",
       });
     },
