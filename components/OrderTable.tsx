@@ -129,6 +129,7 @@ const OrderTable = ({ status }: OrderTableProps) => {
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
           start={[0, 0]}
           end={[1, 1]}
+          style={{ flex: 1 }}
         >
           <FlatList
             ListEmptyComponent={

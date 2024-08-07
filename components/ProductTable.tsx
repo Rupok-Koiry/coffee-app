@@ -11,14 +11,12 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLORS } from "@/theme/theme";
-import CoffeeData from "@/data/CoffeeData";
 import Tag from "./Tag";
 import { Link } from "expo-router";
 import Button from "./Button";
 import { useProducts } from "@/api/products/useProducts";
 import { SUPABASE_URL } from "@/services/supabase";
 import { Enums } from "@/constants/types";
-import Toast from "react-native-toast-message";
 import { useDeleteProduct } from "@/api/products/useDeleteProduct";
 
 type ProductTableProps = {
@@ -101,7 +99,7 @@ const ProductTable = ({ type }: ProductTableProps) => {
           colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
           start={[0, 0]}
           end={[1, 1]}
-          className="pb-12"
+          style={{ flex: 1 }}
         >
           <FlatList
             ListEmptyComponent={

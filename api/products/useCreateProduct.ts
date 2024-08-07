@@ -11,7 +11,7 @@ export function useCreateProduct() {
   const { mutate: createProduct, isPending: isCreating } = useMutation({
     mutationFn: createUpdateProductApi,
     onSuccess: ({ prices }) => {
-      // createPrices(prices);
+      createPrices(prices);
       Toast.show({
         type: "success",
         text1: "Product Created Successfully!",

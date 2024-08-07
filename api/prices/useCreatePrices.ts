@@ -8,6 +8,7 @@ export function useCreatePrices() {
     mutationFn: createPricesApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["prices"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
     },
     onError: (err) => console.warn(err),
   });

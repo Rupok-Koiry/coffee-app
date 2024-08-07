@@ -34,13 +34,11 @@ import { Picker as SelectPicker } from "@react-native-picker/picker";
 type FormValues = InsertTables<"products"> & {
   prices: InsertTables<"prices">[];
 };
-const AddProductScreen: React.FC = () => {
+const AddUpdateProductScreen: React.FC = () => {
   const { productId } = useLocalSearchParams();
-  console.log(productId);
-
   const { createProduct } = useCreateProduct();
   const { updateProduct } = useUpdateProduct();
-  const { product } = useProduct();
+  const { product } = productId ? useProduct() : { product: null };
   const router = useRouter();
   const {
     control,
@@ -309,7 +307,7 @@ const AddProductScreen: React.FC = () => {
                       <TextInput
                         className="font-poppins-medium text-sm text-primary-white px-3 py-2 flex-row rounded-xl bg-primary-dark-grey items-center border border-primary-grey"
                         onBlur={onBlur}
-                        onChangeText={onChange}
+                        onChangeText={(text) => onChange(Number(text))}
                         value={value.toString()}
                         keyboardType="numeric"
                         placeholder="Price"
@@ -445,4 +443,4 @@ const AddProductScreen: React.FC = () => {
   );
 };
 
-export default AddProductScreen;
+export default AddUpdateProductScreen;

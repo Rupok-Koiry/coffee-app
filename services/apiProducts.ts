@@ -25,7 +25,8 @@ export async function getProducts({
   const query = supabase
     .from("products")
     .select(`*, prices(size, price)`)
-    .range(from, to);
+    .range(from, to)
+    .order("created_at", { ascending: false });
 
   if (type) {
     query.eq("type", type);

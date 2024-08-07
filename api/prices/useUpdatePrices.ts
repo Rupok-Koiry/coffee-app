@@ -8,6 +8,7 @@ export function useUpdatePrices() {
     mutationFn: updatePricesApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["prices"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
     },
     onError: (err) => console.warn(err.message),
   });
