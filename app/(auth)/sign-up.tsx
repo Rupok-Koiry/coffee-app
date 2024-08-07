@@ -6,6 +6,7 @@ import { COLORS } from "@/theme/theme";
 import { Link } from "expo-router";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import { useSignup } from "@/api/auth/useSignup";
 
 interface FormValues {
   name: string;
@@ -21,8 +22,11 @@ const SignUpScreen: React.FC = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
+  const { signup } = useSignup();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
+
+    signup(data);
   };
 
   return (
