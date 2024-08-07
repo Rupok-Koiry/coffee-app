@@ -15,10 +15,10 @@ import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import PopUpAnimation from "@/components/PopUpAnimation";
 import { PaymentListType } from "@/constants/types";
 import HeaderBar from "@/components/HeaderBar";
-import { useCreateOrder } from "@/api/orders/useCreateOrder";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/features/store";
 import { clearCart } from "@/features/cartSlice";
+import { useCreateOrderWithItems } from "@/api/orders/useCreateOrderWithItems";
 
 const paymentList: PaymentListType[] = [
   {
@@ -48,10 +48,10 @@ const PaymentScreen = () => {
   const [showAnimation, setShowAnimation] = useState(false);
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
-  const { createOrder } = useCreateOrder();
+  const { createOrderWithItems } = useCreateOrderWithItems();
 
   const buttonPressHandler = () => {
-    createOrder(
+    createOrderWithItems(
       {
         cart,
         userId: "2c0cea61-c686-4f7a-b6d2-16983584e121",

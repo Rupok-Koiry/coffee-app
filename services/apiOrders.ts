@@ -123,37 +123,37 @@ export async function getOrder(
 
 // Function to transform cart data into a format suitable for order items
 const transformCartToOrderData = (
-  cart: CartType
-): { product_id: number; prices: PriceType[] }[] => {
-  return cart.items.map((item) => ({
-    product_id: item.product.id,
-    prices: item.prices.map((price) => ({
+  cart: CartType,
+  orderId: number
+) => {
+  return cart.items.flatMap((item) =>
+    item.prices.map((price) => ({
+      order_id: orderId,
+      product_id: item.product.id,
       size: price.size,
       price: price.price,
       quantity: price.quantity,
       total_price: price.total_price,
-    })),
-  }));
+    }))
+  );
 };
 
 // Function to create a new order in Supabase
-export const createOrder = async ({
+export const createOrderWithItems = async ({
   cart,
   userId,
 }: {
   cart: CartType;
   userId: string;
-}): Promise<{
-  order: Tables<"orders">;
-  orderItems: InsertTables<"order_items">[];
-}> => {
-  // Insert a new order record into the orders table
-  const { data: order, error } = await supabase
+}) => {
+
+  // Start a transaction
+  const { data: order, error: orderError } = await supabase
     .from("orders")
     .insert([
       {
         user_id: userId,
-        total_price: parseFloat(cart.total_price.toString()), // Ensure the total_price is a number
+        total_price: cart.total_price,
         status: "CONFIRMED",
       },
     ])
@@ -161,28 +161,28 @@ export const createOrder = async ({
     .single();
 
   // Throw an error if order creation fails
-  if (error) {
-    console.error(error);
+  if (orderError) {
+    console.error(orderError);
     throw new Error("Order creation failed");
   }
 
-  // Transform cart items to order items data
-  const transFormedOrderItems = transformCartToOrderData(cart);
-
   // Prepare the order items for insertion
-  const orderItems = transFormedOrderItems.flatMap((item) =>
-    item.prices.map((price) => ({
-      order_id: order.id,
-      product_id: item.product_id,
-      size: price.size,
-      price: price.price,
-      quantity: price.quantity,
-      total_price: price.total_price,
-    }))
-  );
+  const convertedOrderItems = transformCartToOrderData(cart, order.id);
+  const { data: orderItems, error: orderItemsError } = await supabase
+    .from("order_items")
+    .insert(convertedOrderItems)
+    .select();
 
-  return { order, orderItems }; // Return the created order and its items
+  // Throw an error if order items creation fails
+  if (orderItemsError) {
+    console.error(orderItemsError);
+    throw new Error("Order items creation failed");
+  }
+
+  return { ...order, order_items: orderItems };
 };
+
+
 
 export const updateOrderStatus = async ({
   orderId,

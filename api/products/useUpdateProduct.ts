@@ -1,16 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createUpdateProduct as createUpdateProductApi } from "@/services/apiProducts";
-import { useUpdatePrices } from "../prices/useUpdatePrices";
+import { createOrUpdateProduct as createOrUpdateProductApi } from "@/services/apiProducts";
 import Toast from "react-native-toast-message";
 
 export function useUpdateProduct() {
   const queryClient = useQueryClient();
-  const { updatePrices } = useUpdatePrices();
-
   const { mutate: updateProduct, isPending: isCreating } = useMutation({
-    mutationFn: createUpdateProductApi,
-    onSuccess: ({ prices }) => {
-      updatePrices(prices);
+    mutationFn: createOrUpdateProductApi,
+    onSuccess: () => {
       Toast.show({
         type: "success",
         text1: "Product Updated Successfully!",

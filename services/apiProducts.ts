@@ -80,118 +80,18 @@ export async function deleteProduct(productId: number) {
   return data;
 }
 
-export async function createUpdateProduct({
-  newProduct,
-  productId,
-}: {
-  newProduct: InsertTables<"products"> & {
-    prices: InsertTables<"prices">[];
-  };
-  productId?: number;
-}) {
-  const hasSquareImagePath = !newProduct.image_square?.startsWith?.("file");
-  const hasPortraitImagePath = !newProduct.image_portrait?.startsWith?.("file");
-
-  const squareImageName = `${
-    newProduct.name
-  }_${Math.random()}_square`.replaceAll("/", "");
-  const portraitImageName = `${
-    newProduct.name
-  }_${Math.random()}_portrait`.replaceAll("/", "");
-
-  const squareImagePath = hasSquareImagePath
-    ? newProduct.image_square
-    : squareImageName;
-
-  const portraitImagePath = hasPortraitImagePath
-    ? newProduct.image_portrait
-    : portraitImageName;
-
-  try {
-    let data;
-    if (productId) {
-      // Update existing product
-      const { data: updatedData, error } = await supabase
-        .from("products")
-        .update({
-          name: newProduct.name,
-          type: newProduct.type,
-          description: newProduct.description,
-          ingredients: newProduct.ingredients,
-          roasted: newProduct.roasted,
-          special_ingredient: newProduct.special_ingredient,
-          image_portrait: portraitImagePath,
-          image_square: squareImagePath,
-        })
-        .eq("id", productId)
-        .select()
-        .single();
-
-      if (error) throw error;
-      data = updatedData;
-    } else {
-      // Create new product
-      const { data: insertedData, error } = await supabase
-        .from("products")
-        .insert([
-          {
-            name: newProduct.name,
-            type: newProduct.type,
-            description: newProduct.description,
-            ingredients: newProduct.ingredients,
-            roasted: newProduct.roasted,
-            special_ingredient: newProduct.special_ingredient,
-            image_portrait: portraitImagePath,
-            image_square: squareImagePath,
-          },
-        ])
-        .select()
-        .single();
-
-      if (error) throw error;
-      data = insertedData;
-    }
-
-    // Handle image uploads if necessary
-    if (!hasSquareImagePath) {
-      await uploadImage(
-        "square",
-        squareImageName,
-        newProduct.image_square,
-        data.id
-      );
-    }
-    if (!hasPortraitImagePath) {
-      await uploadImage(
-        "portrait",
-        portraitImageName,
-        newProduct.image_portrait,
-        data.id
-      );
-    }
-
-    return {
-      product: data,
-      prices: newProduct.prices.map((price) => ({
-        ...price,
-        product_id: data.id,
-      })),
-    };
-  } catch (error) {
-    console.error("Error creating/updating product:", error);
-    throw new Error("Product could not be created or updated");
-  }
-}
-
+// Helper function to upload images to Supabase
 async function uploadImage(
-  type: "square" | "portrait",
+  type: string,
   imageName: string,
   imageData: string,
   productId: number
 ) {
+  if (!imageData.startsWith("file")) return;
   const base64 = await FileSystem.readAsStringAsync(imageData, {
     encoding: FileSystem.EncodingType.Base64,
   });
+
   const { error } = await supabase.storage
     .from("product-images")
     .upload(`${type}/${imageName}`, decode(base64), {
@@ -200,9 +100,133 @@ async function uploadImage(
 
   if (error) {
     await supabase.from("products").delete().eq("id", productId);
-    console.error(`Error uploading ${type} image:`, error);
-    throw new Error(
-      `Product ${type} image could not be uploaded and the product was not created`
-    );
+    throw new Error(`Failed to upload ${type} image`);
+  }
+}
+
+// Helper function to update an existing product
+async function updateProduct(
+  productId: number,
+  productData: InsertTables<"products">
+) {
+  const { data, error } = await supabase
+    .from("products")
+    .update(productData)
+    .eq("id", productId)
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to update product: ${error.message}`);
+  }
+
+  return data;
+}
+
+// Helper function to create a new product
+async function createProduct(productData: InsertTables<"products">) {
+  const { data, error } = await supabase
+    .from("products")
+    .insert([productData])
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to create product: ${error.message}`);
+  }
+
+  return data;
+}
+
+// Helper function to upsert prices for a product
+async function upsertPrices(prices:InsertTables<'prices'>[], productId:number) {
+  const { data, error } = await supabase
+    .from("prices")
+    .upsert(
+      prices.map((price) => ({
+        ...price,
+        product_id: productId,
+      }))
+    )
+    .select();
+
+  if (error) {
+    throw new Error(`Failed to upsert prices: ${error.message}`);
+  }
+
+  return data;
+}
+
+// Main function to create or update a product
+export async function createOrUpdateProduct({
+  newProduct,
+  productId,
+}: {
+  newProduct: InsertTables<"products"> & {
+    prices: InsertTables<"prices">[];
+  };
+  productId?: number;
+}) {
+  // Generate unique names for images if needed
+  const squareImageName = `${
+    newProduct.name
+  }_${Math.random()}_square`.replaceAll("/", "");
+  const portraitImageName = `${
+    newProduct.name
+  }_${Math.random()}_portrait`.replaceAll("/", "");
+
+  // Determine image paths
+  const productData = {
+    name: newProduct.name,
+    type: newProduct.type,
+    description: newProduct.description,
+    ingredients: newProduct.ingredients,
+    roasted: newProduct.roasted,
+    special_ingredient: newProduct.special_ingredient,
+    image_portrait: newProduct.image_portrait.startsWith("file")
+      ? portraitImageName
+      : newProduct.image_portrait,
+    image_square: newProduct.image_square.startsWith("file")
+      ? squareImageName
+      : newProduct.image_square,
+  };
+
+  try {
+    let result;
+
+    if (productId) {
+      // Update existing product
+      const product = await updateProduct(productId, productData);
+      const prices = await upsertPrices(newProduct.prices, productId);
+      result = { ...product, prices };
+    } else {
+      // Create new product
+      const product = await createProduct(productData);
+      const prices = await upsertPrices(newProduct.prices, product.id);
+      result = { ...product, prices };
+    }
+
+    // Handle image uploads if necessary
+    if (newProduct.image_square.startsWith("file")) {
+      await uploadImage(
+        "square",
+        squareImageName,
+        newProduct.image_square,
+        result.id
+      );
+    }
+    if (newProduct.image_portrait.startsWith("file")) {
+      await uploadImage(
+        "portrait",
+        portraitImageName,
+        newProduct.image_portrait,
+        result.id
+      );
+    }
+
+    return result;
+  } catch (error) {
+    console.error("Error creating/updating product:", error);
+    throw new Error("Product could not be created or updated");
   }
 }

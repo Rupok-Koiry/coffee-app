@@ -1,17 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createUpdateProduct as createUpdateProductApi } from "@/services/apiProducts";
-import { useCreatePrices } from "../prices/useCreatePrices";
-import { InsertTables } from "@/constants/types";
+import { createOrUpdateProduct as createOrUpdateProductApi } from "@/services/apiProducts";
 import Toast from "react-native-toast-message";
 
 export function useCreateProduct() {
   const queryClient = useQueryClient();
-  const { createPrices } = useCreatePrices();
 
   const { mutate: createProduct, isPending: isCreating } = useMutation({
-    mutationFn: createUpdateProductApi,
-    onSuccess: ({ prices }) => {
-      createPrices(prices);
+    mutationFn: createOrUpdateProductApi,
+    onSuccess: () => {
       Toast.show({
         type: "success",
         text1: "Product Created Successfully!",

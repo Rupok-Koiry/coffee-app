@@ -1,86 +1,77 @@
-const data = {
-  id: 1,
-  order_items: [
-    {
-      id: "B4",
-      name: "Excelsa Beans",
-      description: `Excelsa beans grow almost entirely in Southeast Asia, and they’re shaped somewhat like Liberica beans — elongated ovals. These beans grow on large 20 to 30-foot coffee plants at medium altitudes. In terms of flavor, Excelsa beans are pretty unique. They combine light roast traits like tart notes and fruity flavors with flavors that are more reminiscent of dark roasts.`,
-      roasted: "Medium Roasted",
-      imagelink_square: "excelsa_coffee_beans_square.png",
-      imagelink_portrait: "excelsa_coffee_beans_portrait.png",
-      ingredients: "Malaysia",
-      special_ingredient: "From Malaysia",
-      prices: [
-        { size: "250gm", price: "5.50", currency: "$", quantity: 2 },
-        { size: "500gm", price: "10.50", currency: "$", quantity: 3 },
-        { size: "1Kg", price: "18.50", currency: "$", quantity: 6 },
-      ],
-      average_rating: 4.7,
-      ratings_count: "6,879",
-      isFavorite: false,
-      type: "Bean",
-      index: 3,
-      total_price: "9.38",
+export async function createProduct({
+  newProduct,
+}) {
+  const { data, error } = await supabase
+  .from("products")
+  .create([{
+    name: newProduct.name,
+    type: newProduct.type,
+    description: newProduct.description,
+    ingredients: newProduct.ingredients,
+    roasted: newProduct.roasted,
+    special_ingredient: newProduct.special_ingredient,
+  }])
+  .select()
+  .single();
+  return {
+    product: data,
+    prices: newProduct.prices.map((price) => ({
+      ...price,
+      product_id: data.id,
+    })),
+  };
+}
+export function useCreateProduct() {
+  const queryClient = useQueryClient();
+  const { createPrices } = useCreatePrices();
+
+  const { mutate: createProduct, isPending: isCreating } = useMutation({
+    mutationFn: createProductApi,
+    onSuccess: ({ prices }) => {
+      createPrices(prices);
+      queryClient.invalidateQueries({ queryKey: ["products"] });
     },
-    ,
-    {
-      id: "C42",
-      name: "Black Coffee",
-      description:
-        "Black coffee is arguably the most common type of coffee drink out there. Its popularity can be mainly attributed to how easy it is to make this beverage, be it drip, pour-over, French press, or anything else. Black coffee is usually served with no add-ins.",
-      roasted: "Medium Roasted",
-      imagelink_square: "black_coffee_pic_1_square.png",
-      imagelink_portrait: "black_coffee_pic_1_portrait.png",
-      ingredients: "Milk",
-      special_ingredient: "With Steamed Milk",
-      prices: [
-        {
-          size: "S",
-          price: "1.38",
-          currency: "$",
-          quantity: 1,
-        },
-        {
-          size: "M",
-          price: "3.15",
-          currency: "$",
-          quantity: 2,
-        },
-      ],
-      average_rating: 4.7,
-      ratings_count: "6,879",
-      isFavorite: false,
-      type: "Coffee",
-      index: 3,
-      total_price: "5.38",
-    },
-    {
-      id: "C105e3",
-      name: "Espresso",
-      description:
-        "Espresso is made by forcing nearly boiling water through finely-ground coffee beans, which results in a concentrated, syrup-like coffee drink. This is the base for many Italian beverages in coffee shops. When compared to regular brewed coffee, espresso is much stronger than the other types of coffee drinks. Espressos are enjoyed in shots where a single shot is one ounce and a long (single and double) shot is two ounces in amount, respectively.",
-      roasted: "Medium Roasted",
-      imagelink_square: "espresso_pic_1_square.png",
-      imagelink_portrait: "espresso_pic_1_portrait.png",
-      ingredients: "Milk",
-      special_ingredient: "With Steamed Milk",
-      prices: [
-        {
-          size: "S",
-          price: "1.38",
-          currency: "$",
-          quantity: 3,
-        },
-      ],
-      average_rating: 4.7,
-      ratings_count: "6,879",
-      isFavorite: false,
-      type: "Coffee",
-      index: 9,
-      total_price: "9.38",
-    },
-  ],
-  total_price: 20,
-  order_date: "2023-12-01",
-  status: "DELIVERED",
-};
+    onError: (err) => console.warn(err.message),
+  });
+
+  return { isCreating, createProduct };
+}
+
+export async function createPrices(newPrices: InsertTables<"prices">[]) {
+  const { data, error } = await supabase
+    .from("prices")
+    .insert(newPrices)
+    .select();
+
+  if (error) {
+    console.log(error);
+
+    throw new Error("Failed to create prices");
+  }
+  return data;
+}
+VS
+export async function createProduct({
+  newProduct,
+}) {
+  const { data, error } = await supabase
+  .from("products")
+  .create([{
+    name: newProduct.name,
+    type: newProduct.type,
+    description: newProduct.description,
+    ingredients: newProduct.ingredients,
+    roasted: newProduct.roasted,
+    special_ingredient: newProduct.special_ingredient,
+  }])
+  .select()
+  .single();
+  await supabase
+    .from("prices")
+    .insert(newProduct.prices.map((price) => ({
+      ...price,
+      product_id: data.id,
+    })))
+    .select();
+  return data;
+}
