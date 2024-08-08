@@ -39,9 +39,9 @@ const SignUpScreen: React.FC = () => {
         <View className="flex-1 justify-center px-5">
           <Image
             source={require("@/assets/app_images/logo.png")}
-            className="w-32 h-32 self-center"
+            className="w-36 h-36 self-center"
           />
-          <Text className="font-poppins-semibold text-3xl text-primary-white my-8">
+          <Text className="font-poppins-semibold text-3xl text-primary-white mb-5">
             Let's get started
           </Text>
           <View style={{ gap: 20 }}>

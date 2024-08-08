@@ -10,7 +10,7 @@ export async function signup({
   avatar,
 }: UpdateTables<"profiles"> & { password: string; email: string }) {
   // Sign up the user with Supabase authentication
-  const { data: authData, error: authError } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -24,11 +24,11 @@ export async function signup({
     },
   });
 
-  
-  if (authError) throw new Error(authError.message);
+  if (error) {
+    throw new Error(error.message);
+  }
 
-  return authData;
-
+  return data;
 }
 
 export async function updateCurrentUser({
@@ -38,42 +38,42 @@ export async function updateCurrentUser({
   address,
   avatar,
 }: UpdateTables<"profiles"> & { password?: string }) {
-    if (password) {
-      const { error } = await supabase.auth.updateUser({ password });
-      if (error) throw new Error(error.message);
-    }
-    const { data, error } = await supabase
-      .from("profiles")
-      .update({
-        full_name,
-        phone,
-        address,
-        avatar,
-      })
-      .select()
-      .single();
-
+  if (password) {
+    const { error } = await supabase.auth.updateUser({ password });
     if (error) throw new Error(error.message);
-    if (!avatar || !avatar.startsWith("file")) return data;
+  }
+  const { data, error } = await supabase
+    .from("profiles")
+    .update({
+      full_name,
+      phone,
+      address,
+      avatar,
+    })
+    .select()
+    .single();
 
-    const fileName = `avatar-${data.id}-${Math.random()}`;
+  if (error) throw new Error(error.message);
+  if (!avatar || !avatar.startsWith("file")) return data;
 
-    const { error: storageError } = await supabase.storage
-      .from("avatars")
-      .upload(fileName, avatar);
+  const fileName = `avatar-${data.id}-${Math.random()}`;
 
-    if (storageError) throw new Error(storageError.message);
+  const { error: storageError } = await supabase.storage
+    .from("avatars")
+    .upload(fileName, avatar);
 
-    const { data: updatedUser, error: updateError } = await supabase
-      .from("profiles")
-      .update({
-        avatar: fileName,
-      })
-      .select()
-      .single();
+  if (storageError) throw new Error(storageError.message);
 
-    if (updateError) throw new Error(updateError.message);
-    return updatedUser;
+  const { data: updatedUser, error: updateError } = await supabase
+    .from("profiles")
+    .update({
+      avatar: fileName,
+    })
+    .select()
+    .single();
+
+  if (updateError) throw new Error(updateError.message);
+  return updatedUser;
 }
 export async function login({
   email,
@@ -87,7 +87,9 @@ export async function login({
     password,
   });
 
-  if (error) throw new Error(error.message);
+  if (error) {
+    throw new Error(error.message);
+  }
 
   return data;
 }
@@ -106,4 +108,3 @@ export async function logout() {
   const { error } = await supabase.auth.signOut();
   if (error) throw new Error(error.message);
 }
-

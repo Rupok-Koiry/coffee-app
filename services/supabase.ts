@@ -3,6 +3,9 @@ import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/constants/database.types";
 import pako from "pako";
 
+// Constants
+const MAX_SECURE_STORE_SIZE = 2048;
+
 // Utility function to convert a Uint8Array to a base64 string
 const uint8ArrayToBase64 = (array: Uint8Array): string => {
   return btoa(String.fromCharCode(...array));
@@ -28,8 +31,7 @@ const compressData = (data: string): string => {
 // Decompress data using pako
 const decompressData = (data: string): string => {
   const decoded = base64ToUint8Array(data);
-  const decompressed = pako.inflate(decoded, { to: "string" });
-  return decompressed;
+  return pako.inflate(decoded, { to: "string" });
 };
 
 // Secure Store Adapter with compression
@@ -40,7 +42,7 @@ const ExpoSecureStoreAdapter = {
       try {
         return decompressData(storedValue);
       } catch (error) {
-        console.warn("Failed to decompress data:", error);
+        console.error("Failed to decompress data:", error);
         return storedValue; // Return raw data if decompression fails
       }
     }
@@ -49,12 +51,12 @@ const ExpoSecureStoreAdapter = {
   setItem: async (key: string, value: string) => {
     try {
       const compressedValue = compressData(value);
-      if (compressedValue.length > 2048) {
+      if (compressedValue.length > MAX_SECURE_STORE_SIZE) {
         throw new Error("Compressed value still too large to store in SecureStore");
       }
       await SecureStore.setItemAsync(key, compressedValue);
     } catch (error) {
-      console.warn("Failed to compress or store data:", error);
+      console.error("Failed to compress or store data:", error);
     }
   },
   removeItem: (key: string) => {
@@ -62,6 +64,7 @@ const ExpoSecureStoreAdapter = {
   },
 };
 
+// Supabase configuration
 export const SUPABASE_URL = "https://utyipwqdhkgihrfiangw.supabase.co";
 const SUPABASE_PUBLIC_API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV0eWlwd3FkaGtnaWhyZmlhbmd3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjMxMTQxNDAsImV4cCI6MjAzODY5MDE0MH0.D1VZvaOwp9Jts-o2Ic81lcBALrPcamSdLt6pu47zgFQ";
