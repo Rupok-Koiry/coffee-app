@@ -24,7 +24,6 @@ export async function signup({
     },
   });
 
-  console.log(authData, authError);
   
   if (authError) throw new Error(authError.message);
 

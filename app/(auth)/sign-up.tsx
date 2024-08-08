@@ -9,7 +9,7 @@ import Input from "@/components/Input";
 import { useSignup } from "@/api/auth/useSignup";
 
 interface FormValues {
-  name: string;
+  full_name: string;
   email: string;
   phone: string;
   password: string;
@@ -48,14 +48,14 @@ const SignUpScreen: React.FC = () => {
             <View>
               <Input<FormValues>
                 control={control}
-                name="name"
+                name="full_name"
                 placeholder="Enter your name"
                 iconName="person"
                 rules={{ required: "Name is required" }}
               />
-              {errors.name && (
+              {errors.full_name && (
                 <Text className="text-xs text-primary-red my-0.5 mx-2">
-                  {errors.name.message}
+                  {errors.full_name.message}
                 </Text>
               )}
             </View>
