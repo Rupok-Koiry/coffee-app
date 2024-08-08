@@ -12,9 +12,13 @@ serve(async (req: Request) => {
   try {
     const { amount } = await req.json();
 
+    if (!amount) {
+      throw new Error('Amount is required');
+    }
+
     const customer = await createOrRetrieveProfile(req);
 
-    // Create an ephermeralKey so that the Stripe SDK can fetch the customer's stored payment methods.
+    // Create an ephemeralKey so that the Stripe SDK can fetch the customer's stored payment methods.
     const ephemeralKey = await stripe.ephemeralKeys.create(
       { customer: customer },
       { apiVersion: '2020-08-27' }
@@ -37,8 +41,8 @@ serve(async (req: Request) => {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.log(error);
-    return new Response(JSON.stringify(error), {
+    console.error('Error processing request:', error.message);
+    return new Response(JSON.stringify({ error: error.message }), {
       headers: { 'Content-Type': 'application/json' },
       status: 400,
     });

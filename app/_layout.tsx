@@ -20,6 +20,7 @@ import Toast, {
 import { COLORS } from "@/theme/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { View } from "react-native";
+import { StripeProvider } from "@stripe/stripe-react-native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -121,16 +122,23 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" options={{ headerShown: false }} />
-          </Stack>
-        </Provider>
-      </QueryClientProvider>
-      <Toast config={toastConfig} position="bottom" />
+      <StripeProvider
+        publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""}
+      >
+        <QueryClientProvider client={queryClient}>
+          <Provider store={store}>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="+not-found"
+                options={{ headerShown: false }}
+              />
+            </Stack>
+          </Provider>
+        </QueryClientProvider>
+        <Toast config={toastConfig} position="bottom" />
+      </StripeProvider>
     </ThemeProvider>
   );
 }

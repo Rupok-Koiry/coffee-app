@@ -4,7 +4,7 @@ import { useLocalSearchParams } from "expo-router";
 
 export function useWishlistStatus() {
   const { productId } = useLocalSearchParams();
-  const userId = "2c0cea61-c686-4f7a-b6d2-16983584e121";
+  const userId = "1ed91ebd-c660-43bc-8ac6-e4930bdf17b0";
   const convertedProductId = Array.isArray(productId)
     ? Number(productId[0])
     : Number(productId);

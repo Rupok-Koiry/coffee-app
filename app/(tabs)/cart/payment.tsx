@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/features/store";
 import { clearCart } from "@/features/cartSlice";
 import { useCreateOrderWithItems } from "@/api/orders/useCreateOrderWithItems";
+import { initializePaymentSheet, openPaymentSheet } from "@/services/apiStripe";
 
 const paymentList: PaymentListType[] = [
   {
@@ -49,12 +50,14 @@ const PaymentScreen = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
   const { createOrderWithItems } = useCreateOrderWithItems();
-
-  const buttonPressHandler = () => {
+  const buttonPressHandler = async () => {
+    await initializePaymentSheet(Math.floor(cart.total_price * 100));
+    const payed = await openPaymentSheet();
+    if (!payed) return;
     createOrderWithItems(
       {
         cart,
-        userId: "2c0cea61-c686-4f7a-b6d2-16983584e121",
+        userId: "1ed91ebd-c660-43bc-8ac6-e4930bdf17b0",
       },
       {
         onSuccess: () => {

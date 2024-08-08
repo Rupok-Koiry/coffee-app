@@ -124,7 +124,7 @@ export async function getOrder(
 // Function to transform cart data into a format suitable for order items
 const transformCartToOrderData = (
   cart: CartType,
-  orderId: number
+  orderId: string
 ) => {
   return cart.items.flatMap((item) =>
     item.prices.map((price) => ({
@@ -162,12 +162,12 @@ export const createOrderWithItems = async ({
 
   // Throw an error if order creation fails
   if (orderError) {
-    console.error(orderError);
+    console.error(orderError,'😀😀😀😀');
     throw new Error("Order creation failed");
   }
 
   // Prepare the order items for insertion
-  const convertedOrderItems = transformCartToOrderData(cart, order.id);
+  const convertedOrderItems = transformCartToOrderData(cart, order.order_id);
   const { data: orderItems, error: orderItemsError } = await supabase
     .from("order_items")
     .insert(convertedOrderItems)

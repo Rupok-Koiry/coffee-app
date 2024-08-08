@@ -11,23 +11,30 @@ export const createOrRetrieveProfile = async (req: Request) => {
       },
     }
   );
-  // Now we can get the session or user object
+
   const {
     data: { user },
+    error: authError,
   } = await supabaseClient.auth.getUser();
+
+  if (authError) {
+    console.error('Error fetching user:', authError.message);
+    throw new Error('Error fetching user');
+  }
 
   if (!user) throw new Error('No user found');
 
-  const { data: profile, error } = await supabaseClient
+  const { data: profile, error: profileError } = await supabaseClient
     .from('profiles')
     .select('*')
     .eq('id', user.id)
     .single();
-  if (error || !profile) {
-    throw new Error('Profile not found');
+    
+  if (profileError) {
+    console.error('Error fetching profile:', profileError.message);
+    throw new Error('Error fetching profile');
   }
 
-  console.log(profile);
   if (profile.stripe_customer_id) {
     return profile.stripe_customer_id;
   }
@@ -38,10 +45,15 @@ export const createOrRetrieveProfile = async (req: Request) => {
     metadata: { uid: user.id },
   });
 
-  await supabaseClient
+  const { error: updateError } = await supabaseClient
     .from('profiles')
     .update({ stripe_customer_id: customer.id })
     .eq('id', profile.id);
+
+  if (updateError) {
+    console.error('Error updating profile with Stripe customer ID:', updateError.message);
+    throw new Error('Error updating profile with Stripe customer ID');
+  }
 
   return customer.id;
 };

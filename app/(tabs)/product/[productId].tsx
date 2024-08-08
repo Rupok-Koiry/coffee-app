@@ -56,7 +56,7 @@ const DetailsScreen: React.FC = () => {
     } else {
       createWishlist({
         product_id: product.id,
-        user_id: "2c0cea61-c686-4f7a-b6d2-16983584e121",
+        user_id: "1ed91ebd-c660-43bc-8ac6-e4930bdf17b0",
       });
     }
     setIsFavorite((prev) => !prev);

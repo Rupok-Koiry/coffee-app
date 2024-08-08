@@ -16,7 +16,7 @@ export type Database = {
           order_id: string
           price: number
           product_id: number
-          quality: number
+          quantity: number
           size: string
           total_price: number
         }
@@ -26,7 +26,7 @@ export type Database = {
           order_id: string
           price: number
           product_id: number
-          quality: number
+          quantity: number
           size: string
           total_price: number
         }
@@ -36,7 +36,7 @@ export type Database = {
           order_id?: string
           price?: number
           product_id?: number
-          quality?: number
+          quantity?: number
           size?: string
           total_price?: number
         }
