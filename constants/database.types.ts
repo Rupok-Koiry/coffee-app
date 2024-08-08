@@ -13,30 +13,30 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          order_id: number
+          order_id: string
           price: number
           product_id: number
-          quantity: number
+          quality: number
           size: string
           total_price: number
         }
         Insert: {
           created_at?: string
           id?: number
-          order_id: number
+          order_id: string
           price: number
           product_id: number
-          quantity: number
+          quality: number
           size: string
           total_price: number
         }
         Update: {
           created_at?: string
           id?: number
-          order_id?: number
+          order_id?: string
           price?: number
           product_id?: number
-          quantity?: number
+          quality?: number
           size?: string
           total_price?: number
         }
@@ -46,7 +46,7 @@ export type Database = {
             columns: ["order_id"]
             isOneToOne: false
             referencedRelation: "orders"
-            referencedColumns: ["id"]
+            referencedColumns: ["order_id"]
           },
           {
             foreignKeyName: "order_items_product_id_fkey"
@@ -62,6 +62,7 @@ export type Database = {
           created_at: string
           id: number
           order_date: string
+          order_id: string
           status: Database["public"]["Enums"]["order_status_enum"]
           total_price: number
           user_id: string
@@ -70,6 +71,7 @@ export type Database = {
           created_at?: string
           id?: number
           order_date?: string
+          order_id?: string
           status?: Database["public"]["Enums"]["order_status_enum"]
           total_price: number
           user_id: string
@@ -78,6 +80,7 @@ export type Database = {
           created_at?: string
           id?: number
           order_date?: string
+          order_id?: string
           status?: Database["public"]["Enums"]["order_status_enum"]
           total_price?: number
           user_id?: string
@@ -135,8 +138,8 @@ export type Database = {
           ingredients: string
           name: string
           ratings_count: number
-          roasted: string
-          special_ingredient: string
+          roasted: string | null
+          special_ingredient: string | null
           type: Database["public"]["Enums"]["product_type_enum"]
         }
         Insert: {
@@ -149,8 +152,8 @@ export type Database = {
           ingredients: string
           name: string
           ratings_count?: number
-          roasted: string
-          special_ingredient: string
+          roasted?: string | null
+          special_ingredient?: string | null
           type: Database["public"]["Enums"]["product_type_enum"]
         }
         Update: {
@@ -163,8 +166,8 @@ export type Database = {
           ingredients?: string
           name?: string
           ratings_count?: number
-          roasted?: string
-          special_ingredient?: string
+          roasted?: string | null
+          special_ingredient?: string | null
           type?: Database["public"]["Enums"]["product_type_enum"]
         }
         Relationships: []
@@ -172,30 +175,30 @@ export type Database = {
       profiles: {
         Row: {
           address: string | null
-          avatar_url: string | null
-          full_name: string
+          avatar: string | null
+          full_name: string | null
           id: string
-          phone_number: string | null
+          phone: string | null
           updated_at: string | null
-          username: string
+          username: string | null
         }
         Insert: {
           address?: string | null
-          avatar_url?: string | null
-          full_name: string
+          avatar?: string | null
+          full_name?: string | null
           id: string
-          phone_number?: string | null
+          phone?: string | null
           updated_at?: string | null
-          username: string
+          username?: string | null
         }
         Update: {
           address?: string | null
-          avatar_url?: string | null
-          full_name?: string
+          avatar?: string | null
+          full_name?: string | null
           id?: string
-          phone_number?: string | null
+          phone?: string | null
           updated_at?: string | null
-          username?: string
+          username?: string | null
         }
         Relationships: [
           {

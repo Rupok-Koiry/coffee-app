@@ -5,28 +5,39 @@ export async function signup({
   full_name,
   email,
   password,
-  phone_number,
+  phone,
   address,
-  avatar_url,
+  avatar,
 }: UpdateTables<"profiles"> & { password: string; email: string }) {
-    const {  error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+  // Sign up the user with Supabase authentication
+  const { data: authData, error: authError } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name,
+        username: email.split("@")[0],
+        phone,
+        address,
+        avatar,
+      },
+    },
+  });
 
-    console.log(error);
-    
-    if (error) throw new Error(error.message);
+  console.log(authData, authError);
+  
+  if (authError) throw new Error(authError.message);
 
-    return await updateCurrentUser({ full_name, phone_number, address, avatar_url });
+  return authData;
+
 }
 
 export async function updateCurrentUser({
   full_name,
   password,
-  phone_number,
+  phone,
   address,
-  avatar_url,
+  avatar,
 }: UpdateTables<"profiles"> & { password?: string }) {
     if (password) {
       const { error } = await supabase.auth.updateUser({ password });
@@ -36,28 +47,28 @@ export async function updateCurrentUser({
       .from("profiles")
       .update({
         full_name,
-        phone_number,
+        phone,
         address,
-        avatar_url,
+        avatar,
       })
       .select()
       .single();
 
     if (error) throw new Error(error.message);
-    if (!avatar_url || !avatar_url.startsWith("file")) return data;
+    if (!avatar || !avatar.startsWith("file")) return data;
 
     const fileName = `avatar-${data.id}-${Math.random()}`;
 
     const { error: storageError } = await supabase.storage
       .from("avatars")
-      .upload(fileName, avatar_url);
+      .upload(fileName, avatar);
 
     if (storageError) throw new Error(storageError.message);
 
     const { data: updatedUser, error: updateError } = await supabase
       .from("profiles")
       .update({
-        avatar_url: fileName,
+        avatar: fileName,
       })
       .select()
       .single();
