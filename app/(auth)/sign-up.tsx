@@ -24,7 +24,6 @@ const SignUpScreen: React.FC = () => {
 
   const { signup } = useSignup();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-
     signup(data);
   };
 
@@ -66,6 +65,7 @@ const SignUpScreen: React.FC = () => {
                 placeholder="Enter your Email"
                 iconName="mail"
                 rules={{ required: "Email is required" }}
+                keyboardType="email-address"
               />
               {errors.email && (
                 <Text className="text-xs text-primary-red my-0.5 mx-2">
@@ -81,6 +81,7 @@ const SignUpScreen: React.FC = () => {
                 placeholder="Enter your phone"
                 iconName="phone-portrait"
                 rules={{ required: "Phone is required" }}
+                keyboardType="phone-pad"
               />
               {errors.phone && (
                 <Text className="text-xs text-primary-red my-0.5 mx-2">

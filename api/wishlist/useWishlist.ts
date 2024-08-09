@@ -1,8 +1,11 @@
 import { getWishlist } from "@/services/apiWishlist";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useUser } from "../auth/useUser";
+
 
 export function useWishlist() {
-  const userId = "1ed91ebd-c660-43bc-8ac6-e4930bdf17b0";
+  const {user}=useUser()
+  const userId = user?.id ?? "";
   const { data, error, fetchNextPage, hasNextPage, isLoading } =
     useInfiniteQuery({
       queryKey: ["wishlist", userId],

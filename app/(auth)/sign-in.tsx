@@ -47,6 +47,7 @@ const SignInScreen: React.FC = () => {
                 placeholder="Enter your Email"
                 iconName="mail"
                 rules={{ required: "Email is required" }}
+                keyboardType="email-address"
               />
               {errors.email && (
                 <Text className="text-xs text-primary-red my-0.5 mx-2">

@@ -17,11 +17,13 @@ import ProfileOption from "@/components/ProfileOption";
 import HeaderBar from "@/components/HeaderBar";
 import { useUser } from "@/api/auth/useUser";
 import { SUPABASE_URL } from "@/services/supabase";
-
+import { format } from "date-fns";
+import { useLogout } from "@/api/auth/useLogout";
 const ProfileScreen: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
   const { user } = useUser();
 
+  const { logout } = useLogout();
   if (!user) return null;
 
   return (
@@ -49,7 +51,7 @@ const ProfileScreen: React.FC = () => {
             </LinearGradient>
           </View>
           <Text className="font-poppins-semibold text-xl text-primary-white text-center my-4">
-            Hello, {user.full_name}
+            Hello, <Text className="text-primary-orange">{user.full_name}</Text>
           </Text>
           <View className="flex-row items-center space-x-5">
             <Ionicons
@@ -58,7 +60,7 @@ const ProfileScreen: React.FC = () => {
               color={COLORS.primaryLightGreyHex}
             />
             <Text className="text-sm text-secondary-light-grey">
-              Joined {new Date(user.created_at).toDateString()}
+              Joined {format(user.created_at, "MMMM dd, yyyy")}
             </Text>
           </View>
         </View>
@@ -120,7 +122,9 @@ const ProfileScreen: React.FC = () => {
               }
             />
           </View>
-          <Button containerClassName="self-center">Logout</Button>
+          <Button containerClassName="self-center" onPress={() => logout()}>
+            Logout
+          </Button>
         </LinearGradient>
       </ScrollView>
     </SafeAreaView>

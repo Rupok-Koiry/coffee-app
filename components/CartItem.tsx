@@ -11,12 +11,14 @@ type CartItemProps = {
   item: CartItemType;
   incrementQuantity: (size: string, quantity: number) => void;
   decrementQuantity: (size: string, quantity: number) => void;
+  removeItem: () => void;
 };
 
 const CartItem: React.FC<CartItemProps> = ({
   item,
   incrementQuantity,
   decrementQuantity,
+  removeItem,
 }) => {
   const { product, prices } = item;
 
@@ -181,6 +183,12 @@ const CartItem: React.FC<CartItemProps> = ({
           </View>
         </LinearGradient>
       )}
+      <TouchableOpacity
+        className="absolute right-0 top-0 bg-primary-orange rounded-full p-0.5"
+        onPress={removeItem}
+      >
+        <Ionicons size={16} name="close" color={COLORS.primaryWhiteHex} />
+      </TouchableOpacity>
     </View>
   );
 };

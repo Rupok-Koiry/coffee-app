@@ -1,10 +1,12 @@
 import { getWishlistStatus } from "@/services/apiWishlist";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
+import { useUser } from "../auth/useUser";
 
 export function useWishlistStatus() {
   const { productId } = useLocalSearchParams();
-  const userId = "1ed91ebd-c660-43bc-8ac6-e4930bdf17b0";
+  const {user}=useUser()
+  const userId = user?.id ?? ""; 
   const convertedProductId = Array.isArray(productId)
     ? Number(productId[0])
     : Number(productId);

@@ -22,6 +22,7 @@ import { useDeleteWishlist } from "@/api/wishlist/useDeleteWishlist";
 import { useWishlistStatus } from "@/api/wishlist/useWishlistStatus";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/features/cartSlice";
+import { useUser } from "@/api/auth/useUser";
 
 const DetailsScreen: React.FC = () => {
   const { product, isLoading } = useProduct();
@@ -34,6 +35,7 @@ const DetailsScreen: React.FC = () => {
   const { createWishlist } = useCreateWishlist();
   const { deleteWishlist } = useDeleteWishlist();
   const { wishlistId } = useWishlistStatus();
+  const { user } = useUser();
 
   useEffect(() => {
     if (product) {
@@ -42,7 +44,7 @@ const DetailsScreen: React.FC = () => {
         setSelectedPrice(product.prices[0]);
       }
     }
-  }, [product]);
+  }, [product, wishlistId]);
 
   if (isLoading) return <Loader />;
   if (!product)
@@ -54,9 +56,10 @@ const DetailsScreen: React.FC = () => {
     if (isFavorite && wishlistId) {
       deleteWishlist(wishlistId);
     } else {
+      if (!user) return;
       createWishlist({
         product_id: product.id,
-        user_id: "1ed91ebd-c660-43bc-8ac6-e4930bdf17b0",
+        user_id: user.id,
       });
     }
     setIsFavorite((prev) => !prev);

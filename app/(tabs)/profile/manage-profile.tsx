@@ -163,6 +163,7 @@ const EditProfileScreen: React.FC = () => {
                 placeholder="Enter your phone"
                 iconName="phone-portrait"
                 rules={{ required: "Phone is required" }}
+                keyboardType="phone-pad"
               />
               {userDetailsErrors.phone && (
                 <Text className="text-xs text-primary-red my-0.5 mx-2">

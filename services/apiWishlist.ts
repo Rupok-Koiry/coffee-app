@@ -30,6 +30,7 @@ export async function getWishlist({ userId, page = 1 }: getWishlistParams) {
 }
 
 export async function createWishlist(newWishlist: InsertTables<"wishlist">) {
+  
   const { data, error } = await supabase
     .from("wishlist")
     .insert([newWishlist])

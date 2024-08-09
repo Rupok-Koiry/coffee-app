@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   ScrollView,
   StatusBar,
   TextInput,
   TouchableOpacity,
-  Keyboard,
 } from "react-native";
 import { COLORS } from "@/theme/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
 import Button from "@/components/Button";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 const OrderTrackingScreen = () => {
   const router = useRouter();
@@ -30,15 +29,26 @@ const OrderTrackingScreen = () => {
         contentContainerStyle={{ flexGrow: 1 }}
       >
         <HeaderBar title="Track Order" />
-        <View className="p-5">
-          <TextInput
-            placeholder="Enter your order id"
-            placeholderTextColor={COLORS.primaryLightGreyHex}
-            className="rounded-xl flex-1 font-poppins-medium text-base text-primary-white p-3 bg-primary-dark-grey mb-5 border border-primary-grey"
-            cursorColor={COLORS.primaryOrangeHex}
-            onChangeText={(text) => setOrderId(text.replace("#", ""))}
-            onSubmitEditing={handleTrackOrder}
-          />
+        <View className="p-5 flex-1">
+          <View className="flex-row mb-5 rounded-xl bg-primary-dark-grey items-center border border-primary-grey">
+            <TouchableOpacity onPress={handleTrackOrder}>
+              <Ionicons
+                style={{ marginHorizontal: 12 }}
+                name="search"
+                size={16}
+                color={COLORS.primaryLightGreyHex}
+              />
+            </TouchableOpacity>
+            <TextInput
+              placeholder="Enter your order id"
+              cursorColor={COLORS.primaryOrangeHex}
+              onChangeText={(text) => setOrderId(text.replace("#", ""))}
+              onSubmitEditing={handleTrackOrder}
+              placeholderTextColor={COLORS.primaryLightGreyHex}
+              className="flex-1 font-poppins-medium text-sm text-primary-white py-3"
+              keyboardType="numeric"
+            />
+          </View>
           <Button onPress={handleTrackOrder}>Track Order</Button>
         </View>
       </ScrollView>

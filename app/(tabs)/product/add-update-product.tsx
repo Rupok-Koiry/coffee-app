@@ -366,7 +366,7 @@ const AddUpdateProductScreen: React.FC = () => {
                           ? value
                           : `${SUPABASE_URL}/storage/v1/object/public/product-images/square/${value}`,
                       }}
-                      className="w-full h-full rounded"
+                      className="w-full h-full rounded aspect-square"
                     />
                   ) : (
                     <View className="justify-center items-center">
@@ -410,7 +410,7 @@ const AddUpdateProductScreen: React.FC = () => {
                           ? value
                           : `${SUPABASE_URL}/storage/v1/object/public/product-images/portrait/${value}`,
                       }}
-                      className="w-full h-full rounded"
+                      className="w-full h-full rounded aspect-[4/3]"
                     />
                   ) : (
                     <View className="justify-center items-center">
