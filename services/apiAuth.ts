@@ -1,80 +1,105 @@
 import { UpdateTables } from "@/constants/types";
 import supabase from "./supabase";
+import { decode } from "base64-arraybuffer";
+import * as FileSystem from "expo-file-system";
+// Reusable function to fetch user profile by user ID
+async function fetchUserProfile(userId: string) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", userId)
+    .single();
+
+  if (error) throw new Error(error.message);
+  return data;
+}
 
 export async function signup({
   full_name,
   email,
   password,
   phone,
-  address,
-  avatar,
 }: UpdateTables<"profiles"> & { password: string; email: string }) {
-  // Sign up the user with Supabase authentication
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       data: {
         full_name,
-        username: email.split("@")[0],
         phone,
-        address,
-        avatar,
       },
     },
   });
 
-  if (error) {
-    throw new Error(error.message);
-  }
+  if (error) throw new Error(error.message);
+  if (!data.user) return null;
 
+  return await fetchUserProfile(data.user.id);
+}
+
+export async function updatePassword(password: string) {
+  const { data, error } =await supabase.auth.updateUser({ password });  
+  if (error) throw new Error(error.message);
   return data;
 }
 
 export async function updateCurrentUser({
   full_name,
-  password,
   phone,
   address,
   avatar,
-}: UpdateTables<"profiles"> & { password?: string }) {
-  if (password) {
-    const { error } = await supabase.auth.updateUser({ password });
-    if (error) throw new Error(error.message);
-  }
-  const { data, error } = await supabase
+}: UpdateTables<"profiles"> ) {
+  // Update authentication data if necessary
+  const { error: authUpdateError } = await supabase.auth.updateUser({
+    data: { full_name, phone },
+  });  
+  if (authUpdateError) throw new Error(authUpdateError.message);
+
+  // Get the current session
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
+  if (sessionError || !sessionData?.session)
+    throw new Error("Unable to retrieve user session");
+
+  const userId = sessionData.session.user.id;
+
+  // Update the profile data
+  const { data, error: profileUpdateError } = await supabase
     .from("profiles")
-    .update({
-      full_name,
-      phone,
-      address,
-      avatar,
-    })
+    .update({ full_name, phone, address, avatar })
+    .eq("id", userId)
     .select()
     .single();
 
-  if (error) throw new Error(error.message);
-  if (!avatar || !avatar.startsWith("file")) return data;
+  if (profileUpdateError) throw new Error(profileUpdateError.message);
 
+  // Handle avatar upload if needed
+  if (!avatar || !avatar.startsWith("file")) return data;
   const fileName = `avatar-${data.id}-${Math.random()}`;
+  const base64 = await FileSystem.readAsStringAsync(avatar, {
+    encoding: FileSystem.EncodingType.Base64,
+  });
 
   const { error: storageError } = await supabase.storage
     .from("avatars")
-    .upload(fileName, avatar);
+    .upload(fileName, decode(base64), {
+      contentType: "image/*",
+    });
 
   if (storageError) throw new Error(storageError.message);
 
-  const { data: updatedUser, error: updateError } = await supabase
+  // Update the avatar field with the new file name
+  const { data: updatedUser, error: avatarUpdateError } = await supabase
     .from("profiles")
-    .update({
-      avatar: fileName,
-    })
+    .update({ avatar: fileName })
+    .eq("id", userId)
     .select()
     .single();
 
-  if (updateError) throw new Error(updateError.message);
+  if (avatarUpdateError) throw new Error(avatarUpdateError.message);
   return updatedUser;
 }
+
 export async function login({
   email,
   password,
@@ -87,21 +112,17 @@ export async function login({
     password,
   });
 
-  if (error) {
-    throw new Error(error.message);
-  }
+  if (error) throw new Error(error.message);
+  if (!data?.user) return null;
 
-  return data;
+  return await fetchUserProfile(data.user.id);
 }
 
 export async function getCurrentUser() {
   const { data: session } = await supabase.auth.getSession();
-  if (!session.session) return null;
+  if (!session?.session) return null;
 
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error) throw new Error(error.message);
-  return data?.user;
+  return await fetchUserProfile(session.session.user.id);
 }
 
 export async function logout() {

@@ -14,7 +14,7 @@ export function useProducts({ type, filter = "" }: UseProductsParams) {
     ? search[0]
     : (search as string);
 
-  const { data, error, fetchNextPage, hasNextPage, isFetching } =
+  const { data, error, fetchNextPage, hasNextPage, isLoading,isFetching } =
     useInfiniteQuery({
       queryKey: ["products", type, filter, convertedSearch],
       queryFn: ({ pageParam }) =>
@@ -32,6 +32,7 @@ export function useProducts({ type, filter = "" }: UseProductsParams) {
     error,
     fetchNextPage,
     hasNextPage,
-    isFetching,
+    isLoading,
+    isFetching
   };
 }

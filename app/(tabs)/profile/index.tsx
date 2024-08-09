@@ -15,9 +15,14 @@ import Button from "@/components/Button";
 import { COLORS } from "@/theme/theme";
 import ProfileOption from "@/components/ProfileOption";
 import HeaderBar from "@/components/HeaderBar";
+import { useUser } from "@/api/auth/useUser";
+import { SUPABASE_URL } from "@/services/supabase";
 
 const ProfileScreen: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
+  const { user } = useUser();
+
+  if (!user) return null;
 
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
@@ -36,13 +41,15 @@ const ProfileScreen: React.FC = () => {
               style={{ borderRadius: 999, padding: 2 }}
             >
               <Image
-                source={require("@/assets/app_images/avatar.png")}
+                source={{
+                  uri: `${SUPABASE_URL}/storage/v1/object/public/avatars/${user.avatar}`,
+                }}
                 className="w-full h-full rounded-full"
               />
             </LinearGradient>
           </View>
           <Text className="font-poppins-semibold text-xl text-primary-white text-center my-4">
-            Hello, John Doe
+            Hello, {user.full_name}
           </Text>
           <View className="flex-row items-center space-x-5">
             <Ionicons
@@ -51,7 +58,7 @@ const ProfileScreen: React.FC = () => {
               color={COLORS.primaryLightGreyHex}
             />
             <Text className="text-sm text-secondary-light-grey">
-              Joined June 2024
+              Joined {new Date(user.created_at).toDateString()}
             </Text>
           </View>
         </View>

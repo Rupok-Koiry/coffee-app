@@ -6,6 +6,7 @@ import { COLORS } from "@/theme/theme";
 import { Link } from "expo-router";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import { useLogin } from "@/api/auth/useLogin";
 
 interface FormValues {
   email: string;
@@ -19,10 +20,10 @@ const SignInScreen: React.FC = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
+  const { login } = useLogin();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
+    login(data);
   };
-
   return (
     <SafeAreaView className="bg-primary-black flex-1">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />

@@ -175,30 +175,36 @@ export type Database = {
       profiles: {
         Row: {
           address: string | null
-          avatar: string | null
-          full_name: string | null
+          avatar: string
+          created_at: string
+          full_name: string
           id: string
-          phone: string | null
-          updated_at: string | null
-          username: string | null
+          phone: string
+          role: Database["public"]["Enums"]["user_role_enum"]
+          stripe_customer_id: string | null
+          username: string
         }
         Insert: {
           address?: string | null
-          avatar?: string | null
-          full_name?: string | null
+          avatar?: string
+          created_at?: string
+          full_name: string
           id: string
-          phone?: string | null
-          updated_at?: string | null
-          username?: string | null
+          phone: string
+          role?: Database["public"]["Enums"]["user_role_enum"]
+          stripe_customer_id?: string | null
+          username: string
         }
         Update: {
           address?: string | null
-          avatar?: string | null
-          full_name?: string | null
+          avatar?: string
+          created_at?: string
+          full_name?: string
           id?: string
-          phone?: string | null
-          updated_at?: string | null
-          username?: string | null
+          phone?: string
+          role?: Database["public"]["Enums"]["user_role_enum"]
+          stripe_customer_id?: string | null
+          username?: string
         }
         Relationships: [
           {
@@ -303,6 +309,7 @@ export type Database = {
         | "DELIVERED"
         | "CANCELLED"
       product_type_enum: "COFFEE" | "BEAN"
+      user_role_enum: "USER" | "ADMIN"
     }
     CompositeTypes: {
       [_ in never]: never

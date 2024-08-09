@@ -20,6 +20,7 @@ import { RootState } from "@/features/store";
 import { clearCart } from "@/features/cartSlice";
 import { useCreateOrderWithItems } from "@/api/orders/useCreateOrderWithItems";
 import { initializePaymentSheet, openPaymentSheet } from "@/services/apiStripe";
+import { useUser } from "@/api/auth/useUser";
 
 const paymentList: PaymentListType[] = [
   {
@@ -50,14 +51,16 @@ const PaymentScreen = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
   const { createOrderWithItems } = useCreateOrderWithItems();
+  const { user } = useUser();
   const buttonPressHandler = async () => {
+    if (!user) return;
     await initializePaymentSheet(Math.floor(cart.total_price * 100));
     const payed = await openPaymentSheet();
     if (!payed) return;
     createOrderWithItems(
       {
         cart,
-        userId: "1ed91ebd-c660-43bc-8ac6-e4930bdf17b0",
+        userId: user?.id,
       },
       {
         onSuccess: () => {

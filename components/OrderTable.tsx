@@ -20,6 +20,7 @@ import { useOrders } from "@/api/orders/useOrders";
 import { SUPABASE_URL } from "@/services/supabase";
 import { useUpdateOrderStatus } from "@/api/orders/useUpdateOrderStatus";
 import { Enums, orderStatuses } from "@/constants/types";
+import Loader from "./loader/Loader";
 
 const getStatusDesign = (status: Enums<"order_status_enum">) => {
   switch (status) {
@@ -65,7 +66,7 @@ const OrderTable = ({ status }: OrderTableProps) => {
     useState<Enums<"order_status_enum"> | null>(null);
   const [currentOrderId, setCurrentOrderId] = useState<number | null>(null);
 
-  const { orders, hasNextPage, fetchNextPage } = useOrders(status);
+  const { orders, hasNextPage, fetchNextPage, isLoading } = useOrders(status);
   const { updateOrderStatus } = useUpdateOrderStatus();
 
   const openModal = (
@@ -90,6 +91,9 @@ const OrderTable = ({ status }: OrderTableProps) => {
   const loadMore = useCallback(() => {
     if (hasNextPage) fetchNextPage();
   }, [hasNextPage, fetchNextPage]);
+
+  if (isLoading) return <Loader />;
+
   return (
     <ScrollView horizontal className="flex-1">
       <View className="flex-1 border-2 border-primary-grey rounded-2xl overflow-hidden">

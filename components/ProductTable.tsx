@@ -18,6 +18,7 @@ import { useProducts } from "@/api/products/useProducts";
 import { SUPABASE_URL } from "@/services/supabase";
 import { Enums } from "@/constants/types";
 import { useDeleteProduct } from "@/api/products/useDeleteProduct";
+import Loader from "./loader/Loader";
 
 type ProductTableProps = {
   type: Enums<"product_type_enum"> | "";
@@ -28,7 +29,7 @@ const ProductTable = ({ type }: ProductTableProps) => {
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null
   );
-  const { products, fetchNextPage, hasNextPage } = useProducts({
+  const { products, fetchNextPage, hasNextPage, isLoading } = useProducts({
     type,
   });
   const { deleteProduct } = useDeleteProduct();
@@ -51,6 +52,8 @@ const ProductTable = ({ type }: ProductTableProps) => {
   const loadMore = useCallback(() => {
     if (hasNextPage) fetchNextPage();
   }, [hasNextPage, fetchNextPage]);
+
+  if (isLoading) return <Loader />;
   return (
     <ScrollView horizontal className="flex-1">
       <View className="flex-1 border-2 border-primary-grey rounded-2xl overflow-hidden">

@@ -24,7 +24,6 @@ const SignUpScreen: React.FC = () => {
 
   const { signup } = useSignup();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
 
     signup(data);
   };

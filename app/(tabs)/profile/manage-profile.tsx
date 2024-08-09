@@ -16,13 +16,17 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import HeaderBar from "@/components/HeaderBar";
+import { useUser } from "@/api/auth/useUser";
+import { SUPABASE_URL } from "@/services/supabase";
+import { useUpdateUser } from "@/api/auth/useUpdateUser";
+import { useUpdatePassword } from "@/api/auth/useUpdatePassword";
 
 interface UserDetailsFormValues {
-  name: string;
+  full_name: string;
   email: string;
   phone: string;
   address: string;
-  profilePic: string;
+  avatar: string;
 }
 
 interface PasswordFormValues {
@@ -31,6 +35,7 @@ interface PasswordFormValues {
 }
 
 const EditProfileScreen: React.FC = () => {
+  const { user } = useUser();
   const {
     control: userDetailsControl,
     handleSubmit: handleUserDetailsSubmit,
@@ -43,23 +48,16 @@ const EditProfileScreen: React.FC = () => {
     control: passwordControl,
     handleSubmit: handlePasswordSubmit,
     formState: { errors: passwordErrors },
+    reset: resetPassword,
   } = useForm<PasswordFormValues>();
 
-  const user = {
-    profilePic:
-      "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
-    name: "John Doe",
-    email: "koiry.rupok@gmail.com",
-    phone: "1234567890",
-    address: "123, Random Street, Random City",
-  };
-
   useEffect(() => {
-    setUserDetailsValue("name", user.name);
+    if (!user) return;
+    setUserDetailsValue("full_name", user.full_name);
     setUserDetailsValue("email", user.email);
     setUserDetailsValue("phone", user.phone);
-    setUserDetailsValue("address", user.address);
-    setUserDetailsValue("profilePic", user.profilePic);
+    setUserDetailsValue("address", user.address || "");
+    setUserDetailsValue("avatar", user.avatar);
   }, [setUserDetailsValue]);
 
   const pickImage = async () => {
@@ -71,22 +69,27 @@ const EditProfileScreen: React.FC = () => {
     });
 
     if (!result.canceled && result.assets && result.assets.length > 0) {
-      setUserDetailsValue("profilePic", result.assets[0].uri);
+      setUserDetailsValue("avatar", result.assets[0].uri);
     }
   };
 
-  const profileImage = watchUserDetails("profilePic");
+  const profileImage = watchUserDetails("avatar");
 
+  const { updateUser } = useUpdateUser();
+  const { updatePassword } = useUpdatePassword();
   const onSubmitUserDetails: SubmitHandler<UserDetailsFormValues> = (data) => {
-    console.log(data);
-    // Handle user details form submission logic here
+    updateUser(data);
   };
 
   const onSubmitPassword: SubmitHandler<PasswordFormValues> = (data) => {
-    console.log(data);
-    // Handle password form submission logic here
+    updatePassword(data.password, {
+      onSuccess: () => {
+        resetPassword();
+      },
+    });
   };
 
+  if (!user) return null;
   return (
     <SafeAreaView className="bg-primary-black flex-1">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -108,7 +111,11 @@ const EditProfileScreen: React.FC = () => {
                 >
                   <View className="w-full h-full rounded-full overflow-hidden">
                     <Image
-                      source={{ uri: profileImage || user.profilePic }}
+                      source={{
+                        uri: profileImage?.startsWith("file")
+                          ? profileImage
+                          : `${SUPABASE_URL}/storage/v1/object/public/avatars/${user.avatar}`,
+                      }}
                       className="w-full h-full"
                       style={{ resizeMode: "cover" }}
                     />
@@ -129,14 +136,14 @@ const EditProfileScreen: React.FC = () => {
             <View>
               <Input<UserDetailsFormValues>
                 control={userDetailsControl}
-                name="name"
+                name="full_name"
                 placeholder="Enter your name"
                 iconName="person"
                 rules={{ required: "Name is required" }}
               />
-              {userDetailsErrors.name && (
+              {userDetailsErrors.full_name && (
                 <Text className="text-xs text-primary-red my-0.5 mx-2">
-                  {userDetailsErrors.name.message}
+                  {userDetailsErrors.full_name.message}
                 </Text>
               )}
             </View>
