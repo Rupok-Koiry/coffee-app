@@ -16,16 +16,16 @@ const HomeScreen = () => {
     <SafeAreaView className="bg-primary-black flex-1">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
       <ScrollView>
-        <View className={`flex-row justify-between items-center p-5`}>
+        <View className={`flex-row justify-center px-5`}>
           <Image
             source={require("@/assets/app_images/logo.png")}
-            className="w-24 h-24"
+            className="w-32 h-32"
           />
-          <Text className="font-poppins-semibold text-3xl text-primary-white">
-            Find the best{"\n"}coffee for you!
-          </Text>
         </View>
         <View className="px-5">
+          <Text className="font-poppins-semibold text-3xl text-primary-white mb-5">
+            Find the best coffee for you!
+          </Text>
           <SearchInput
             onSearch={(text) => {
               router.push(`/(tabs)/product/search?search=${text}`);

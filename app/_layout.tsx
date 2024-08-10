@@ -21,6 +21,8 @@ import { COLORS } from "@/theme/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { View } from "react-native";
 import { StripeProvider } from "@stripe/stripe-react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -127,17 +129,27 @@ export default function RootLayout() {
       >
         <QueryClientProvider client={queryClient}>
           <Provider store={store}>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-              <Stack.Screen
-                name="+not-found"
-                options={{ headerShown: false }}
-              />
-            </Stack>
+            <GestureHandlerRootView className="flex-1">
+              <BottomSheetModalProvider>
+                <Stack>
+                  <Stack.Screen
+                    name="(tabs)"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="(auth)"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="+not-found"
+                    options={{ headerShown: false }}
+                  />
+                </Stack>
+              </BottomSheetModalProvider>
+              <Toast config={toastConfig} position="bottom" />
+            </GestureHandlerRootView>
           </Provider>
         </QueryClientProvider>
-        <Toast config={toastConfig} position="bottom" />
       </StripeProvider>
     </ThemeProvider>
   );

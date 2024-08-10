@@ -13,7 +13,7 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          order_id: string
+          order_id: number
           price: number
           product_id: number
           quantity: number
@@ -23,7 +23,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: number
-          order_id: string
+          order_id: number
           price: number
           product_id: number
           quantity: number
@@ -33,7 +33,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: number
-          order_id?: string
+          order_id?: number
           price?: number
           product_id?: number
           quantity?: number
@@ -46,7 +46,7 @@ export type Database = {
             columns: ["order_id"]
             isOneToOne: false
             referencedRelation: "orders"
-            referencedColumns: ["order_id"]
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "order_items_product_id_fkey"
@@ -62,7 +62,6 @@ export type Database = {
           created_at: string
           id: number
           order_date: string
-          order_id: string
           status: Database["public"]["Enums"]["order_status_enum"]
           total_price: number
           user_id: string
@@ -71,7 +70,6 @@ export type Database = {
           created_at?: string
           id?: number
           order_date?: string
-          order_id?: string
           status?: Database["public"]["Enums"]["order_status_enum"]
           total_price: number
           user_id: string
@@ -80,7 +78,6 @@ export type Database = {
           created_at?: string
           id?: number
           order_date?: string
-          order_id?: string
           status?: Database["public"]["Enums"]["order_status_enum"]
           total_price?: number
           user_id?: string

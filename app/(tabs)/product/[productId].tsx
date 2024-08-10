@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ScrollView,
   Text,
@@ -23,6 +23,7 @@ import { useWishlistStatus } from "@/api/wishlist/useWishlistStatus";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/features/cartSlice";
 import { useUser } from "@/api/auth/useUser";
+import SignInBottomSheet from "@/components/SignInBottomSheet";
 
 const DetailsScreen: React.FC = () => {
   const { product, isLoading } = useProduct();
@@ -36,6 +37,16 @@ const DetailsScreen: React.FC = () => {
   const { deleteWishlist } = useDeleteWishlist();
   const { wishlistId } = useWishlistStatus();
   const { user } = useUser();
+
+  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+
+  const handlePresentModalPress = useCallback(() => {
+    setIsBottomSheetVisible(true);
+  }, []);
+
+  const handleCloseBottomSheet = useCallback(() => {
+    setIsBottomSheetVisible(false);
+  }, []);
 
   useEffect(() => {
     if (product) {
@@ -53,10 +64,14 @@ const DetailsScreen: React.FC = () => {
     );
 
   const toggleFavorite = () => {
+    if (!user) {
+      setIsBottomSheetVisible(true);
+      return;
+    }
+
     if (isFavorite && wishlistId) {
       deleteWishlist(wishlistId);
     } else {
-      if (!user) return;
       createWishlist({
         product_id: product.id,
         user_id: user.id,
@@ -147,6 +162,10 @@ const DetailsScreen: React.FC = () => {
               })
             )
           }
+        />
+        <SignInBottomSheet
+          isVisible={isBottomSheetVisible}
+          onClose={handleCloseBottomSheet}
         />
       </ScrollView>
     </SafeAreaView>
