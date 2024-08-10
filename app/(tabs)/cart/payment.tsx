@@ -21,6 +21,7 @@ import { clearCart } from "@/features/cartSlice";
 import { useCreateOrderWithItems } from "@/api/orders/useCreateOrderWithItems";
 import { initializePaymentSheet, openPaymentSheet } from "@/services/apiStripe";
 import { useUser } from "@/api/auth/useUser";
+import SignInModal from "@/components/SignInModal";
 
 const paymentList: PaymentListType[] = [
   {
@@ -52,8 +53,9 @@ const PaymentScreen = () => {
   const cart = useSelector((state: RootState) => state.cart);
   const { createOrderWithItems } = useCreateOrderWithItems();
   const { user } = useUser();
+  const [modalVisible, setModalVisible] = useState(false);
   const buttonPressHandler = async () => {
-    if (!user) return;
+    if (!user) return setModalVisible(true);
     await initializePaymentSheet(Math.floor(cart.total_price * 100));
     const payed = await openPaymentSheet();
     if (!payed) return;
@@ -89,7 +91,7 @@ const PaymentScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
       >
-        <HeaderBar title="Payments" showProfilePic={false} />
+        <HeaderBar title="Payments" />
         <View className="p-5" style={{ gap: 16 }}>
           <TouchableOpacity
             onPress={() => {
@@ -185,6 +187,11 @@ const PaymentScreen = () => {
         buttonTitle={`Pay with ${paymentMode}`}
         price={20}
         buttonPressHandler={buttonPressHandler}
+      />
+      <SignInModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        title="You need to be signed in to make a payment."
       />
     </SafeAreaView>
   );

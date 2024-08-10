@@ -4,18 +4,10 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
 import Button from "@/components/Button";
-import SignInBottomSheet from "@/components/SignInBottomSheet";
+import SignInModal from "@/components/SignInModal";
 
 const SignInScreen = () => {
-  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
-
-  const handlePresentModalPress = useCallback(() => {
-    setIsBottomSheetVisible(true);
-  }, []);
-
-  const handleCloseBottomSheet = useCallback(() => {
-    setIsBottomSheetVisible(false);
-  }, []);
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <GestureHandlerRootView className="flex-1">
@@ -26,11 +18,11 @@ const SignInScreen = () => {
         <Link href="/(tabs)/product" className="text-2xl text-primary-red mb-5">
           App
         </Link>
+        <Button onPress={() => setModalVisible(true)}>Open Modal</Button>
         <View className="flex-1 justify-center p-6 bg-primary-dark-grey">
-          <Button onPress={handlePresentModalPress}>Press</Button>
-          <SignInBottomSheet
-            isVisible={isBottomSheetVisible}
-            onClose={handleCloseBottomSheet}
+          <SignInModal
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
           />
         </View>
       </SafeAreaView>

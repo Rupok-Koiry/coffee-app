@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   Text,
@@ -6,7 +6,6 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   StatusBar,
-  StyleSheet,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PaymentFooter from "@/components/PaymentFooter";
@@ -17,13 +16,12 @@ import Loader from "@/components/loader/Loader";
 import { Tables } from "@/constants/types";
 import NotFound from "@/components/loader/NotFound";
 import { useCreateWishlist } from "@/api/wishlist/useCreateWishlist";
-import GradientIcon from "@/components/GradientIcon";
 import { useDeleteWishlist } from "@/api/wishlist/useDeleteWishlist";
 import { useWishlistStatus } from "@/api/wishlist/useWishlistStatus";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/features/cartSlice";
 import { useUser } from "@/api/auth/useUser";
-import SignInBottomSheet from "@/components/SignInBottomSheet";
+import SignInModal from "@/components/SignInModal";
 
 const PriceOption: React.FC<{
   price: Tables<"prices">;
@@ -63,31 +61,18 @@ const DetailsScreen: React.FC = () => {
   const { wishlistId } = useWishlistStatus();
   const { user } = useUser();
 
-  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
-
-  const handlePresentModalPress = useCallback(() => {
-    setIsBottomSheetVisible(true);
-  }, []);
-
-  const handleCloseBottomSheet = useCallback(() => {
-    setIsBottomSheetVisible(false);
-  }, []);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    if (product) {
-      setIsFavorite(!!wishlistId);
-      if (product.prices.length > 0) {
-        setSelectedPrice(product.prices[0]);
-      }
+    setIsFavorite(!!wishlistId);
+    if (product && product.prices.length > 0) {
+      setSelectedPrice(product.prices[0]);
     }
   }, [product, wishlistId]);
 
   const toggleFavorite = () => {
-    if (!user) {
-      setIsBottomSheetVisible(true);
-      return;
-    }
     if (!product) return;
+    if (!user) return setModalVisible(true);
 
     if (isFavorite && wishlistId) {
       deleteWishlist(wishlistId);
@@ -99,11 +84,6 @@ const DetailsScreen: React.FC = () => {
     }
     setIsFavorite((prev) => !prev);
   };
-
-  const selectedPriceMemo = useMemo(
-    () => selectedPrice?.price || 0,
-    [selectedPrice]
-  );
 
   if (isLoading) return <Loader />;
   if (!product)
@@ -128,9 +108,7 @@ const DetailsScreen: React.FC = () => {
             Description
           </Text>
           <TouchableWithoutFeedback
-            onPress={() => {
-              setFullDesc((prev) => !prev);
-            }}
+            onPress={() => setFullDesc((prev) => !prev)}
           >
             <Text
               numberOfLines={fullDesc ? undefined : 3}
@@ -155,7 +133,7 @@ const DetailsScreen: React.FC = () => {
           </View>
         </View>
         <PaymentFooter
-          price={selectedPriceMemo}
+          price={selectedPrice?.price || 0}
           buttonTitle="Add to Cart"
           buttonPressHandler={() =>
             dispatch(
@@ -164,18 +142,19 @@ const DetailsScreen: React.FC = () => {
                 prices: [
                   {
                     size: selectedPrice?.size || "",
-                    price: selectedPriceMemo,
+                    price: selectedPrice?.price || 0,
                     quantity: 1,
-                    total_price: selectedPriceMemo,
+                    total_price: selectedPrice?.price || 0,
                   },
                 ],
               })
             )
           }
         />
-        <SignInBottomSheet
-          isVisible={isBottomSheetVisible}
-          onClose={handleCloseBottomSheet}
+        <SignInModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          title="You need to sign in add this product to wishlist."
         />
       </ScrollView>
     </SafeAreaView>

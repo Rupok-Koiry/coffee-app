@@ -12,6 +12,7 @@ import {
   Modal,
   TouchableOpacity,
   FlatList,
+  Pressable,
 } from "react-native";
 import { Picker as SelectPicker } from "@react-native-picker/picker";
 import Button from "./Button";
@@ -217,45 +218,50 @@ const OrderTable = ({ status }: OrderTableProps) => {
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <View className="flex-1 justify-center items-center bg-primary-black-rgba px-5">
-          <LinearGradient
-            colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-            start={[0, 0]}
-            end={[1, 1]}
-            className="bg-primary-grey px-5 py-8 rounded-lg w-full"
-          >
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              className="absolute top-5 right-5 z-20"
+        <Pressable
+          onPressOut={() => setModalVisible(false)}
+          className="flex-1 bg-primary-black-rgba"
+        >
+          <View className="flex-1 justify-center items-center px-5">
+            <LinearGradient
+              colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+              start={[0, 0]}
+              end={[1, 1]}
+              className="px-5 py-8 rounded-lg w-full"
             >
-              <Ionicons name="close" size={24} color="white" />
-            </TouchableOpacity>
-            <Text className="text-xl font-poppins-semibold text-primary-white">
-              Update Order Status
-            </Text>
-            <View className="border-2 border-primary-grey rounded-xl my-5">
-              <SelectPicker
-                selectedValue={selectedStatus}
-                onValueChange={(itemValue) => setSelectedStatus(itemValue)}
-                style={{
-                  color: COLORS.primaryWhiteHex,
-                  marginBottom: 12,
-                  height: 40,
-                }}
-                dropdownIconColor={COLORS.secondaryLightGreyHex}
+              <TouchableOpacity
+                onPress={() => setModalVisible(false)}
+                className="absolute top-5 right-5 z-20"
               >
-                {orderStatuses.map((status) => (
-                  <SelectPicker.Item
-                    key={status.status}
-                    label={status.title}
-                    value={status.status}
-                  />
-                ))}
-              </SelectPicker>
-            </View>
-            <Button onPress={updateStatus}>Update</Button>
-          </LinearGradient>
-        </View>
+                <Ionicons name="close" size={24} color="white" />
+              </TouchableOpacity>
+              <Text className="text-xl font-poppins-semibold text-primary-white">
+                Update Order Status
+              </Text>
+              <View className="border-2 border-primary-grey rounded-xl my-5">
+                <SelectPicker
+                  selectedValue={selectedStatus}
+                  onValueChange={(itemValue) => setSelectedStatus(itemValue)}
+                  style={{
+                    color: COLORS.primaryWhiteHex,
+                    marginBottom: 12,
+                    height: 40,
+                  }}
+                  dropdownIconColor={COLORS.secondaryLightGreyHex}
+                >
+                  {orderStatuses.map((status) => (
+                    <SelectPicker.Item
+                      key={status.status}
+                      label={status.title}
+                      value={status.status}
+                    />
+                  ))}
+                </SelectPicker>
+              </View>
+              <Button onPress={updateStatus}>Update</Button>
+            </LinearGradient>
+          </View>
+        </Pressable>
       </Modal>
     </ScrollView>
   );

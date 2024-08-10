@@ -112,7 +112,7 @@ const SignUpScreen: React.FC = () => {
           <Text className="text-center text-secondary-light-grey font-poppins-regular">
             or continue with
           </Text>
-          <Button containerClassName="bg-transparent border-2 border-primary-orange my-5 ">
+          <Button containerClassName="my-5" outline>
             <View className="flex-row items-center justify-center space-x-3">
               <Image
                 source={require("@/assets/app_images/google.png")}
