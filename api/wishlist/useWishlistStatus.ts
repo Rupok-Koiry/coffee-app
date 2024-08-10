@@ -6,7 +6,6 @@ import { useUser } from "../auth/useUser";
 export function useWishlistStatus() {
   const { productId } = useLocalSearchParams();
   const {user}=useUser()
-  const userId = user?.id ?? ""; 
   const convertedProductId = Array.isArray(productId)
     ? Number(productId[0])
     : Number(productId);
@@ -17,7 +16,7 @@ export function useWishlistStatus() {
     error,
   } = useQuery({
     queryKey: ["wishlist", convertedProductId],
-    queryFn: () => getWishlistStatus(convertedProductId, userId),
+    queryFn: () => getWishlistStatus(convertedProductId, user?.id),
     retry: false,
   });
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import {
   ScrollView,
   Text,
@@ -24,6 +24,31 @@ import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/features/cartSlice";
 import { useUser } from "@/api/auth/useUser";
 import SignInBottomSheet from "@/components/SignInBottomSheet";
+
+const PriceOption: React.FC<{
+  price: Tables<"prices">;
+  isSelected: boolean;
+  onPress: () => void;
+  productType: string;
+}> = ({ price, isSelected, onPress, productType }) => (
+  <TouchableOpacity
+    onPress={onPress}
+    className={`flex-1 bg-primary-dark-grey items-center justify-center rounded-xl h-12 border-2 ${
+      isSelected ? "border-primary-orange" : "border-primary-dark-grey"
+    }`}
+    accessibilityRole="button"
+    accessibilityLabel={`Size ${price.size}`}
+    accessibilityState={{ selected: isSelected }}
+  >
+    <Text
+      className={`font-poppins-medium ${
+        isSelected ? "text-primary-orange" : "text-secondary-light-grey"
+      } ${productType === "BEAN" ? "text-sm" : "text-base"}`}
+    >
+      {price.size}
+    </Text>
+  </TouchableOpacity>
+);
 
 const DetailsScreen: React.FC = () => {
   const { product, isLoading } = useProduct();
@@ -57,17 +82,12 @@ const DetailsScreen: React.FC = () => {
     }
   }, [product, wishlistId]);
 
-  if (isLoading) return <Loader />;
-  if (!product)
-    return (
-      <NotFound message="Product not found!" redirectTo="/(tabs)/product" />
-    );
-
   const toggleFavorite = () => {
     if (!user) {
       setIsBottomSheetVisible(true);
       return;
     }
+    if (!product) return;
 
     if (isFavorite && wishlistId) {
       deleteWishlist(wishlistId);
@@ -79,6 +99,17 @@ const DetailsScreen: React.FC = () => {
     }
     setIsFavorite((prev) => !prev);
   };
+
+  const selectedPriceMemo = useMemo(
+    () => selectedPrice?.price || 0,
+    [selectedPrice]
+  );
+
+  if (isLoading) return <Loader />;
+  if (!product)
+    return (
+      <NotFound message="Product not found!" redirectTo="/(tabs)/product" />
+    );
 
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
@@ -108,44 +139,23 @@ const DetailsScreen: React.FC = () => {
               {product.description}
             </Text>
           </TouchableWithoutFeedback>
-          <Text className="font-poppins-semibold  text-secondary-light-grey text-base mb-3">
+          <Text className="font-poppins-semibold text-secondary-light-grey text-base mb-3">
             Size
           </Text>
-          <View className="flex-row  justify-between" style={{ gap: 20 }}>
+          <View className="flex-row justify-between" style={{ gap: 20 }}>
             {product.prices.map((price) => (
-              <TouchableOpacity
+              <PriceOption
                 key={price.size}
-                onPress={() => {
-                  setSelectedPrice(price);
-                }}
-                className={`flex-1 bg-primary-dark-grey items-center justify-center  rounded-xl h-12
-                border-2
-                ${
-                  price.size === selectedPrice?.size
-                    ? "border-primary-orange"
-                    : "border-primary-dark-grey"
-                }
-                `}
-              >
-                <Text
-                  className={`font-poppins-medium
-                  ${
-                    price.size === selectedPrice?.size
-                      ? "text-primary-orange"
-                      : "text-secondary-light-grey"
-                  }
-
-                  ${product.type === "BEAN" ? "text-sm" : "text-base"}
-                  `}
-                >
-                  {price.size}
-                </Text>
-              </TouchableOpacity>
+                price={price}
+                isSelected={price.size === selectedPrice?.size}
+                onPress={() => setSelectedPrice(price)}
+                productType={product.type}
+              />
             ))}
           </View>
         </View>
         <PaymentFooter
-          price={selectedPrice?.price || 0}
+          price={selectedPriceMemo}
           buttonTitle="Add to Cart"
           buttonPressHandler={() =>
             dispatch(
@@ -154,9 +164,9 @@ const DetailsScreen: React.FC = () => {
                 prices: [
                   {
                     size: selectedPrice?.size || "",
-                    price: selectedPrice?.price || 0,
+                    price: selectedPriceMemo,
                     quantity: 1,
-                    total_price: selectedPrice?.price || 0,
+                    total_price: selectedPriceMemo,
                   },
                 ],
               })

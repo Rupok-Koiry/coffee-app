@@ -43,7 +43,8 @@ export async function createWishlist(newWishlist: InsertTables<"wishlist">) {
   return data;
 }
 
-export async function getWishlistStatus(productId: number, userId: string) {
+export async function getWishlistStatus(productId: number, userId?: string) {
+  if(!userId) return null;
   const { data, error } = await supabase
     .from("wishlist")
     .select("id")
