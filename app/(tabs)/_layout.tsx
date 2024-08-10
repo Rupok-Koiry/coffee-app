@@ -10,14 +10,6 @@ export default function TabLayout() {
   const [modalVisible, setModalVisible] = useState(false);
   const router = useRouter();
 
-  const handleProfilePress = () => {
-    if (!user) {
-      setModalVisible(true);
-    } else {
-      router.push("/profile");
-    }
-  };
-
   return (
     <>
       <Tabs
@@ -64,8 +56,10 @@ export default function TabLayout() {
           name="profile"
           listeners={{
             tabPress: (e) => {
-              e.preventDefault();
-              handleProfilePress();
+              if (!user) {
+                e.preventDefault();
+                setModalVisible(true);
+              }
             },
           }}
           options={{
