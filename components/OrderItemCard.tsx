@@ -49,10 +49,9 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
           <Text className="font-poppins-semibold text-lg text-primary-orange">
             $
             <Text className="text-primary-white">
-              {prices.reduce(
-                (acc, price) => acc + price.quantity * price.price,
-                0
-              )}
+              {prices
+                .reduce((acc, price) => acc + price.quantity * price.price, 0)
+                .toFixed(2)}
             </Text>
           </Text>
         </View>

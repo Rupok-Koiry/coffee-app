@@ -52,7 +52,7 @@ const SignInModal: React.FC<SignInModalProps> = ({
               className="w-16 h-16 mx-auto"
             />
             <Text className="text-xl font-poppins-semibold text-primary-white text-center my-3">
-              {title}{" "}
+              {title}
             </Text>
             <Button href="/(auth)/sign-in" containerClassName="mb-3">
               Sign In

@@ -31,6 +31,8 @@ export async function signup({
     },
   });
 
+  console.log(error);
+  
   if (error) throw new Error(error.message);
   if (!data.user) return null;
 

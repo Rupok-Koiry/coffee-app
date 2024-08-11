@@ -71,15 +71,17 @@ function transformOrderData(data: Order[]): TransformedOrder[] {
 }
 
 // Function to fetch orders from Supabase with optional status filtering and pagination
-export async function getOrders({
+export async function fetchOrders({
+  userId,
   status,
   page = 1,
 }: {
+  userId?: string;
   status?: Enums<"order_status_enum"> | Enums<"order_status_enum">[] | "";
   page?: number;
 }): Promise<TransformedOrder[]> {
-  const from = (page - 1) * PAGE_LIMIT;
-  const to = from + PAGE_LIMIT - 1;
+  const from = (page - 1) * 1;
+  const to = from + 1 - 1;
 
   let query = supabase
     .from("orders")
@@ -92,16 +94,35 @@ export async function getOrders({
       ? query.in("status", status)
       : query.eq("status", status);
   }
+  if (userId) {
+    query = query.eq("user_id", userId);
+  }
 
   const { data, error } = await query;
 
   if (error) {
     console.error(error);
-    throw new Error("Orders could not be loaded"); // Throw an error if fetching orders fails
+    throw new Error("Orders could not be loaded");
   }
 
-  return transformOrderData(data as Order[]); // Transform and return the order data
+  return transformOrderData(data as Order[]);
 }
+
+export async function getOrders(options: {
+  status?: Enums<"order_status_enum"> | Enums<"order_status_enum">[] | "";
+  page?: number;
+}): Promise<TransformedOrder[]> {
+  return fetchOrders(options);
+}
+
+export async function getMyOrders(options: {
+  userId: string;
+  status?: Enums<"order_status_enum"> | Enums<"order_status_enum">[] | "";
+  page?: number;
+}): Promise<TransformedOrder[]> {
+  return fetchOrders(options);
+}
+
 
 // Function to fetch a single order by its ID
 export async function getOrder(

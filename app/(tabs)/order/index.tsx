@@ -1,5 +1,12 @@
 import React, { useState, useCallback } from "react";
-import { Dimensions, FlatList, StatusBar, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  StatusBar,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import { COLORS } from "@/theme/theme";
@@ -7,10 +14,11 @@ import PopUpAnimation from "@/components/PopUpAnimation";
 import HeaderBar from "@/components/HeaderBar";
 import EmptyListAnimation from "@/components/EmptyListAnimation";
 import OrderHistoryCard from "@/components/OrderCard";
-import { useOrders } from "@/api/orders/useOrders";
 import { TransformedOrder } from "@/services/apiOrders";
 import ErrorMessage from "@/components/ErrorMessage";
 import { useRouter } from "expo-router";
+import { useMyOrders } from "@/api/orders/useMyOrders";
+import Button from "@/components/Button";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
@@ -22,7 +30,7 @@ const OrderScreen: React.FC = () => {
     fetchNextPage: fetchNextActivePage,
     hasNextPage: hasNextActivePage,
     isLoading: isLoadingActive,
-  } = useOrders(["PLACED", "ON_THE_WAY", "CONFIRMED"]);
+  } = useMyOrders(["PLACED", "ON_THE_WAY", "CONFIRMED"]);
 
   const {
     orders: archivedOrders,
@@ -30,15 +38,22 @@ const OrderScreen: React.FC = () => {
     fetchNextPage: fetchNextArchivedPage,
     hasNextPage: hasNextArchivedPage,
     isLoading: isLoadingArchived,
-  } = useOrders(["DELIVERED", "CANCELLED"]);
+  } = useMyOrders(["DELIVERED", "CANCELLED"]);
 
+  const loadMoreActiveOrders = useCallback(() => {
+    if (hasNextActivePage) fetchNextActivePage();
+  }, [hasNextActivePage, fetchNextActivePage]);
+  const loadMoreArchivedOrders = useCallback(() => {
+    if (hasNextArchivedPage) fetchNextArchivedPage();
+  }, [hasNextArchivedPage, fetchNextArchivedPage]);
   const renderOrders = useCallback(
     (
       orders: TransformedOrder[],
       isLoading: boolean,
       error: any,
       fetchNextPage: () => void,
-      hasNextPage: boolean
+      hasNextPage: boolean,
+      loadMore: () => void
     ) => (
       <View style={{ flex: 1 }}>
         <FlatList
@@ -58,7 +73,7 @@ const OrderScreen: React.FC = () => {
               order_date={item.order_date}
             />
           )}
-          onEndReached={() => hasNextPage && fetchNextPage()}
+          onEndReached={loadMore}
           onEndReachedThreshold={0.5}
         />
         {error && <ErrorMessage message="Order could not be load!" />}
@@ -74,7 +89,8 @@ const OrderScreen: React.FC = () => {
         isLoadingActive,
         activeError,
         fetchNextActivePage,
-        hasNextActivePage
+        hasNextActivePage,
+        loadMoreActiveOrders
       ),
     [
       activeOrders,
@@ -83,6 +99,7 @@ const OrderScreen: React.FC = () => {
       fetchNextActivePage,
       hasNextActivePage,
       renderOrders,
+      loadMoreActiveOrders,
     ]
   );
 
@@ -93,7 +110,8 @@ const OrderScreen: React.FC = () => {
         isLoadingArchived,
         archivedError,
         fetchNextArchivedPage,
-        hasNextArchivedPage
+        hasNextArchivedPage,
+        loadMoreArchivedOrders
       ),
     [
       archivedOrders,
@@ -102,6 +120,7 @@ const OrderScreen: React.FC = () => {
       fetchNextArchivedPage,
       hasNextArchivedPage,
       renderOrders,
+      loadMoreArchivedOrders,
     ]
   );
 
@@ -121,6 +140,7 @@ const OrderScreen: React.FC = () => {
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
       <View className="flex-1">
         <HeaderBar title="Order History" />
+        <Button href="/(tabs)/order/list">Click</Button>
         <View className="flex-1 justify-between">
           <TabView
             navigationState={{ index, routes }}

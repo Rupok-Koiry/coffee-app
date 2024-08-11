@@ -47,7 +47,7 @@ const toastConfig: ToastConfig = {
       text1={text1}
       text2={text2}
       renderLeadingIcon={() => (
-        <View className="flex-row justify-center items-center bg-primary-dark-grey p-2">
+        <View className="flex-row justify-center items-center p-2">
           <Ionicons
             name="close-circle"
             size={24}
@@ -77,7 +77,7 @@ const toastConfig: ToastConfig = {
       text1={text1}
       text2={text2}
       renderLeadingIcon={() => (
-        <View className="flex-row justify-center items-center bg-primary-dark-grey p-2">
+        <View className="flex-row justify-center items-center p-2">
           <Ionicons
             name="checkmark-circle"
             size={24}

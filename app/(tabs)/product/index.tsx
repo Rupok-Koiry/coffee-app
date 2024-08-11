@@ -16,7 +16,7 @@ const HomeScreen = () => {
     <SafeAreaView className="bg-primary-black flex-1">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
       <ScrollView>
-        <View className={`flex-row justify-center px-5`}>
+        <View className={`flex-row justify-center`}>
           <Image
             source={require("@/assets/app_images/logo.png")}
             className="w-32 h-32"

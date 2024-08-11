@@ -22,7 +22,7 @@ const HeaderBar = ({
   const router = useRouter();
   return (
     <View
-      className={`flex-row justify-between items-center p-5 ${containerClassName}`}
+      className={`flex-row justify-between items-center px-5 py-3 ${containerClassName}`}
     >
       <TouchableOpacity onPress={() => router.back()}>
         <GradientIcon

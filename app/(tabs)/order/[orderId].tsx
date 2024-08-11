@@ -9,10 +9,16 @@ import OrderStatus from "@/components/OrderStatus";
 import { useOrder } from "@/api/orders/useOrder";
 import Loader from "@/components/loader/Loader";
 import NotFound from "@/components/loader/NotFound";
+import { useUpdateOrderSubscription } from "@/services/apiSubscriptions";
+import { useLocalSearchParams } from "expo-router";
 
 const OrderDetailsScreen = () => {
-  const { order, isLoading } = useOrder();
+  const { orderId } = useLocalSearchParams();
 
+  const { order, isLoading } = useOrder();
+  useUpdateOrderSubscription(
+    Array.isArray(orderId) ? Number(orderId[0]) : Number(orderId)
+  );
   if (isLoading) return <Loader />;
   if (!order)
     return (
