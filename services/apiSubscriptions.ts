@@ -17,14 +17,15 @@ export const useUpdateOrderSubscription = (orderId: number) => {
           filter: `id=eq.${orderId}`,
         },
         (payload) => {
-          queryClient.invalidateQueries({ queryKey: ["order",orderId] });
-
+          // Invalidate the query by passing the key as an array
+          queryClient.invalidateQueries({ queryKey: ["order", orderId] });
         }
       )
       .subscribe();
 
+    // Cleanup on component unmount
     return () => {
       orders.unsubscribe();
     };
-  }, [orderId]);
+  }, [orderId, queryClient]); // Make sure to include queryClient in the dependency array
 };

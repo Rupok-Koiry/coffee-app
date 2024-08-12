@@ -28,14 +28,14 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
       className="p-3 rounded-2xl"
       style={{ gap: 20, flex: 1 }}
     >
-      <View className="flex-row justify-between items-center">
-        <View className="flex-row  items-center" style={{ gap: 16 }}>
-          <Image
-            source={{
-              uri: `${SUPABASE_URL}/storage/v1/object/public/product-images/square/${image_square}`,
-            }}
-            className="h-24 w-24 rounded-xl"
-          />
+      <View className="flex-row  items-center" style={{ gap: 16 }}>
+        <Image
+          source={{
+            uri: `${SUPABASE_URL}/storage/v1/object/public/product-images/square/${image_square}`,
+          }}
+          className="h-24 w-24 rounded-xl"
+        />
+        <View className="space-y-2">
           <View>
             <Text className="font-poppins-medium text-lg text-primary-white">
               {name}
@@ -44,16 +44,16 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
               {special_ingredient}
             </Text>
           </View>
-        </View>
-        <View>
-          <Text className="font-poppins-semibold text-lg text-primary-orange">
-            $
-            <Text className="text-primary-white">
-              {prices
-                .reduce((acc, price) => acc + price.quantity * price.price, 0)
-                .toFixed(2)}
+          <View>
+            <Text className="font-poppins-semibold text-lg text-primary-orange">
+              $
+              <Text className="text-primary-white">
+                {prices
+                  .reduce((acc, price) => acc + price.quantity * price.price, 0)
+                  .toFixed(2)}
+              </Text>
             </Text>
-          </Text>
+          </View>
         </View>
       </View>
       {prices.map((price, index) => (
@@ -65,7 +65,7 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
             <View className="bg-black h-10 flex-1 rounded-l-lg justify-center items-center border-r border-primary-grey">
               <Text
                 className={`font-poppins-medium  ${
-                  type == "Bean"
+                  type == "BEAN"
                     ? "text-sm text-secondary-light-grey"
                     : "text-base text-white"
                 }`}

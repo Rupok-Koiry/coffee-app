@@ -7,16 +7,16 @@ import { useMyOrders } from "@/api/orders/useMyOrders";
 import { useRouter } from "expo-router";
 import Loader from "@/components/loader/Loader";
 
-const ArchiveOrders = () => {
+const ActiveOrders = () => {
   const router = useRouter();
   const { orders, error, fetchNextPage, hasNextPage, isLoading } = useMyOrders([
-    "CANCELLED",
-    "DELIVERED",
+    "PLACED",
+    "ON_THE_WAY",
+    "CONFIRMED",
   ]);
   const loadMore = useCallback(() => {
     if (hasNextPage) fetchNextPage();
   }, [hasNextPage, fetchNextPage]);
-
   if (isLoading) return <Loader />;
   if (error) return <ErrorMessage message="Order could not be load!" />;
   return (
@@ -45,4 +45,4 @@ const ArchiveOrders = () => {
   );
 };
 
-export default ArchiveOrders;
+export default ActiveOrders;
