@@ -12,7 +12,7 @@ export function useOrder() {
     data: order,
     error,
   } = useQuery({
-    queryKey: ["order", orderId],
+    queryKey: ["order", convertedOrderId],
     queryFn: () => getOrder(convertedOrderId),
     retry: false,
   });

@@ -104,7 +104,7 @@ const OrderTable = ({ status }: OrderTableProps) => {
               Order ID
             </Text>
           </View>
-          <View style={{ width: 150 }}>
+          <View style={{ width: 180 }}>
             <Text className="text-secondary-light-grey font-poppins-semibold uppercase">
               Items
             </Text>
@@ -119,7 +119,7 @@ const OrderTable = ({ status }: OrderTableProps) => {
               Order Date
             </Text>
           </View>
-          <View style={{ width: 120 }}>
+          <View style={{ width: 135 }}>
             <Text className="text-secondary-light-grey font-poppins-semibold uppercase">
               Status
             </Text>
@@ -151,7 +151,7 @@ const OrderTable = ({ status }: OrderTableProps) => {
                     {item.id}
                   </Text>
                 </View>
-                <View className="p-3 space-y-2" style={{ width: 150 }}>
+                <View className="p-3 space-y-2" style={{ width: 180 }}>
                   {item.order_items.map((item, itemIndex) => (
                     <View key={itemIndex} className="flex-row items-center">
                       <Image
@@ -176,7 +176,7 @@ const OrderTable = ({ status }: OrderTableProps) => {
                     {new Date(item.order_date).toLocaleDateString()}
                   </Text>
                 </View>
-                <View className="p-3" style={{ width: 120 }}>
+                <View className="p-3" style={{ width: 135 }}>
                   <Tag
                     containerClassName={
                       getStatusDesign(item.status).containerClassName
@@ -219,15 +219,15 @@ const OrderTable = ({ status }: OrderTableProps) => {
         onRequestClose={() => setModalVisible(false)}
       >
         <Pressable
-          onPressOut={() => setModalVisible(false)}
-          className="flex-1 bg-primary-black-rgba"
+          onPress={() => setModalVisible(false)}
+          className="flex-1 bg-primary-black-rgba justify-center items-center px-5"
         >
-          <View className="flex-1 justify-center items-center px-5">
+          <View className="w-full" onStartShouldSetResponder={() => true}>
             <LinearGradient
               colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
               start={[0, 0]}
               end={[1, 1]}
-              className="px-5 py-8 rounded-lg w-full"
+              className="px-5 py-8 rounded-lg"
             >
               <TouchableOpacity
                 onPress={() => setModalVisible(false)}

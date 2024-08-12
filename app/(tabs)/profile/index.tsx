@@ -122,7 +122,11 @@ const ProfileScreen: React.FC = () => {
               }
             />
           </View>
-          <Button containerClassName="self-center" onPress={() => logout()}>
+          <Button
+            containerClassName="self-center"
+            onPress={() => logout()}
+            outline
+          >
             Logout
           </Button>
         </LinearGradient>

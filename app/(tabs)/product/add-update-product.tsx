@@ -341,6 +341,7 @@ const AddUpdateProductScreen: React.FC = () => {
             )}
             <Button
               onPress={() => append({ size: "", price: 0, product_id: 0 })}
+              outline
             >
               Add Price
             </Button>
