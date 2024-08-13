@@ -23,6 +23,7 @@ const SignInScreen = () => {
           <SignInModal
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
+            title="Hello World! My"
           />
         </View>
       </SafeAreaView>

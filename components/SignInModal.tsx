@@ -42,7 +42,7 @@ const SignInModal: React.FC<SignInModalProps> = ({
             colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
             start={[0, 0]}
             end={[1, 1]}
-            className="px-5 py-8 rounded-lg w-full"
+            className="p-5 rounded-t-xl w-full"
           >
             <TouchableOpacity
               onPress={() => setModalVisible(false)}

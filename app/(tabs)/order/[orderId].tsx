@@ -29,6 +29,10 @@ import { useOrder } from "@/api/orders/useOrder";
 import { useUpdateOrderSubscription } from "@/services/apiSubscriptions";
 import { useLocalSearchParams } from "expo-router";
 import ReviewModal from "@/components/modals/ReviewModal";
+import { useUser } from "@/api/auth/useUser";
+import { InsertTables } from "@/constants/types";
+import { useReviewEligibility } from "@/api/reviews/useReviewEligibility";
+import { useCreateReviews } from "@/api/reviews/useCreateReviews";
 
 interface Review {
   rating: number;
@@ -38,23 +42,28 @@ interface Review {
 const OrderDetailsScreen: React.FC = () => {
   const { orderId } = useLocalSearchParams();
   const [modalVisible, setModalVisible] = useState(false);
-  const [reviews, setReviews] = useState<Review[]>([]);
-
+  const [reviews, setReviews] = useState<InsertTables<"reviews">[]>([]);
+  const { user } = useUser();
   const { order, isLoading } = useOrder();
-
+  const { isEligible } = useReviewEligibility();
+  const { createReviews } = useCreateReviews();
   useUpdateOrderSubscription(
     Array.isArray(orderId) ? Number(orderId[0]) : Number(orderId)
   );
 
   useEffect(() => {
-    if (order?.status === "DELIVERED") {
-      console.log("Order delivered");
+    if (order && user) {
+      setReviews(
+        order.order_items.map((_, i) => ({
+          rating: 0,
+          comment: null,
+          user_id: user.id,
+          product_id: order.order_items[i].product_id,
+          order_id: order.id,
+        }))
+      );
     }
-
-    if (order?.order_items) {
-      setReviews(order.order_items.map(() => ({ rating: 0, comment: "" })));
-    }
-  }, [order]);
+  }, [order, user]);
 
   const handleRatingPress = (selectedRating: number, index: number) => {
     const updatedReviews = [...reviews];
@@ -101,8 +110,8 @@ const OrderDetailsScreen: React.FC = () => {
       );
       return;
     }
-    console.log("Reviews submitted:", reviews);
-    setModalVisible(false);
+    createReviews(reviews);
+    // setModalVisible(false);
   };
 
   if (isLoading) return <Loader />;
@@ -135,20 +144,24 @@ const OrderDetailsScreen: React.FC = () => {
             total_price={order.total_price}
             order_date={order.order_date}
           />
-          <Button onPress={() => setModalVisible(true)}>Review Order</Button>
+          {order.status === "DELIVERED" && isEligible && (
+            <Button onPress={() => setModalVisible(true)}>Review Order</Button>
+          )}
         </View>
       </ScrollView>
 
-      <ReviewModal
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        orderItems={order.order_items}
-        reviews={reviews}
-        handleRatingPress={handleRatingPress}
-        handleCommentChange={handleCommentChange}
-        handleSubmitReview={handleSubmitReview}
-        renderStarIcon={renderStarIcon}
-      />
+      {reviews.length > 0 && (
+        <ReviewModal
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          orderItems={order.order_items}
+          reviews={reviews}
+          handleRatingPress={handleRatingPress}
+          handleCommentChange={handleCommentChange}
+          handleSubmitReview={handleSubmitReview}
+          renderStarIcon={renderStarIcon}
+        />
+      )}
     </SafeAreaView>
   );
 };
