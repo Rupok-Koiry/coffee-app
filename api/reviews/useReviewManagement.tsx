@@ -10,7 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { TransformedOrder } from "@/services/apiOrders";
 import { InsertTables, Tables } from "@/constants/types";
 
-export const useReviewManagement = (order: TransformedOrder) => {
+export const useReviewManagement = (order?: TransformedOrder | null) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [reviews, setReviews] = useState<InsertTables<"reviews">[]>([]);
   const { user } = useUser();

@@ -18,10 +18,22 @@ import { useReviewManagement } from "@/api/reviews/useReviewManagement";
 const OrderDetailsScreen: React.FC = () => {
   const { orderId } = useLocalSearchParams();
   const { order, isLoading } = useOrder();
-
   useUpdateOrderSubscription(
     Array.isArray(orderId) ? Number(orderId[0]) : Number(orderId)
   );
+  const {
+    reviews,
+    modalVisible,
+    isEligible,
+    handleRatingPress,
+    handleCommentChange,
+    handleSubmitReview,
+    setModalVisible,
+    renderStarIcon,
+  } = useReviewManagement(order);
+  const handleReviewPress = useCallback(() => {
+    setModalVisible(true);
+  }, [reviews, setModalVisible]);
 
   if (isLoading) return <Loader />;
   if (!order) {
@@ -34,27 +46,7 @@ const OrderDetailsScreen: React.FC = () => {
       />
     );
   }
-  const {
-    reviews,
-    modalVisible,
-    isEligible,
-    handleRatingPress,
-    handleCommentChange,
-    handleSubmitReview,
-    setModalVisible,
-    renderStarIcon,
-  } = useReviewManagement(order);
 
-  const handleReviewPress = useCallback(() => {
-    if (reviews.some((review) => review.rating === 0)) {
-      Alert.alert(
-        "Incomplete Review",
-        "Please rate all products before submitting."
-      );
-      return;
-    }
-    setModalVisible(true);
-  }, [reviews, setModalVisible]);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primaryBlackHex }}>
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
