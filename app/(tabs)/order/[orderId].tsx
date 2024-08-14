@@ -111,7 +111,7 @@ const OrderDetailsScreen: React.FC = () => {
       return;
     }
     createReviews(reviews);
-    // setModalVisible(false);
+    setModalVisible(false);
   };
 
   if (isLoading) return <Loader />;

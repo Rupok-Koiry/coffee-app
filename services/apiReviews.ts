@@ -9,11 +9,10 @@ const updateProductRatings = async (productIds: number[]): Promise<void> => {
       .from("reviews")
       .select("rating")
       .eq("product_id", productId);
-    console.log(reviews, "😂");
 
     if (error) {
       throw new Error(
-        `Error fetching reviews for rating update: ${error.message}`
+        `Error fetching reviews for product ID ${productId}: ${error.message}`
       );
     }
 
@@ -32,24 +31,33 @@ const updateProductRatings = async (productIds: number[]): Promise<void> => {
       .eq("id", productId);
 
     if (updateError) {
-      throw new Error(`Error updating product ratings: ${updateError.message}`);
+      console.error(
+        `Error updating product ratings for product ID ${productId}: ${updateError.message}`
+      );
+      // Here, we log the error instead of throwing it, so that other products still get updated.
     }
   });
 
-  await Promise.all(updatePromises);
+  try {
+    await Promise.all(updatePromises);
+  } catch (e) {
+    console.error("Error in updating some product ratings:", e);
+  }
 };
 
 export const getReviews = async (productId: number) => {
-  const { data, error } = await supabase
+  const { data: reviews, error } = await supabase
     .from("reviews")
     .select("*")
     .eq("product_id", productId);
 
   if (error) {
-    throw new Error(`Error fetching reviews: ${error.message}`);
+    throw new Error(
+      `Error fetching reviews for product ID ${productId}: ${error.message}`
+    );
   }
 
-  return data;
+  return reviews;
 };
 
 export const createReviews = async (reviews: InsertTables<"reviews">[]) => {
@@ -61,7 +69,10 @@ export const createReviews = async (reviews: InsertTables<"reviews">[]) => {
   if (error) {
     throw new Error(`Error creating review: ${error.message}`);
   }
-  await updateProductRatings(data.map((review) => review.id));
+
+  // Assuming the `product_id` is present in the review data.
+  const productIds = data.map((review) => review.product_id);
+  await updateProductRatings(productIds);
   return data;
 };
 
@@ -81,7 +92,7 @@ export const checkReviewEligibility = async ({
 
   if (error) {
     throw new Error(
-      `Error checking if user can submit review: ${error.message}`
+      `Error checking if user ${userId} can submit review for order ${orderId}: ${error.message}`
     );
   }
 
@@ -89,14 +100,16 @@ export const checkReviewEligibility = async ({
 };
 
 export const getOrderReview = async (orderId: number) => {
-  const { data, error } = await supabase
+  const { data: reviews, error } = await supabase
     .from("reviews")
     .select("*")
     .eq("order_id", orderId);
 
   if (error) {
-    throw new Error(`Error fetching order reviews: ${error.message}`);
+    throw new Error(
+      `Error fetching order reviews for order ID ${orderId}: ${error.message}`
+    );
   }
 
-  return data;
+  return reviews;
 };
