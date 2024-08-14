@@ -1,10 +1,17 @@
 import React from "react";
-import { Text, View, TouchableOpacity, ImageBackground } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  ImageBackground,
+  Pressable,
+} from "react-native";
 import GradientIcon from "./GradientIcon";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "@/theme/theme";
 import { Tables } from "@/constants/types";
 import { SUPABASE_URL } from "@/services/supabase";
+import { Link, router } from "expo-router";
 
 type ImageBackgroundInfoProps = {
   product: Tables<"products">;
@@ -135,7 +142,10 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
               </View>
             </View>
             <View className="flex-row justify-between items-center">
-              <View className="flex-row space-x-3 items-center">
+              <Pressable
+                className="flex-row space-x-3 items-center"
+                onPress={() => router.push("/(tabs)/product/reviews")}
+              >
                 <Ionicons
                   name="star"
                   color={COLORS.primaryOrangeHex}
@@ -147,7 +157,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                 <Text className="font-poppins-regular text-xs text-primary-white">
                   ({ratings_count})
                 </Text>
-              </View>
+              </Pressable>
               <View className="h-14 w-[132px] rounded-lg justify-center items-center bg-primary-dark-grey">
                 <Text className="font-poppins-regular text-xs text-secondary-light-grey">
                   {roasted}
