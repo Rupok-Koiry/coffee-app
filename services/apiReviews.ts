@@ -87,8 +87,7 @@ export const checkReviewEligibility = async ({
     .from("reviews")
     .select("id")
     .eq("user_id", userId)
-    .eq("order_id", orderId)
-    .maybeSingle();
+    .eq("order_id", orderId);
 
   if (error) {
     throw new Error(
@@ -96,10 +95,10 @@ export const checkReviewEligibility = async ({
     );
   }
 
-  return data === null;
+  return data?.length === 0;
 };
 
-export const getOrderReview = async (orderId: number) => {
+export const getOrderReviews = async (orderId: number) => {
   const { data: reviews, error } = await supabase
     .from("reviews")
     .select("*")
@@ -112,4 +111,18 @@ export const getOrderReview = async (orderId: number) => {
   }
 
   return reviews;
+};
+export const updateReviews = async (reviews: Tables<"reviews">[]) => {
+  const { data, error } = await supabase
+    .from("reviews")
+    .upsert(reviews)
+    .select();
+
+  if (error) {
+    throw new Error(`Error updating review: ${error.message}`);
+  }
+
+  const productIds = data.map((review) => review.product_id);
+  await updateProductRatings(productIds);
+  return data;
 };
