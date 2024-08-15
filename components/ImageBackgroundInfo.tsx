@@ -23,6 +23,7 @@ type ImageBackgroundInfoProps = {
 
 const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
   product: {
+    id,
     image_portrait,
     name,
     special_ingredient,
@@ -144,7 +145,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
             <View className="flex-row justify-between items-center">
               <Pressable
                 className="flex-row space-x-3 items-center"
-                onPress={() => router.push("/(tabs)/product/reviews")}
+                onPress={() => router.push(`/(tabs)/product/${id}/reviews`)}
               >
                 <Ionicons
                   name="star"

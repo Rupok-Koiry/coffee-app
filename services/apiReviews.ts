@@ -48,7 +48,7 @@ const updateProductRatings = async (productIds: number[]): Promise<void> => {
 export const getReviews = async (productId: number) => {
   const { data: reviews, error } = await supabase
     .from("reviews")
-    .select("*")
+    .select("*, user:profiles(*)")
     .eq("product_id", productId);
 
   if (error) {

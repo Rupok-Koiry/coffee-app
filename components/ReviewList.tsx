@@ -1,84 +1,86 @@
 import React from "react";
 import { View, Text, Image, FlatList } from "react-native";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { COLORS } from "@/theme/theme";
+import { formatDistanceToNowStrict } from "date-fns";
+import { SUPABASE_URL } from "@/services/supabase";
+import { Tables } from "@/constants/types";
+type ReviewType = Tables<"reviews"> & {
+  user: Tables<"profiles">;
+};
+type ReviewListProps = {
+  reviews: ReviewType[];
+};
 
-const reviews = [
-  {
-    id: 1,
-    name: "Joan Perkins",
-    rating: 5,
-    date: "1 day ago",
-    text: "This chair is a great addition for any room in your home, not only just the living room...",
-    avatar: "https://via.placeholder.com/50", // Placeholder image URL
-  },
-  {
-    id: 2,
-    name: "Frank Garrett",
-    rating: 4,
-    date: "4 days ago",
-    text: "Suspendisse potenti. Nullam tincidunt lacus tellus, aliquam est vehicula a...",
-    avatar: "https://via.placeholder.com/50", // Placeholder image URL
-  },
-  {
-    id: 20,
-    name: "Frank Garrett",
-    rating: 4,
-    date: "4 days ago",
-    text: "Suspendisse potenti. Nullam tincidunt lacus tellus, aliquam est vehicula a...",
-    avatar: "https://via.placeholder.com/50", // Placeholder image URL
-  },
-];
+const renderStarIcon = (starNumber: number, rating: number) => {
+  const isFilled = rating >= starNumber;
+  const isHalfFilled = rating >= starNumber - 0.5 && rating < starNumber;
 
-const ReviewList = () => (
-  <FlatList
-    scrollEnabled={false}
-    data={reviews}
-    contentContainerStyle={{ gap: 16 }}
-    renderItem={({ item }) => (
-      <LinearGradient
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        className="p-4 rounded-xl mx-5"
-        colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-      >
-        <View className="flex-row mb-4">
-          <Image
-            source={{ uri: item.avatar }}
-            className="w-12 h-12 rounded-full mr-3"
-          />
-          <View className="flex-1">
-            <View className="flex-row justify-between items-center mb-0.5">
-              <Text className="font-poppins-semibold text-base text-secondary-light-grey">
-                {item.name}
-              </Text>
-              <View className="flex-row items-center space-x-0.5">
-                {[...Array(item.rating)].map((_, i) => (
-                  <Ionicons
-                    key={i}
-                    name="star"
-                    size={14}
-                    color={COLORS.primaryOrangeHex}
-                  />
-                ))}
-                <Text className="text-xs font-poppins-medium text-primary-white">
-                  {item.rating}
+  return (
+    <Ionicons
+      key={starNumber}
+      name={isFilled ? "star" : isHalfFilled ? "star-half" : "star-outline"}
+      size={14}
+      color={
+        isFilled || isHalfFilled
+          ? COLORS.primaryOrangeHex
+          : COLORS.primaryLightGreyHex
+      }
+    />
+  );
+};
+
+const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
+  return (
+    <FlatList
+      scrollEnabled={false}
+      data={reviews}
+      contentContainerStyle={{ gap: 16 }}
+      renderItem={({ item }: { item: ReviewType }) => (
+        <LinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          className="p-4 rounded-xl mx-5"
+          colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+        >
+          <View className="flex-row" accessible={true}>
+            <Image
+              source={{
+                uri: `${SUPABASE_URL}/storage/v1/object/public/avatars/${item.user.avatar}`,
+              }}
+              className="w-12 h-12 rounded-full mr-3"
+              accessibilityLabel={`Avatar of ${item.user.full_name}`}
+            />
+            <View className="flex-1">
+              <View className="flex-row justify-between items-center mb-0.5">
+                <Text className="font-poppins-semibold text-base text-secondary-light-grey">
+                  {item.user.full_name}
                 </Text>
+                <View className="flex-row items-center space-x-0.5">
+                  {[1, 2, 3, 4, 5].map((startNumber) =>
+                    renderStarIcon(startNumber, item.rating)
+                  )}
+                  <Text className="text-xs font-poppins-medium text-primary-white">
+                    {item.rating}
+                  </Text>
+                </View>
               </View>
+              <Text className="text-xs font-poppins-regular mb-3 text-secondary-light-grey">
+                {formatDistanceToNowStrict(new Date(item.created_at), {
+                  addSuffix: true,
+                })}
+              </Text>
+              <Text className="font-poppins-regular text-primary-white">
+                {item.comment}
+              </Text>
             </View>
-            <Text className="text-xs font-poppins-regular mb-3 text-secondary-light-grey">
-              {item.date}
-            </Text>
-            <Text className="font-poppins-regular text-primary-white">
-              {item.text}
-            </Text>
           </View>
-        </View>
-      </LinearGradient>
-    )}
-    keyExtractor={(item) => item.id.toString()}
-  />
-);
+        </LinearGradient>
+      )}
+      keyExtractor={(item) => item.id.toString()}
+    />
+  );
+};
 
 export default ReviewList;
