@@ -1,6 +1,6 @@
 import { PAGE_LIMIT } from "@/constants/constants";
 import { Enums } from "@/constants/database.types";
-import supabase, { SUPABASE_URL } from "./supabase";
+import supabase from "./supabase";
 import { InsertTables } from "@/constants/types";
 import { decode } from "base64-arraybuffer";
 import * as FileSystem from "expo-file-system";
@@ -11,7 +11,6 @@ type getProductsParams = {
   search?: string;
   page?: number;
 };
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function getProducts({
   type,
@@ -40,10 +39,9 @@ export async function getProducts({
   }
 
   const { data, error } = await query;
-  
+
   if (error) {
-    console.error(error);
-    throw new Error("Products could not be loaded");
+    throw new Error(`Unable to fetch products.`);
   }
 
   return data;
@@ -59,8 +57,7 @@ export async function getProduct(productId: number) {
 
   // Handle product fetch error
   if (error) {
-    console.error(error);
-    throw new Error("Product not found");
+    throw new Error(`Unable to fetch the product.`);
   }
   return data;
 }
@@ -74,8 +71,7 @@ export async function deleteProduct(productId: number) {
 
   // Handle product delete error
   if (error) {
-    console.error(error);
-    throw new Error("Product could not be deleted");
+    throw new Error(`Unable to delete the product.`);
   }
   return data;
 }
@@ -100,7 +96,7 @@ async function uploadImage(
 
   if (error) {
     await supabase.from("products").delete().eq("id", productId);
-    throw new Error(`Failed to upload ${type} image`);
+    throw new Error(`Image upload failed.`);
   }
 }
 
@@ -117,7 +113,7 @@ async function updateProduct(
     .single();
 
   if (error) {
-    throw new Error(`Failed to update product: ${error.message}`);
+    throw new Error(`Unable to update the product.`);
   }
 
   return data;
@@ -132,14 +128,17 @@ async function createProduct(productData: InsertTables<"products">) {
     .single();
 
   if (error) {
-    throw new Error(`Failed to create product: ${error.message}`);
+    throw new Error(`Unable to create the product.`);
   }
 
   return data;
 }
 
 // Helper function to upsert prices for a product
-async function upsertPrices(prices:InsertTables<'prices'>[], productId:number) {
+async function upsertPrices(
+  prices: InsertTables<"prices">[],
+  productId: number
+) {
   const { data, error } = await supabase
     .from("prices")
     .upsert(
@@ -151,7 +150,7 @@ async function upsertPrices(prices:InsertTables<'prices'>[], productId:number) {
     .select();
 
   if (error) {
-    throw new Error(`Failed to upsert prices: ${error.message}`);
+    throw new Error(`Unable to update product prices.`);
   }
 
   return data;
@@ -191,42 +190,37 @@ export async function createOrUpdateProduct({
       : newProduct.image_square,
   };
 
-  try {
-    let result;
+  let result;
 
-    if (productId) {
-      // Update existing product
-      const product = await updateProduct(productId, productData);
-      const prices = await upsertPrices(newProduct.prices, productId);
-      result = { ...product, prices };
-    } else {
-      // Create new product
-      const product = await createProduct(productData);
-      const prices = await upsertPrices(newProduct.prices, product.id);
-      result = { ...product, prices };
-    }
-
-    // Handle image uploads if necessary
-    if (newProduct.image_square.startsWith("file")) {
-      await uploadImage(
-        "square",
-        squareImageName,
-        newProduct.image_square,
-        result.id
-      );
-    }
-    if (newProduct.image_portrait.startsWith("file")) {
-      await uploadImage(
-        "portrait",
-        portraitImageName,
-        newProduct.image_portrait,
-        result.id
-      );
-    }
-
-    return result;
-  } catch (error) {
-    console.error("Error creating/updating product:", error);
-    throw new Error("Product could not be created or updated");
+  if (productId) {
+    // Update existing product
+    const product = await updateProduct(productId, productData);
+    const prices = await upsertPrices(newProduct.prices, productId);
+    result = { ...product, prices };
+  } else {
+    // Create new product
+    const product = await createProduct(productData);
+    const prices = await upsertPrices(newProduct.prices, product.id);
+    result = { ...product, prices };
   }
+
+  // Handle image uploads if necessary
+  if (newProduct.image_square.startsWith("file")) {
+    await uploadImage(
+      "square",
+      squareImageName,
+      newProduct.image_square,
+      result.id
+    );
+  }
+  if (newProduct.image_portrait.startsWith("file")) {
+    await uploadImage(
+      "portrait",
+      portraitImageName,
+      newProduct.image_portrait,
+      result.id
+    );
+  }
+
+  return result;
 }

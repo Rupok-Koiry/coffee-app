@@ -4,7 +4,7 @@ import Toast from "react-native-toast-message";
 
 export function useUpdateProduct() {
   const queryClient = useQueryClient();
-  const { mutate: updateProduct, isPending: isCreating } = useMutation({
+  const { mutate: updateProduct, isPending: isUpdating } = useMutation({
     mutationFn: createOrUpdateProductApi,
     onSuccess: () => {
       Toast.show({
@@ -13,8 +13,13 @@ export function useUpdateProduct() {
       });
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
-    onError: (err) => console.warn(err.message),
+    onError: (err) => {
+      Toast.show({
+        type: "error",
+        text1: err.message,
+      });
+    },
   });
 
-  return { isCreating, updateProduct };
+  return { isUpdating, updateProduct };
 }

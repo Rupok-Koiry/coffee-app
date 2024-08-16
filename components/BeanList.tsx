@@ -52,7 +52,7 @@ const BeanList = () => {
         return (
           <TouchableOpacity
             onPress={() => {
-              router.push(`/(tabs)/product/${item.id}?type=${item.type}`);
+              router.push(`/(tabs)/product/${item.id}`);
             }}
           >
             <CoffeeCard

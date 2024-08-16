@@ -37,8 +37,8 @@ type FormValues = InsertTables<"products"> & {
 };
 const AddUpdateProductScreen: React.FC = () => {
   const { productId } = useLocalSearchParams();
-  const { createProduct } = useCreateProduct();
-  const { updateProduct } = useUpdateProduct();
+  const { createProduct, isCreating } = useCreateProduct();
+  const { updateProduct, isUpdating } = useUpdateProduct();
   const { product } = productId ? useProduct() : { product: null };
   const router = useRouter();
   const {
@@ -85,13 +85,13 @@ const AddUpdateProductScreen: React.FC = () => {
   };
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     if (productId) {
-      const convertedProductId = Array.isArray(productId)
+      const parsedProductId = Array.isArray(productId)
         ? Number(productId[0])
         : Number(productId);
       updateProduct(
         {
           newProduct: data,
-          productId: convertedProductId,
+          productId: parsedProductId,
         },
         {
           onSuccess: () => {
@@ -436,7 +436,11 @@ const AddUpdateProductScreen: React.FC = () => {
             )}
           </View>
 
-          <Button onPress={handleSubmit(onSubmit)}>
+          <Button
+            onPress={handleSubmit(onSubmit)}
+            disabled={isCreating || isUpdating}
+            loading={isCreating || isUpdating}
+          >
             {productId ? "Update Product" : "Add Product"}
           </Button>
         </View>

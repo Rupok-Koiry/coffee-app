@@ -21,7 +21,7 @@ const SignInScreen: React.FC = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const { login } = useLogin();
+  const { login, isPending } = useLogin();
   const onSubmit: SubmitHandler<FormValues> = (data) => login(data);
   return (
     <SafeAreaView className="bg-primary-black flex-1">
@@ -77,7 +77,12 @@ const SignInScreen: React.FC = () => {
           >
             Forgot Password?
           </Link> */}
-          <Button onPress={handleSubmit(onSubmit)} containerClassName="my-5">
+          <Button
+            onPress={handleSubmit(onSubmit)}
+            containerClassName="my-5"
+            disabled={isPending}
+            loading={isPending}
+          >
             Login
           </Button>
           {/*  <Text className="text-center text-secondary-light-grey font-poppins-regular">

@@ -14,7 +14,12 @@ export function useCreateProduct() {
       });
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
-    onError: (err) => console.warn(err.message),
+    onError: (err) => {
+      Toast.show({
+        type: "error",
+        text1: err.message,
+      });
+    },
   });
 
   return { isCreating, createProduct };

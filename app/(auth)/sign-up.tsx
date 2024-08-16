@@ -23,7 +23,7 @@ const SignUpScreen: React.FC = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const { signup } = useSignup();
+  const { signup, isPending } = useSignup();
   const onSubmit: SubmitHandler<FormValues> = (data) => signup(data);
 
   return (
@@ -105,7 +105,12 @@ const SignUpScreen: React.FC = () => {
               )}
             </View>
           </View>
-          <Button onPress={handleSubmit(onSubmit)} containerClassName="my-5">
+          <Button
+            onPress={handleSubmit(onSubmit)}
+            containerClassName="my-5"
+            disabled={isPending}
+            loading={isPending}
+          >
             Sign up
           </Button>
           {/* <Text className="text-center text-secondary-light-grey font-poppins-regular">

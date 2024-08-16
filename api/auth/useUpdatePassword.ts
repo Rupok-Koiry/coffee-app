@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { updatePassword as updatePasswordApi } from "@/services/apiAuth";
 import Toast from "react-native-toast-message";
 

@@ -16,7 +16,12 @@ export function useDeleteProduct() {
         text1: "Product Deleted Successfully!",
       });
     },
-    onError: (err) => console.warn(err.message),
+    onError: (err) => {
+      Toast.show({
+        type: "error",
+        text1: err.message,
+      });
+    },
   });
 
   return { isDeleting, deleteProduct };
