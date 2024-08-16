@@ -20,7 +20,11 @@ export default function OrderListNavigator() {
           tabBarIndicatorStyle: {
             backgroundColor: COLORS.primaryOrangeHex,
           },
+          tabBarIndicatorContainerStyle: {
+            backgroundColor: COLORS.primaryBlackHex,
+          },
         }}
+        sceneContainerStyle={{ backgroundColor: COLORS.primaryBlackHex }}
       >
         <TopTabs.Screen name="active" options={{ title: "Active" }} />
         <TopTabs.Screen name="archive" options={{ title: "Archive" }} />

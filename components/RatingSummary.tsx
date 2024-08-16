@@ -14,7 +14,7 @@ const calculateRatingSummary = (
     rating: number;
   }[]
 ) => {
-  const totalReviews = reviews?.length;
+  const totalReviews = reviews.length;
 
   if (totalReviews === 0) {
     return {
@@ -64,7 +64,7 @@ const RatingSummary: React.FC<RatingSummaryProps> = ({ reviews }) => {
               <View
                 className="h-full bg-primary-orange rounded-full"
                 style={{
-                  width: `${(count / totalReviews) * 100}%`,
+                  width: count > 0 ? `${(count / totalReviews) * 100}%` : "0%",
                 }}
               />
             </View>

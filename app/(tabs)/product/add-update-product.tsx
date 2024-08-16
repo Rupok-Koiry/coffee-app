@@ -30,6 +30,7 @@ import { SUPABASE_URL } from "@/services/supabase";
 import { useUpdateProduct } from "@/api/products/useUpdateProduct";
 import { InsertTables } from "@/constants/types";
 import { Picker as SelectPicker } from "@react-native-picker/picker";
+import withAuthorization from "@/app/(auth)/withAuthorization";
 
 type FormValues = InsertTables<"products"> & {
   prices: InsertTables<"prices">[];
@@ -444,4 +445,4 @@ const AddUpdateProductScreen: React.FC = () => {
   );
 };
 
-export default AddUpdateProductScreen;
+export default withAuthorization(AddUpdateProductScreen, ["ADMIN"]);

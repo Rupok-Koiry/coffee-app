@@ -15,7 +15,7 @@ const EmptyListAnimation: React.FC<EmptyListAnimationProps> = ({ title }) => {
           height: Dimensions.get("window").width,
           alignSelf: "center",
         }}
-        source={require("@/lottie/coffee.json")}
+        source={require("@/lottie/coffeecup.json")}
         autoPlay
         loop
       />

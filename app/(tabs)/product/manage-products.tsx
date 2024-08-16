@@ -11,6 +11,7 @@ import HeaderBar from "@/components/HeaderBar";
 import { COLORS } from "@/theme/theme";
 import ProductTable from "@/components/ProductTable";
 import { Enums } from "@/constants/types";
+import withAuthorization from "@/app/(auth)/withAuthorization";
 
 const productTypes: Enums<"product_type_enum">[] = ["COFFEE", "BEAN"];
 
@@ -66,4 +67,4 @@ const ManageProductScreen = () => {
   );
 };
 
-export default ManageProductScreen;
+export default withAuthorization(ManageProductScreen, ["ADMIN"]);

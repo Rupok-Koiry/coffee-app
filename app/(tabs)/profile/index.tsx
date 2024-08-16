@@ -19,11 +19,16 @@ import { useUser } from "@/api/auth/useUser";
 import { SUPABASE_URL } from "@/services/supabase";
 import { format } from "date-fns";
 import { useLogout } from "@/api/auth/useLogout";
+import { useRouter } from "expo-router";
 const ProfileScreen: React.FC = () => {
+  const router = useRouter();
   const [darkMode, setDarkMode] = useState(false);
   const { user } = useUser();
 
   const { logout } = useLogout();
+  const handleLogout = () => {
+    logout();
+  };
   if (!user) return null;
 
   return (
@@ -124,7 +129,7 @@ const ProfileScreen: React.FC = () => {
           </View>
           <Button
             containerClassName="self-center"
-            onPress={() => logout()}
+            onPress={handleLogout}
             outline
           >
             Logout

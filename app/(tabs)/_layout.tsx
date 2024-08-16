@@ -46,6 +46,14 @@ export default function TabLayout() {
 
         <Tabs.Screen
           name="order"
+          listeners={{
+            tabPress: (e) => {
+              if (!user) {
+                e.preventDefault();
+                setModalVisible(true);
+              }
+            },
+          }}
           options={{
             tabBarIcon: ({ color }) => (
               <Ionicons name="list" color={color} size={28} />
@@ -72,7 +80,7 @@ export default function TabLayout() {
       <SignInModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        title="Please sign in to continue"
+        title="Please sign in to enjoy full access to your account"
       />
     </>
   );

@@ -30,35 +30,37 @@ const ReviewCardSkeleton: React.FC = () => {
       colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
       className="p-4 rounded-xl mx-5"
     >
-      <View className="flex-row items-center mb-4">
+      <View className="flex-row">
         <Animated.View
           className="w-12 h-12 rounded-full bg-primary-grey mr-3 animate-pulse"
           style={{ opacity: pulseAnim }}
         />
         <View className="flex-1">
+          <View className="flex-row justify-between  mb-0.5">
+            <Animated.View
+              className="h-3 w-2/5 rounded bg-primary-grey mb-2 animate-pulse"
+              style={{ opacity: pulseAnim }}
+            />
+            <Animated.View
+              className="h-2 w-3/12 rounded bg-primary-grey animate-pulse"
+              style={{ opacity: pulseAnim }}
+            />
+          </View>
           <Animated.View
-            className="h-3 w-3/5 rounded bg-primary-grey mb-2 animate-pulse"
+            className="h-2 w-3/12 rounded bg-primary-grey animate-pulse mb-4"
             style={{ opacity: pulseAnim }}
           />
           <Animated.View
-            className="h-2 w-2/5 rounded bg-primary-grey animate-pulse"
+            className="h-3 w-full rounded bg-primary-grey  animate-pulse mb-2"
+            style={{ opacity: pulseAnim }}
+          />
+
+          <Animated.View
+            className="h-3 w-4/5 rounded bg-primary-grey animate-pulse"
             style={{ opacity: pulseAnim }}
           />
         </View>
       </View>
-
-      <Animated.View
-        className="h-3 w-2/5 rounded bg-primary-grey mb-3 animate-pulse"
-        style={{ opacity: pulseAnim }}
-      />
-      <Animated.View
-        className="h-3 w-full rounded bg-primary-grey mb-2 animate-pulse"
-        style={{ opacity: pulseAnim }}
-      />
-      <Animated.View
-        className="h-3 w-4/5 rounded bg-primary-grey animate-pulse"
-        style={{ opacity: pulseAnim }}
-      />
     </LinearGradient>
   );
 };

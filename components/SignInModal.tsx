@@ -34,10 +34,7 @@ const SignInModal: React.FC<SignInModalProps> = ({
         onPressOut={() => setModalVisible(false)}
         className="flex-1 bg-primary-black-rgba"
       >
-        <View
-          className="flex-1 justify-end items-center"
-          onStartShouldSetResponder={() => true}
-        >
+        <View className="flex-1 justify-end items-center">
           <LinearGradient
             colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
             start={[0, 0]}

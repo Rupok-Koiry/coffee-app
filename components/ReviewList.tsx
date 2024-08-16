@@ -66,7 +66,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
                   </Text>
                 </View>
               </View>
-              <Text className="text-xs font-poppins-regular mb-3 text-secondary-light-grey">
+              <Text className="text-xs font-poppins-regular mb-4 text-secondary-light-grey">
                 {formatDistanceToNowStrict(new Date(item.created_at), {
                   addSuffix: true,
                 })}

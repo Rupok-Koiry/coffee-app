@@ -3,10 +3,11 @@ import { Text, ScrollView, StatusBar, View, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { COLORS } from "@/theme/theme";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useLogin } from "@/api/auth/useLogin";
+import withGuest from "./withGuest";
 
 interface FormValues {
   email: string;
@@ -14,6 +15,7 @@ interface FormValues {
 }
 
 const SignInScreen: React.FC = () => {
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -22,7 +24,11 @@ const SignInScreen: React.FC = () => {
 
   const { login } = useLogin();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    login(data);
+    login(data, {
+      onSuccess: () => {
+        router.push("/(tabs)/product");
+      },
+    });
   };
   return (
     <SafeAreaView className="bg-primary-black flex-1">
@@ -107,4 +113,4 @@ const SignInScreen: React.FC = () => {
   );
 };
 
-export default SignInScreen;
+export default withGuest(SignInScreen);

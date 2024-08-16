@@ -3,10 +3,11 @@ import { Text, ScrollView, StatusBar, View, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { COLORS } from "@/theme/theme";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useSignup } from "@/api/auth/useSignup";
+import withGuest from "./withGuest";
 
 interface FormValues {
   full_name: string;
@@ -135,4 +136,4 @@ const SignUpScreen: React.FC = () => {
   );
 };
 
-export default SignUpScreen;
+export default withGuest(SignUpScreen);
