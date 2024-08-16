@@ -15,9 +15,9 @@ export const useReviewManagement = (order?: TransformedOrder | null) => {
   const [reviews, setReviews] = useState<InsertTables<"reviews">[]>([]);
   const { user } = useUser();
   const { isEligible } = useReviewEligibility();
-  const { createReviews } = useCreateReviews();
+  const { createReviews, isCreating } = useCreateReviews();
   const { reviews: orderReviews } = useOrderReviews();
-  const { updateReviews } = useUpdateReviews();
+  const { updateReviews, isUpdating } = useUpdateReviews();
 
   useEffect(() => {
     if (order && user && isEligible) {
@@ -62,11 +62,18 @@ export const useReviewManagement = (order?: TransformedOrder | null) => {
 
   const handleSubmitReview = useCallback(() => {
     if (isEligible) {
-      createReviews(reviews);
+      createReviews(reviews, {
+        onSettled: () => {
+          setModalVisible(false);
+        },
+      });
     } else {
-      updateReviews(reviews as Tables<"reviews">[]);
+      updateReviews(reviews as Tables<"reviews">[], {
+        onSettled: () => {
+          setModalVisible(false);
+        },
+      });
     }
-    setModalVisible(false);
   }, [reviews, isEligible, createReviews, updateReviews]);
 
   const renderStarIcon = useCallback((starNumber: number, rating: number) => {
@@ -95,5 +102,6 @@ export const useReviewManagement = (order?: TransformedOrder | null) => {
     handleSubmitReview,
     setModalVisible,
     renderStarIcon,
+    isCreatingOrUpdating: isCreating || isUpdating,
   };
 };

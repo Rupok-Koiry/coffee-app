@@ -8,10 +8,12 @@ type ConfirmDeleteModalProps = {
   isModalVisible: boolean;
   setIsModalVisible: (isVisible: boolean) => void;
   handleDelete: () => void;
+  isDeleting: boolean;
 };
 const ConfirmDeleteModal = ({
   isModalVisible,
   setIsModalVisible,
+  isDeleting,
   handleDelete,
 }: ConfirmDeleteModalProps) => {
   return (
@@ -53,6 +55,8 @@ const ConfirmDeleteModal = ({
               containerClassName="px-3 py-2 rounded"
               textClassName="text-xs font-poppins-medium"
               onPress={handleDelete}
+              disabled={isDeleting}
+              loading={isDeleting}
             >
               Delete
             </Button>

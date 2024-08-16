@@ -2,9 +2,9 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import GradientIcon from "./GradientIcon";
 import { COLORS } from "@/theme/theme";
-import ProfilePic from "./ProfilePic";
 import * as Icons from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import * as Haptics from "expo-haptics";
 
 type HeaderBarProps = {
   title?: string;
@@ -24,7 +24,13 @@ const HeaderBar = ({
     <View
       className={`flex-row justify-between items-center px-5 py-3 ${containerClassName}`}
     >
-      <TouchableOpacity onPress={() => router.back()}>
+      <TouchableOpacity
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
+          router.back();
+        }}
+      >
         <GradientIcon
           name={iconName}
           size={20}

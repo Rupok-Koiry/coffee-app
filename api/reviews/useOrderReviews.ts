@@ -13,7 +13,7 @@ export function useOrderReviews() {
     data: reviews,
     error,
   } = useQuery({
-    queryKey: ["orderReviews", parsedOrderId],
+    queryKey: ["reviews", parsedOrderId],
     queryFn: () => getOrderReviews(parsedOrderId),
     retry: false,
   });

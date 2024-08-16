@@ -14,10 +14,11 @@ import ReviewModal from "@/components/modals/ReviewModal";
 import { useOrder } from "@/api/orders/useOrder";
 import { useUpdateOrderSubscription } from "@/services/apiSubscriptions";
 import { useReviewManagement } from "@/api/reviews/useReviewManagement";
+import ErrorMessage from "@/components/ErrorMessage";
 
 const OrderDetailsScreen: React.FC = () => {
   const { orderId } = useLocalSearchParams();
-  const { order, isLoading } = useOrder();
+  const { order, isLoading, error } = useOrder();
   useUpdateOrderSubscription(
     Array.isArray(orderId) ? Number(orderId[0]) : Number(orderId)
   );
@@ -30,12 +31,15 @@ const OrderDetailsScreen: React.FC = () => {
     handleSubmitReview,
     setModalVisible,
     renderStarIcon,
+    isCreatingOrUpdating,
   } = useReviewManagement(order);
   const handleReviewPress = useCallback(() => {
     setModalVisible(true);
   }, [reviews, setModalVisible]);
 
   if (isLoading) return <Loader />;
+  if (error) return <ErrorMessage message={error.message} />;
+
   if (!order) {
     return (
       <NotFound
@@ -73,18 +77,17 @@ const OrderDetailsScreen: React.FC = () => {
         </View>
       </ScrollView>
 
-      {reviews.length > 0 && (
-        <ReviewModal
-          visible={modalVisible}
-          onClose={() => setModalVisible(false)}
-          orderItems={order.order_items}
-          reviews={reviews}
-          handleRatingPress={handleRatingPress}
-          handleCommentChange={handleCommentChange}
-          handleSubmitReview={handleSubmitReview}
-          renderStarIcon={renderStarIcon}
-        />
-      )}
+      <ReviewModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        orderItems={order.order_items}
+        reviews={reviews}
+        isCreatingOrUpdating={isCreatingOrUpdating}
+        handleRatingPress={handleRatingPress}
+        handleCommentChange={handleCommentChange}
+        handleSubmitReview={handleSubmitReview}
+        renderStarIcon={renderStarIcon}
+      />
     </SafeAreaView>
   );
 };

@@ -34,7 +34,7 @@ const ProductTable = ({ type }: ProductTableProps) => {
     useProducts({
       type,
     });
-  const { deleteProduct } = useDeleteProduct();
+  const { deleteProduct, isDeleting } = useDeleteProduct();
 
   const openModal = (productId: number) => {
     setSelectedProductId(productId);
@@ -200,6 +200,7 @@ const ProductTable = ({ type }: ProductTableProps) => {
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
         handleDelete={handleDelete}
+        isDeleting={isDeleting}
       />
     </ScrollView>
   );

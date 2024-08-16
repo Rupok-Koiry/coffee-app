@@ -20,6 +20,7 @@ type ReviewModalProps = {
   onClose: () => void;
   orderItems: any[];
   reviews: InsertTables<"reviews">[];
+  isCreatingOrUpdating: boolean;
   handleRatingPress: (selectedRating: number, index: number) => void;
   handleCommentChange: (text: string, index: number) => void;
   handleSubmitReview: () => void;
@@ -31,6 +32,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
   onClose,
   orderItems,
   reviews,
+  isCreatingOrUpdating,
   handleRatingPress,
   handleCommentChange,
   handleSubmitReview,
@@ -165,13 +167,13 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                     hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                     className="mr-2"
                   >
-                    {renderStarIcon(i, reviews[currentItemIndex].rating)}
+                    {renderStarIcon(i, reviews[currentItemIndex]?.rating)}
                   </TouchableOpacity>
                 ))}
               </View>
               <TextInput
                 placeholder="Leave a comment"
-                value={reviews[currentItemIndex].comment as string}
+                value={reviews[currentItemIndex]?.comment as string}
                 onChangeText={(text) =>
                   handleCommentChange(text, currentItemIndex)
                 }
@@ -204,7 +206,12 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
             </Button>
 
             {currentItemIndex === orderItems.length - 1 ? (
-              <Button containerClassName="py-2" onPress={handleSubmitReview}>
+              <Button
+                containerClassName="py-2"
+                onPress={handleSubmitReview}
+                disabled={isCreatingOrUpdating}
+                loading={isCreatingOrUpdating}
+              >
                 Submit
               </Button>
             ) : (

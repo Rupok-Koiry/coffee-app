@@ -14,7 +14,12 @@ export function useCreateReviews() {
       });
       queryClient.invalidateQueries({ queryKey: ["reviews"] });
     },
-    onError: (err) => console.warn(err),
+    onError: (err) => {
+      Toast.show({
+        type: "error",
+        text1: err.message,
+      });
+    },
   });
 
   return { isCreating, createReviews };
