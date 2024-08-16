@@ -6,9 +6,6 @@ type getWishlistParams = {
   userId: string;
   page?: number;
 };
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 export async function getWishlist({ userId, page = 1 }: getWishlistParams) {
   const from = (page - 1) * 2;
@@ -23,14 +20,13 @@ export async function getWishlist({ userId, page = 1 }: getWishlistParams) {
   const { data, error } = await query;
   if (error) {
     console.error(error);
-    throw new Error("Wishlist could not be loaded");
+    throw new Error("Unable to fetch wishlist.");
   }
 
   return data;
 }
 
 export async function createWishlist(newWishlist: InsertTables<"wishlist">) {
-  
   const { data, error } = await supabase
     .from("wishlist")
     .insert([newWishlist])
@@ -38,13 +34,13 @@ export async function createWishlist(newWishlist: InsertTables<"wishlist">) {
     .single();
 
   if (error) {
-    throw new Error("Failed to create wishlist");
+    throw new Error("Unable to create wishlist.");
   }
   return data;
 }
 
 export async function getWishlistStatus(productId: number, userId?: string) {
-  if(!userId) return null;
+  if (!userId) return null;
   const { data, error } = await supabase
     .from("wishlist")
     .select("id")
@@ -54,7 +50,7 @@ export async function getWishlistStatus(productId: number, userId?: string) {
 
   if (error && error.code !== "PGRST116") {
     console.error(error);
-    throw new Error("Could not get wishlist status");
+    throw new Error("Unable to get wishlist status.");
   }
 
   return data ? data.id : null;
@@ -67,7 +63,7 @@ export async function deleteWishlist(wishlistId: number) {
     .eq("id", wishlistId);
 
   if (error) {
-    throw new Error("Wishlist could not be deleted");
+    throw new Error("Unable to delete wishlist.");
   }
   return data;
 }

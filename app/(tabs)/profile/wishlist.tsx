@@ -11,12 +11,12 @@ import {
   View,
   StatusBar,
   FlatList,
-  TouchableOpacity,
   StyleSheet,
   ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDeleteWishlist } from "@/api/wishlist/useDeleteWishlist";
+import { Pressable } from "react-native";
 
 const WishlistScreen = () => {
   const router = useRouter();
@@ -28,8 +28,8 @@ const WishlistScreen = () => {
     if (hasNextPage) fetchNextPage();
   }, [hasNextPage, fetchNextPage]);
 
-  const removeWishlist = async (productId: number) => {
-    await deleteWishlist(productId);
+  const removeWishlist = (productId: number) => {
+    deleteWishlist(productId);
   };
 
   if (isLoading) return <Loader />;
@@ -50,7 +50,7 @@ const WishlistScreen = () => {
             contentContainerStyle={styles.flatListContainer}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <TouchableOpacity
+              <Pressable
                 onPress={() => {
                   router.push(`/(tabs)/product/${item.product_id}`);
                 }}
@@ -63,7 +63,7 @@ const WishlistScreen = () => {
                     toggleFavorite={() => removeWishlist(item.id)}
                   />
                 )}
-              </TouchableOpacity>
+              </Pressable>
             )}
             onEndReached={loadMore}
             onEndReachedThreshold={0.5}
