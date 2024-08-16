@@ -10,7 +10,10 @@ async function fetchUserProfile(userId: string) {
     .eq("id", userId)
     .single();
 
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.error("Fetch profile error:", error);
+    throw new Error(error.message);
+  }
   return data;
 }
 
@@ -31,17 +34,21 @@ export async function signup({
     },
   });
 
-  console.log(error);
-  
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.error("Signup error:", error);
+    throw new Error(error.message);
+  }
   if (!data.user) return null;
 
   return await fetchUserProfile(data.user.id);
 }
 
 export async function updatePassword(password: string) {
-  const { data, error } =await supabase.auth.updateUser({ password });  
-  if (error) throw new Error(error.message);
+  const { data, error } = await supabase.auth.updateUser({ password });
+  if (error) {
+    console.error("Update password error:", error);
+    throw new Error(error.message);
+  }
   return data;
 }
 
@@ -50,34 +57,41 @@ export async function updateCurrentUser({
   phone,
   address,
   avatar,
-}: UpdateTables<"profiles"> ) {
+}: UpdateTables<"profiles">) {
   // Update authentication data if necessary
   const { error: authUpdateError } = await supabase.auth.updateUser({
     data: { full_name, phone },
-  });  
-  if (authUpdateError) throw new Error(authUpdateError.message);
+  });
+  if (authUpdateError) {
+    console.error("Update auth error:", authUpdateError);
+    throw new Error(authUpdateError.message);
+  }
 
   // Get the current session
-  const { data: sessionData, error: sessionError } =
+  const { data: session, error: sessionError } =
     await supabase.auth.getSession();
-  if (sessionError || !sessionData?.session)
+  if (sessionError || !session?.session) {
+    console.error("Session error:", sessionError);
     throw new Error("Unable to retrieve user session");
+  }
 
-  const userId = sessionData.session.user.id;
+  const userId = session.session.user.id;
 
   // Update the profile data
-  const { data, error: profileUpdateError } = await supabase
+  const { data: profile, error: profileUpdateError } = await supabase
     .from("profiles")
     .update({ full_name, phone, address, avatar })
     .eq("id", userId)
     .select()
     .single();
 
-  if (profileUpdateError) throw new Error(profileUpdateError.message);
-
+  if (profileUpdateError) {
+    console.error("Update profile error:", profileUpdateError);
+    throw new Error(profileUpdateError.message);
+  }
   // Handle avatar upload if needed
-  if (!avatar || !avatar.startsWith("file")) return data;
-  const fileName = `avatar-${data.id}-${Math.random()}`;
+  if (!avatar || !avatar.startsWith("file")) return profile;
+  const fileName = `avatar-${profile.id}-${Math.random()}`;
   const base64 = await FileSystem.readAsStringAsync(avatar, {
     encoding: FileSystem.EncodingType.Base64,
   });
@@ -88,18 +102,24 @@ export async function updateCurrentUser({
       contentType: "image/*",
     });
 
-  if (storageError) throw new Error(storageError.message);
+  if (storageError) {
+    console.error("Avatar Storage error:", storageError);
+    throw new Error(storageError.message);
+  }
 
   // Update the avatar field with the new file name
-  const { data: updatedUser, error: avatarUpdateError } = await supabase
+  const { data: updatedProfile, error: avatarUpdateError } = await supabase
     .from("profiles")
     .update({ avatar: fileName })
     .eq("id", userId)
     .select()
     .single();
 
-  if (avatarUpdateError) throw new Error(avatarUpdateError.message);
-  return updatedUser;
+  if (avatarUpdateError) {
+    console.error("Update avatar error:", avatarUpdateError);
+    throw new Error(avatarUpdateError.message);
+  }
+  return updatedProfile;
 }
 
 export async function login({
@@ -114,7 +134,10 @@ export async function login({
     password,
   });
 
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.error("Login error:", error);
+    throw new Error(error.message);
+  }
   if (!data?.user) return null;
 
   return await fetchUserProfile(data.user.id);
@@ -129,5 +152,8 @@ export async function getCurrentUser() {
 
 export async function logout() {
   const { error } = await supabase.auth.signOut();
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.error("Logout error:", error);
+    throw new Error(error.message);
+  }
 }

@@ -12,82 +12,13 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { Provider } from "react-redux";
 import store from "@/features/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Toast, {
-  BaseToast,
-  ToastConfig,
-  ToastConfigParams,
-} from "react-native-toast-message";
-import { COLORS } from "@/theme/theme";
-import { Ionicons } from "@expo/vector-icons";
-import { View } from "react-native";
+import Toast from "react-native-toast-message";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { toastConfig } from "@/utils/toastConfig";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
-
-const toastConfig: ToastConfig = {
-  error: ({ text1 = "", text2 = "", props }: ToastConfigParams<any>) => (
-    <BaseToast
-      {...props}
-      style={{
-        borderLeftColor: COLORS.primaryRedHex,
-        backgroundColor: COLORS.primaryDarkGreyHex,
-        marginBottom: 32,
-      }}
-      contentContainerStyle={{
-        paddingHorizontal: 0,
-      }}
-      text1Style={{
-        color: COLORS.secondaryLightGreyHex,
-        fontSize: 16,
-        fontWeight: 500,
-      }}
-      text2Style={{ color: COLORS.primaryWhiteHex }}
-      text1={text1}
-      text2={text2}
-      renderLeadingIcon={() => (
-        <View className="flex-row justify-center items-center p-2">
-          <Ionicons
-            name="close-circle"
-            size={24}
-            color={COLORS.primaryRedHex}
-          />
-        </View>
-      )}
-    />
-  ),
-  success: ({ text1 = "", text2 = "", props }: ToastConfigParams<any>) => (
-    <BaseToast
-      {...props}
-      style={{
-        borderLeftColor: COLORS.successGreenHex,
-        marginBottom: 32,
-        backgroundColor: COLORS.primaryDarkGreyHex,
-      }}
-      contentContainerStyle={{
-        paddingHorizontal: 0,
-      }}
-      text1Style={{
-        color: COLORS.secondaryLightGreyHex,
-        fontSize: 16,
-        fontWeight: 500,
-      }}
-      text2Style={{ color: COLORS.primaryWhiteHex }}
-      text1={text1}
-      text2={text2}
-      renderLeadingIcon={() => (
-        <View className="flex-row justify-center items-center p-2">
-          <Ionicons
-            name="checkmark-circle"
-            size={24}
-            color={COLORS.successGreenHex}
-          />
-        </View>
-      )}
-    />
-  ),
-};
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -129,13 +60,14 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
           <Provider store={store}>
             <GestureHandlerRootView className="flex-1">
-              <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-                <Stack.Screen
-                  name="+not-found"
-                  options={{ headerShown: false }}
-                />
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                }}
+              >
+                <Stack.Screen name="(tabs)" />
+                <Stack.Screen name="(auth)" />
+                <Stack.Screen name="+not-found" />
               </Stack>
               <Toast config={toastConfig} position="bottom" />
             </GestureHandlerRootView>

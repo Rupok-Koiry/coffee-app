@@ -14,7 +14,12 @@ export function useUpdateUser() {
         text1: "Profile updated successfully",
       });
     },
-   
+    onError: (error) => {
+      Toast.show({
+        type: "error",
+        text1: error.message,
+      });
+    },
   });
 
   return { updateUser, isUpdating };

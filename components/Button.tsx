@@ -36,7 +36,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <TouchableOpacity
-      className={`justify-center items-center rounded-2xl px-5 py-3 ${
+      className={`justify-center items-center rounded-xl px-5 py-3 ${
         outline
           ? `border-2  ${
               disabled

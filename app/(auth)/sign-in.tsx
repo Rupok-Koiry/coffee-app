@@ -3,11 +3,11 @@ import { Text, ScrollView, StatusBar, View, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { COLORS } from "@/theme/theme";
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useLogin } from "@/api/auth/useLogin";
-import withGuest from "./withGuest";
+import withGuest from "@/utils/withGuest";
 
 interface FormValues {
   email: string;
@@ -15,7 +15,6 @@ interface FormValues {
 }
 
 const SignInScreen: React.FC = () => {
-  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -23,13 +22,7 @@ const SignInScreen: React.FC = () => {
   } = useForm<FormValues>();
 
   const { login } = useLogin();
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    login(data, {
-      onSuccess: () => {
-        router.push("/(tabs)/product");
-      },
-    });
-  };
+  const onSubmit: SubmitHandler<FormValues> = (data) => login(data);
   return (
     <SafeAreaView className="bg-primary-black flex-1">
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -78,18 +71,18 @@ const SignInScreen: React.FC = () => {
               )}
             </View>
           </View>
-          <Link
+          {/* <Link
             href="/"
             className="text-right text-secondary-light-grey mt-3 font-poppins-semibold"
           >
             Forgot Password?
-          </Link>
+          </Link> */}
           <Button onPress={handleSubmit(onSubmit)} containerClassName="my-5">
             Login
           </Button>
-          <Text className="text-center text-secondary-light-grey font-poppins-regular">
+          {/*  <Text className="text-center text-secondary-light-grey font-poppins-regular">
             or continue with
-          </Text>
+          </Text> 
           <Button containerClassName="my-5" outline>
             <View className="flex-row items-center justify-center space-x-3">
               <Image
@@ -100,7 +93,7 @@ const SignInScreen: React.FC = () => {
                 Google
               </Text>
             </View>
-          </Button>
+          </Button>*/}
           <Text className="font-poppins-semibold text-secondary-light-grey text-center">
             Don't have an account?{" "}
             <Link href="/(auth)/sign-up" className="text-primary-orange">

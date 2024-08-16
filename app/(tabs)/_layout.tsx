@@ -1,15 +1,23 @@
-import { Tabs, useRouter } from "expo-router";
-import React, { useState } from "react";
+import { Tabs } from "expo-router";
+import React, { useCallback, useState } from "react";
 import { COLORS } from "@/theme/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useUser } from "@/api/auth/useUser";
 import SignInModal from "@/components/SignInModal";
+import { EventArg } from "@react-navigation/native";
 
 export default function TabLayout() {
   const { user } = useUser();
   const [modalVisible, setModalVisible] = useState(false);
-  const router = useRouter();
-
+  const handleTabPress = useCallback(
+    (e: EventArg<"tabPress", true>) => {
+      if (!user) {
+        e.preventDefault();
+        setModalVisible(true);
+      }
+    },
+    [user]
+  );
   return (
     <>
       <Tabs
@@ -19,7 +27,7 @@ export default function TabLayout() {
           tabBarInactiveTintColor: COLORS.primaryLightGreyHex,
           tabBarShowLabel: false,
           tabBarStyle: {
-            height: 80,
+            height: 68,
             backgroundColor: COLORS.primaryBlackHex,
             borderTopWidth: 0,
             elevation: 0,
@@ -47,12 +55,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="order"
           listeners={{
-            tabPress: (e) => {
-              if (!user) {
-                e.preventDefault();
-                setModalVisible(true);
-              }
-            },
+            tabPress: handleTabPress,
           }}
           options={{
             tabBarIcon: ({ color }) => (
@@ -63,12 +66,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="profile"
           listeners={{
-            tabPress: (e) => {
-              if (!user) {
-                e.preventDefault();
-                setModalVisible(true);
-              }
-            },
+            tabPress: handleTabPress,
           }}
           options={{
             tabBarIcon: ({ color }) => (

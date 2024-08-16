@@ -11,7 +11,7 @@ import HeaderBar from "@/components/HeaderBar";
 import { COLORS } from "@/theme/theme";
 import OrderTable from "@/components/OrderTable";
 import { Enums, orderStatuses } from "@/constants/types";
-import withAuthorization from "@/app/(auth)/withAuthorization";
+import withAuthorization from "@/utils/withAuthorization";
 
 const ManageOrderScreen = () => {
   const [selectedStatus, setSelectedStatus] = useState<

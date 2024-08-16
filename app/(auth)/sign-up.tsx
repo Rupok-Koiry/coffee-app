@@ -3,11 +3,11 @@ import { Text, ScrollView, StatusBar, View, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { COLORS } from "@/theme/theme";
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useSignup } from "@/api/auth/useSignup";
-import withGuest from "./withGuest";
+import withGuest from "@/utils/withGuest";
 
 interface FormValues {
   full_name: string;
@@ -24,9 +24,7 @@ const SignUpScreen: React.FC = () => {
   } = useForm<FormValues>();
 
   const { signup } = useSignup();
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    signup(data);
-  };
+  const onSubmit: SubmitHandler<FormValues> = (data) => signup(data);
 
   return (
     <SafeAreaView className="bg-primary-black flex-1">
@@ -110,7 +108,7 @@ const SignUpScreen: React.FC = () => {
           <Button onPress={handleSubmit(onSubmit)} containerClassName="my-5">
             Sign up
           </Button>
-          <Text className="text-center text-secondary-light-grey font-poppins-regular">
+          {/* <Text className="text-center text-secondary-light-grey font-poppins-regular">
             or continue with
           </Text>
           <Button containerClassName="my-5" outline>
@@ -123,7 +121,7 @@ const SignUpScreen: React.FC = () => {
                 Google
               </Text>
             </View>
-          </Button>
+          </Button> */}
           <Text className="font-poppins-semibold text-secondary-light-grey text-center mb-5">
             Already have an account?{" "}
             <Link href="/(auth)/sign-in" className="text-primary-orange">

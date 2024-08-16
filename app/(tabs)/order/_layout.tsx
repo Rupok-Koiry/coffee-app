@@ -1,6 +1,6 @@
 import React from "react";
 import { Stack } from "expo-router";
-import withAuthorization from "@/app/(auth)/withAuthorization";
+import withAuthorization from "@/utils/withAuthorization";
 
 const StackLayout = () => {
   return (

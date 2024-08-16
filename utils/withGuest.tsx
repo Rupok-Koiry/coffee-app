@@ -1,21 +1,20 @@
 import { useUser } from "@/api/auth/useUser";
 import Loader from "@/components/loader/Loader";
-import { Href, Redirect, useRouter } from "expo-router";
+import { Href, Redirect } from "expo-router";
 import React from "react";
 
+// HOC to restrict access to guest users only
 const withGuest = <P extends {}>(
   WrappedComponent: React.ComponentType<P>,
   redirectTo: Href = "/(tabs)/product"
 ) => {
   return React.memo((props: P) => {
     const { user, isLoading } = useUser();
-    const router = useRouter();
-
+    // Show loader while user data is loading
     if (isLoading) return <Loader />;
-    if (user) {
-      return <Redirect href={redirectTo} />;
-    }
-
+    // Redirect if user is authenticated
+    if (user) return <Redirect href={redirectTo} />;
+    // Render component if no user is authenticated
     return <WrappedComponent {...props} />;
   });
 };
