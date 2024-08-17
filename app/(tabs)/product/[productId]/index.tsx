@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import * as Haptics from "expo-haptics";
 import {
   ScrollView,
   Text,
@@ -22,6 +23,7 @@ import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/features/cartSlice";
 import { useUser } from "@/hooks/auth/useUser";
 import SignInModal from "@/components/modals/SignInModal";
+import { useRouter } from "expo-router";
 
 interface PriceOptionProps {
   price: Tables<"prices">;
@@ -69,6 +71,7 @@ const DetailsScreen: React.FC = () => {
   const { deleteWishlist } = useDeleteWishlist();
   const { wishlistId } = useWishlistStatus();
   const { user } = useUser();
+  const router = useRouter();
 
   useEffect(() => {
     setIsFavorite(!!wishlistId);
@@ -78,6 +81,8 @@ const DetailsScreen: React.FC = () => {
   }, [product, wishlistId]);
 
   const toggleFavorite = useCallback(() => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
     if (!product) return;
     if (!user) return setModalVisible(true);
 
@@ -123,7 +128,10 @@ const DetailsScreen: React.FC = () => {
         <ImageBackgroundInfo
           product={product}
           isFavorite={isFavorite}
-          backHandler={() => {}}
+          backHandler={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            router.back();
+          }}
           enableBackHandler={true}
           toggleFavorite={toggleFavorite}
         />
@@ -151,7 +159,10 @@ const DetailsScreen: React.FC = () => {
                 key={price.size}
                 price={price}
                 isSelected={price.size === selectedPrice?.size}
-                onPress={() => setSelectedPrice(price)}
+                onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  setSelectedPrice(price);
+                }}
                 productType={product.type}
               />
             ))}

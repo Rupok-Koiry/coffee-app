@@ -11,6 +11,7 @@ import {
 import BgIcon from "./BgIcon";
 import { COLORS } from "@/theme/theme";
 import { SUPABASE_URL } from "@/services/supabase";
+import * as Haptics from "expo-haptics";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.32;
 
@@ -68,6 +69,7 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
         </Text>
         <TouchableOpacity
           onPress={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
             buttonPressHandler();
           }}
         >

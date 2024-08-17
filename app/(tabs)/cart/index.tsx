@@ -9,6 +9,7 @@ import EmptyListAnimation from "@/components/EmptyListAnimation";
 import PaymentFooter from "@/components/PaymentFooter";
 import { removeItemFromCart, updateItemQuantity } from "@/features/cartSlice";
 import { RootState } from "@/features/store";
+import * as Haptics from "expo-haptics";
 
 const CartScreen: React.FC = () => {
   const router = useRouter();
@@ -16,6 +17,7 @@ const CartScreen: React.FC = () => {
   const cart = useSelector((state: RootState) => state.cart);
 
   const handleQuantityChange = (id: number, size: string, quantity: number) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     dispatch(updateItemQuantity({ id, size, quantity }));
   };
 
@@ -46,9 +48,10 @@ const CartScreen: React.FC = () => {
                     decrementQuantity={(size, quantity) =>
                       handleQuantityChange(item.product.id, size, quantity - 1)
                     }
-                    removeItem={() =>
-                      dispatch(removeItemFromCart(item.product.id))
-                    }
+                    removeItem={() => {
+                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                      dispatch(removeItemFromCart(item.product.id));
+                    }}
                   />
                 </TouchableOpacity>
               ))}

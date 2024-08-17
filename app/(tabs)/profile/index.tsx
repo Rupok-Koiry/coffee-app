@@ -20,15 +20,18 @@ import { SUPABASE_URL } from "@/services/supabase";
 import { format } from "date-fns";
 import { useLogout } from "@/hooks/auth/useLogout";
 import { useRouter } from "expo-router";
+import Loader from "@/components/loaders/Loader";
 const ProfileScreen: React.FC = () => {
   const router = useRouter();
   const [darkMode, setDarkMode] = useState(false);
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
 
-  const { logout } = useLogout();
+  const { logout, isPending } = useLogout();
   const handleLogout = () => {
     logout();
   };
+
+  if (isLoading) return <Loader />;
   if (!user) return null;
 
   return (
@@ -89,16 +92,20 @@ const ProfileScreen: React.FC = () => {
               label="Wishlist"
               link="/(tabs)/profile/wishlist"
             />
-            <ProfileOption
-              iconName="storefront"
-              label="Manage Products"
-              link="/(tabs)/product/manage-products"
-            />
-            <ProfileOption
-              iconName="menu"
-              label="Manage Orders"
-              link="/(tabs)/order/manage-orders"
-            />
+            {user.role === "ADMIN" && (
+              <>
+                <ProfileOption
+                  iconName="storefront"
+                  label="Manage Products"
+                  link="/(tabs)/product/manage-products"
+                />
+                <ProfileOption
+                  iconName="menu"
+                  label="Manage Orders"
+                  link="/(tabs)/order/manage-orders"
+                />
+              </>
+            )}
             <ProfileOption
               iconName="language"
               label="Language"
@@ -131,6 +138,8 @@ const ProfileScreen: React.FC = () => {
             containerClassName="self-center"
             onPress={handleLogout}
             outline
+            loading={isPending}
+            disabled={isPending}
           >
             Logout
           </Button>

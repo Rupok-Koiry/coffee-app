@@ -11,21 +11,27 @@ export const toastConfig: ToastConfig = {
     <BaseToast
       {...props}
       style={{
-        borderLeftColor: COLORS.primaryRedHex,
-        backgroundColor: COLORS.primaryDarkGreyHex,
+        borderLeftColor: COLORS.successGreenHex,
         marginBottom: 32,
+        backgroundColor: COLORS.primaryDarkGreyHex,
       }}
       contentContainerStyle={{
         paddingHorizontal: 0,
       }}
       text1Style={{
         color: COLORS.secondaryLightGreyHex,
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 500,
       }}
       text1={text1}
       renderLeadingIcon={() => (
-        <View className="flex-row justify-center items-center p-2">
+        <View
+          style={{
+            padding: 8,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Ionicons
             name="close-circle"
             size={24}
@@ -48,12 +54,18 @@ export const toastConfig: ToastConfig = {
       }}
       text1Style={{
         color: COLORS.secondaryLightGreyHex,
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 500,
       }}
       text1={text1}
       renderLeadingIcon={() => (
-        <View className="flex-row justify-center items-center p-2">
+        <View
+          style={{
+            padding: 8,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Ionicons
             name="checkmark-circle"
             size={24}

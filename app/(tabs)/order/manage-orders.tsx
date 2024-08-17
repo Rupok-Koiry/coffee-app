@@ -61,4 +61,4 @@ const ManageOrderScreen = () => {
   );
 };
 
-export default withAuthorization(ManageOrderScreen, ["ADMIN"]);
+export default ManageOrderScreen;

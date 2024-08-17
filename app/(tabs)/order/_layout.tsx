@@ -12,4 +12,4 @@ const StackLayout = () => {
   );
 };
 
-export default StackLayout;
+export default withAuthorization(StackLayout, ["ADMIN", "USER"]);

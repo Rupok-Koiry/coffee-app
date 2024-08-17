@@ -26,8 +26,8 @@ const GradientIcon = <T extends IconSetName>({
   name,
   color,
   iconSet,
-  width = 9,
-  height = 9,
+  width = 10,
+  height = 10,
   ...rest
 }: GradientIconProps<T>) => {
   const IconComponent = Icons[iconSet] as React.ComponentType<
@@ -35,16 +35,14 @@ const GradientIcon = <T extends IconSetName>({
   >;
 
   return (
-    <View className="rounded-xl border-2 border-secondary-dark-grey overflow-hidden">
-      <LinearGradient
-        colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        className={`w-${width} h-${height} justify-center items-center`}
-      >
-        <IconComponent size={size} name={name} color={color} {...rest} />
-      </LinearGradient>
-    </View>
+    <LinearGradient
+      colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 0 }}
+      className={`w-${width} h-${height} justify-center items-center rounded-xl `}
+    >
+      <IconComponent size={size} name={name} color={color} {...rest} />
+    </LinearGradient>
   );
 };
 
