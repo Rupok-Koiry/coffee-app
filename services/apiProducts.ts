@@ -6,12 +6,13 @@ import { decode } from "base64-arraybuffer";
 import * as FileSystem from "expo-file-system";
 
 type getProductsParams = {
-  type?: Enums<"product_type_enum"> | "";
-  filter?: string;
-  search?: string;
-  page?: number;
+  type?: Enums<"product_type_enum"> | ""; // Filter by product type
+  filter?: string; // Filter by exact product name
+  search?: string; // Search for products by name
+  page?: number; // Pagination number (default is 1)
 };
 
+// Function to fetch a paginated list of products with optional filters and search
 export async function getProducts({
   type,
   filter,
@@ -23,84 +24,112 @@ export async function getProducts({
 
   const query = supabase
     .from("products")
-    .select(`*, prices(size, price)`)
-    .range(from, to)
-    .order("created_at", { ascending: false });
+    .select(`*, prices(size, price)`) // Fetch products along with their prices
+    .range(from, to) // Paginate the results
+    .order("created_at", { ascending: false }); // Order by creation date, newest first
 
+  // Apply type filter if provided
   if (type) {
     query.eq("type", type);
   }
 
+  // Apply exact name filter if provided
   if (filter) {
     query.eq("name", filter);
   }
+
+  // Apply search filter (case-insensitive) if provided
   if (search) {
     query.ilike("name", `%${search}%`);
   }
 
   const { data, error } = await query;
 
+  // Handle any errors that occur during the fetch
   if (error) {
-    throw new Error(`Unable to fetch products.`);
+    console.error(
+      "Error fetching products with params:",
+      { type, filter, search, page },
+      error
+    );
+    throw new Error("There was an issue fetching products. Please try again.");
   }
 
-  return data;
+  return data; // Return the fetched product data
 }
 
+// Function to fetch a single product by its ID
 export async function getProduct(productId: number) {
-  // Fetch product data
   const { data, error } = await supabase
     .from("products")
-    .select("*, prices(*)")
+    .select("*, prices(*)") // Fetch product along with all its price details
     .eq("id", productId)
     .single();
 
-  // Handle product fetch error
+  // Handle any errors during the fetch
   if (error) {
-    throw new Error(`Unable to fetch the product.`);
+    console.error(`Error fetching product with ID ${productId}:`, error);
+    throw new Error(
+      "There was an issue fetching the product. Please try again."
+    );
   }
-  return data;
+  return data; // Return the fetched product data
 }
 
+// Function to delete a product by its ID
 export async function deleteProduct(productId: number) {
-  // Delete product
   const { data, error } = await supabase
     .from("products")
     .delete()
     .eq("id", productId);
 
-  // Handle product delete error
+  // Handle any errors during deletion
   if (error) {
-    throw new Error(`Unable to delete the product.`);
+    console.error(`Error deleting product with ID ${productId}:`, error);
+    throw new Error(
+      "There was an issue deleting the product. Please try again."
+    );
   }
-  return data;
+  return data; // Return the result of the deletion
 }
 
-// Helper function to upload images to Supabase
+// Function to upload an image for a product to Supabase storage
 async function uploadImage(
   type: string,
   imageName: string,
   imageData: string,
   productId: number
 ) {
+  // Skip upload if image data is not a file path
   if (!imageData.startsWith("file")) return;
+
+  // Read the image file as a base64 string
   const base64 = await FileSystem.readAsStringAsync(imageData, {
     encoding: FileSystem.EncodingType.Base64,
   });
 
+  // Upload the image to Supabase storage
   const { error } = await supabase.storage
     .from("product-images")
     .upload(`${type}/${imageName}`, decode(base64), {
-      contentType: "image/*",
+      contentType: "image/*", // Handle any image type
     });
 
+  // Handle errors during the upload process
   if (error) {
+    console.error(
+      `Error uploading image ${imageName} for product ID ${productId}:`,
+      error
+    );
+    // Delete the product if the image upload fails
     await supabase.from("products").delete().eq("id", productId);
-    throw new Error(`Image upload failed.`);
+    throw new Error(
+      "There was an issue uploading the product image. Please try again."
+    );
   }
 }
 
-// Helper function to update an existing product
+// Function to update a product's details
 async function updateProduct(
   productId: number,
   productData: InsertTables<"products">
@@ -112,14 +141,18 @@ async function updateProduct(
     .select()
     .single();
 
+  // Handle errors during the update process
   if (error) {
-    throw new Error(`Unable to update the product.`);
+    console.error(`Error updating product with ID ${productId}:`, error);
+    throw new Error(
+      "There was an issue updating the product. Please try again."
+    );
   }
 
-  return data;
+  return data; // Return the updated product data
 }
 
-// Helper function to create a new product
+// Function to create a new product in the database
 async function createProduct(productData: InsertTables<"products">) {
   const { data, error } = await supabase
     .from("products")
@@ -127,14 +160,18 @@ async function createProduct(productData: InsertTables<"products">) {
     .select()
     .single();
 
+  // Handle errors during the creation process
   if (error) {
-    throw new Error(`Unable to create the product.`);
+    console.error("Error creating new product:", productData, error);
+    throw new Error(
+      "There was an issue creating the product. Please try again."
+    );
   }
 
-  return data;
+  return data; // Return the created product data
 }
 
-// Helper function to upsert prices for a product
+// Function to upsert (update or insert) product prices in the database
 async function upsertPrices(
   prices: InsertTables<"prices">[],
   productId: number
@@ -144,19 +181,23 @@ async function upsertPrices(
     .upsert(
       prices.map((price) => ({
         ...price,
-        product_id: productId,
+        product_id: productId, // Ensure the correct product ID is associated
       }))
     )
     .select();
 
+  // Handle errors during the upsert process
   if (error) {
-    throw new Error(`Unable to update product prices.`);
+    console.error(`Error updating prices for product ID ${productId}:`, error);
+    throw new Error(
+      "There was an issue updating product prices. Please try again."
+    );
   }
 
-  return data;
+  return data; // Return the upserted price data
 }
 
-// Main function to create or update a product
+// Function to create a new product or update an existing one, including handling images and prices
 export async function createOrUpdateProduct({
   newProduct,
   productId,
@@ -166,7 +207,7 @@ export async function createOrUpdateProduct({
   };
   productId?: number;
 }) {
-  // Generate unique names for images if needed
+  // Generate unique image names for square and portrait images
   const squareImageName = `${
     newProduct.name
   }_${Math.random()}_square`.replaceAll("/", "");
@@ -174,7 +215,7 @@ export async function createOrUpdateProduct({
     newProduct.name
   }_${Math.random()}_portrait`.replaceAll("/", "");
 
-  // Determine image paths
+  // Prepare the product data, handling image paths
   const productData = {
     name: newProduct.name,
     type: newProduct.type,
@@ -192,19 +233,18 @@ export async function createOrUpdateProduct({
 
   let result;
 
+  // Update or create the product, then handle prices and images
   if (productId) {
-    // Update existing product
     const product = await updateProduct(productId, productData);
     const prices = await upsertPrices(newProduct.prices, productId);
     result = { ...product, prices };
   } else {
-    // Create new product
     const product = await createProduct(productData);
     const prices = await upsertPrices(newProduct.prices, product.id);
     result = { ...product, prices };
   }
 
-  // Handle image uploads if necessary
+  // Upload images if they are new
   if (newProduct.image_square.startsWith("file")) {
     await uploadImage(
       "square",
@@ -222,5 +262,5 @@ export async function createOrUpdateProduct({
     );
   }
 
-  return result;
+  return result; // Return the final product data including images and prices
 }

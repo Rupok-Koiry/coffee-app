@@ -1,19 +1,11 @@
 import { PAGE_LIMIT } from "@/constants/constants";
 import supabase from "./supabase";
-import {
-  Tables,
-  PriceType,
-  InsertTables,
-  CartType,
-  Enums,
-} from "@/constants/types";
+import { Tables, PriceType, CartType, Enums } from "@/constants/types";
 
-// Type definition for an OrderItem, which includes product details
 type OrderItem = Tables<"order_items"> & {
   product: Tables<"products">;
 };
 
-// Type definition for TransformedOrderItem, which omits certain properties and adds a prices array
 type TransformedOrderItem = Omit<
   OrderItem,
   "size" | "price" | "quantity" | "total_price"
@@ -23,17 +15,15 @@ type TransformedOrderItem = Omit<
   prices: PriceType[];
 };
 
-// Type definition for Order, which includes an array of OrderItems
 type Order = Tables<"orders"> & {
   order_items: OrderItem[];
 };
 
-// Type definition for TransformedOrder, which includes transformed order items
 export type TransformedOrder = Omit<Order, "order_items"> & {
   order_items: TransformedOrderItem[];
 };
 
-// Function to transform raw order data into a more structured format
+// Transform raw order data into a more usable format
 function transformOrderData(data: Order[]): TransformedOrder[] {
   return data.map((order) => {
     const productMap = new Map<number, TransformedOrderItem>();
@@ -70,7 +60,7 @@ function transformOrderData(data: Order[]): TransformedOrder[] {
   });
 }
 
-// Function to fetch orders from Supabase with optional status filtering and pagination
+// Fetch paginated orders with optional filters
 export async function fetchOrders({
   userId,
   status,
@@ -80,8 +70,8 @@ export async function fetchOrders({
   status?: Enums<"order_status_enum"> | Enums<"order_status_enum">[] | "";
   page?: number;
 }): Promise<TransformedOrder[]> {
-  const from = (page - 1) * 1;
-  const to = from + 1 - 1;
+  const from = (page - 1) * PAGE_LIMIT;
+  const to = from + PAGE_LIMIT - 1;
 
   let query = supabase
     .from("orders")
@@ -101,13 +91,14 @@ export async function fetchOrders({
   const { data, error } = await query;
 
   if (error) {
-    console.error(error);
-    throw new Error("Orders could not be loaded");
+    console.error("Error fetching orders:", { userId, status, page }, error);
+    throw new Error("Orders could not be loaded. Please try again.");
   }
 
   return transformOrderData(data as Order[]);
 }
 
+// Fetch orders with optional status and pagination
 export async function getOrders(options: {
   status?: Enums<"order_status_enum"> | Enums<"order_status_enum">[] | "";
   page?: number;
@@ -115,6 +106,7 @@ export async function getOrders(options: {
   return fetchOrders(options);
 }
 
+// Fetch orders for a specific user
 export async function getMyOrders(options: {
   userId: string;
   status?: Enums<"order_status_enum"> | Enums<"order_status_enum">[] | "";
@@ -123,8 +115,7 @@ export async function getMyOrders(options: {
   return fetchOrders(options);
 }
 
-
-// Function to fetch a single order by its ID
+// Fetch a single order by its ID
 export async function getOrder(
   orderId: number
 ): Promise<TransformedOrder | null> {
@@ -135,18 +126,15 @@ export async function getOrder(
     .single();
 
   if (error) {
-    console.error(error);
-    throw new Error("Order not found"); // Throw an error if fetching the order fails
+    console.error(`Error fetching order with ID ${orderId}:`, error);
+    throw new Error("Order could not be found. Please try again.");
   }
 
-  return transformOrderData([data as Order])[0]; // Transform and return the single order data
+  return transformOrderData([data as Order])[0];
 }
 
-// Function to transform cart data into a format suitable for order items
-const transformCartToOrderData = (
-  cart: CartType,
-  orderId: number
-) => {
+// Convert cart items to order items format
+const transformCartToOrderData = (cart: CartType, orderId: number) => {
   return cart.items.flatMap((item) =>
     item.prices.map((price) => ({
       order_id: orderId,
@@ -159,7 +147,7 @@ const transformCartToOrderData = (
   );
 };
 
-// Function to create a new order in Supabase
+// Create a new order with its items
 export const createOrderWithItems = async ({
   cart,
   userId,
@@ -167,8 +155,6 @@ export const createOrderWithItems = async ({
   cart: CartType;
   userId: string;
 }) => {
-
-  // Start a transaction
   const { data: order, error: orderError } = await supabase
     .from("orders")
     .insert([
@@ -181,29 +167,30 @@ export const createOrderWithItems = async ({
     .select()
     .single();
 
-  // Throw an error if order creation fails
   if (orderError) {
-    throw new Error("Order creation failed");
+    console.error("Error creating order:", { userId, cart }, orderError);
+    throw new Error("Order creation failed. Please try again.");
   }
 
-  // Prepare the order items for insertion
   const convertedOrderItems = transformCartToOrderData(cart, order.id);
   const { data: orderItems, error: orderItemsError } = await supabase
     .from("order_items")
     .insert(convertedOrderItems)
     .select();
 
-  // Throw an error if order items creation fails
   if (orderItemsError) {
-    console.error(orderItemsError);
-    throw new Error("Order items creation failed");
+    console.error(
+      "Error creating order items:",
+      { orderId: order.id, convertedOrderItems },
+      orderItemsError
+    );
+    throw new Error("Order items creation failed. Please try again.");
   }
 
   return { ...order, order_items: orderItems };
 };
 
-
-
+// Update the status of an existing order
 export const updateOrderStatus = async ({
   orderId,
   status,
@@ -217,8 +204,12 @@ export const updateOrderStatus = async ({
     .eq("id", orderId);
 
   if (error) {
-    console.error(error);
-    throw new Error("Order status could not be updated");
+    console.error(
+      `Error updating status of order ID ${orderId}:`,
+      { status },
+      error
+    );
+    throw new Error("Order status could not be updated. Please try again.");
   }
 
   return data;

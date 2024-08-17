@@ -11,7 +11,11 @@ const updateProductRatings = async (productIds: number[]): Promise<void> => {
       .eq("product_id", productId);
 
     if (error) {
-      throw new Error("Unable to fetch products.");
+      console.error(
+        `Error fetching ratings for product ID ${productId}:`,
+        error
+      );
+      throw new Error("There was an issue fetching product ratings.");
     }
 
     const ratingsCount = reviews?.length ?? 0;
@@ -29,14 +33,19 @@ const updateProductRatings = async (productIds: number[]): Promise<void> => {
       .eq("id", productId);
 
     if (updateError) {
-      throw new Error(`Unable to update product ratings.`);
+      console.error(
+        `Error updating ratings for product ID ${productId}:`,
+        updateError
+      );
+      throw new Error("There was an issue updating product ratings.");
     }
   });
 
   try {
     await Promise.all(updatePromises);
   } catch (e) {
-    throw new Error("Unable to update some product ratings.");
+    console.error("Error updating product ratings:", e);
+    throw new Error("There was an issue updating some product ratings.");
   }
 };
 
@@ -47,7 +56,8 @@ export const getReviews = async (productId: number) => {
     .eq("product_id", productId);
 
   if (error) {
-    throw new Error(`Unable to fetch reviews for product`);
+    console.error(`Error fetching reviews for product ID ${productId}:`, error);
+    throw new Error("There was an issue fetching reviews for this product.");
   }
 
   return reviews;
@@ -60,10 +70,10 @@ export const createReviews = async (reviews: InsertTables<"reviews">[]) => {
     .select();
 
   if (error) {
-    throw new Error(`Unable to create reviews.`);
+    console.error("Error creating reviews:", error);
+    throw new Error("There was an issue creating your reviews.");
   }
 
-  // Assuming the `product_id` is present in the review data.
   const productIds = data.map((review) => review.product_id);
   await updateProductRatings(productIds);
   return data;
@@ -83,7 +93,13 @@ export const checkReviewEligibility = async ({
     .eq("order_id", orderId);
 
   if (error) {
-    throw new Error(`Unable to check if user can submit review for order.`);
+    console.error(
+      `Error checking review eligibility for user ID ${userId} and order ID ${orderId}:`,
+      error
+    );
+    throw new Error(
+      "There was an issue checking review eligibility for this order."
+    );
   }
 
   return data?.length === 0;
@@ -96,11 +112,13 @@ export const getOrderReviews = async (orderId: number) => {
     .eq("order_id", orderId);
 
   if (error) {
-    throw new Error(`Unable to fetch order reviews.`);
+    console.error(`Error fetching reviews for order ID ${orderId}:`, error);
+    throw new Error("There was an issue fetching reviews for this order.");
   }
 
   return reviews;
 };
+
 export const updateReviews = async (reviews: Tables<"reviews">[]) => {
   const { data, error } = await supabase
     .from("reviews")
@@ -108,7 +126,8 @@ export const updateReviews = async (reviews: Tables<"reviews">[]) => {
     .select();
 
   if (error) {
-    throw new Error(`Unable to update reviews.`);
+    console.error("Error updating reviews:", error);
+    throw new Error("There was an issue updating your reviews.");
   }
 
   const productIds = data.map((review) => review.product_id);
