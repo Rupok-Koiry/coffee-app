@@ -1,4 +1,3 @@
-import OrderData from "@/data/OrderData";
 import { COLORS } from "@/theme/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -12,16 +11,14 @@ import {
   Modal,
   TouchableOpacity,
   FlatList,
-  Pressable,
 } from "react-native";
-import { Picker as SelectPicker } from "@react-native-picker/picker";
-import Button from "./Button";
 import Tag from "./Tag";
 import { useOrders } from "@/hooks/orders/useOrders";
 import { SUPABASE_URL } from "@/services/supabase";
 import { useUpdateOrderStatus } from "@/hooks/orders/useUpdateOrderStatus";
-import { Enums, orderStatuses } from "@/constants/types";
-import Loader from "./loader/Loader";
+import { Enums } from "@/constants/types";
+import Loader from "./loaders/Loader";
+import OrderStatusModal from "./modals/OrderStatusModal";
 
 const getStatusDesign = (status: Enums<"order_status_enum">) => {
   switch (status) {
@@ -64,7 +61,7 @@ type OrderTableProps = {
 const OrderTable = ({ status }: OrderTableProps) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedStatus, setSelectedStatus] =
-    useState<Enums<"order_status_enum"> | null>(null);
+    useState<Enums<"order_status_enum">>("PLACED");
   const [currentOrderId, setCurrentOrderId] = useState<number | null>(null);
 
   const { orders, hasNextPage, fetchNextPage, isLoading } = useOrders(status);
@@ -212,57 +209,14 @@ const OrderTable = ({ status }: OrderTableProps) => {
         </LinearGradient>
       </View>
 
-      <Modal
-        transparent={true}
-        animationType="slide"
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <Pressable
-          onPress={() => setModalVisible(false)}
-          className="flex-1 bg-primary-black-rgba justify-center items-center px-5"
-        >
-          <View className="w-full" onStartShouldSetResponder={() => true}>
-            <LinearGradient
-              colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
-              start={[0, 0]}
-              end={[1, 1]}
-              className="px-5 py-8 rounded-lg"
-            >
-              <TouchableOpacity
-                onPress={() => setModalVisible(false)}
-                className="absolute top-5 right-5 z-20"
-              >
-                <Ionicons name="close" size={24} color="white" />
-              </TouchableOpacity>
-              <Text className="text-xl font-poppins-semibold text-primary-white">
-                Update Order Status
-              </Text>
-              <View className="border-2 border-primary-grey rounded-xl my-5">
-                <SelectPicker
-                  selectedValue={selectedStatus}
-                  onValueChange={(itemValue) => setSelectedStatus(itemValue)}
-                  style={{
-                    color: COLORS.primaryWhiteHex,
-                    marginBottom: 12,
-                    height: 40,
-                  }}
-                  dropdownIconColor={COLORS.secondaryLightGreyHex}
-                >
-                  {orderStatuses.map((status) => (
-                    <SelectPicker.Item
-                      key={status.status}
-                      label={status.title}
-                      value={status.status}
-                    />
-                  ))}
-                </SelectPicker>
-              </View>
-              <Button onPress={updateStatus}>Update</Button>
-            </LinearGradient>
-          </View>
-        </Pressable>
-      </Modal>
+      <OrderStatusModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        selectedStatus={selectedStatus}
+        setSelectedStatus={setSelectedStatus}
+        updateStatus={updateStatus}
+        isLoading={false}
+      />
     </ScrollView>
   );
 };

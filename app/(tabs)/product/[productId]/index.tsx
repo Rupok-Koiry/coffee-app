@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   ScrollView,
   Text,
@@ -12,23 +12,30 @@ import PaymentFooter from "@/components/PaymentFooter";
 import ImageBackgroundInfo from "@/components/ImageBackgroundInfo";
 import { COLORS } from "@/theme/theme";
 import { useProduct } from "@/hooks/products/useProduct";
-import Loader from "@/components/loader/Loader";
+import Loader from "@/components/loaders/Loader";
 import { Tables } from "@/constants/types";
-import NotFound from "@/components/loader/NotFound";
+import NotFound from "@/components/loaders/NotFound";
 import { useCreateWishlist } from "@/hooks/wishlist/useCreateWishlist";
 import { useDeleteWishlist } from "@/hooks/wishlist/useDeleteWishlist";
 import { useWishlistStatus } from "@/hooks/wishlist/useWishlistStatus";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/features/cartSlice";
 import { useUser } from "@/hooks/auth/useUser";
-import SignInModal from "@/components/SignInModal";
+import SignInModal from "@/components/modals/SignInModal";
 
-const PriceOption: React.FC<{
+interface PriceOptionProps {
   price: Tables<"prices">;
   isSelected: boolean;
   onPress: () => void;
   productType: string;
-}> = ({ price, isSelected, onPress, productType }) => (
+}
+
+const PriceOption: React.FC<PriceOptionProps> = ({
+  price,
+  isSelected,
+  onPress,
+  productType,
+}) => (
   <TouchableOpacity
     onPress={onPress}
     className={`flex-1 bg-primary-dark-grey items-center justify-center rounded-xl h-12 border-2 ${
@@ -55,22 +62,22 @@ const DetailsScreen: React.FC = () => {
     null
   );
   const [isFavorite, setIsFavorite] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+
   const dispatch = useDispatch();
   const { createWishlist } = useCreateWishlist();
   const { deleteWishlist } = useDeleteWishlist();
   const { wishlistId } = useWishlistStatus();
   const { user } = useUser();
 
-  const [modalVisible, setModalVisible] = useState(false);
-
   useEffect(() => {
     setIsFavorite(!!wishlistId);
-    if (product && product.prices.length > 0) {
+    if (product?.prices.length) {
       setSelectedPrice(product.prices[0]);
     }
   }, [product, wishlistId]);
 
-  const toggleFavorite = () => {
+  const toggleFavorite = useCallback(() => {
     if (!product) return;
     if (!user) return setModalVisible(true);
 
@@ -83,7 +90,25 @@ const DetailsScreen: React.FC = () => {
       });
     }
     setIsFavorite((prev) => !prev);
-  };
+  }, [product, user, isFavorite, wishlistId, deleteWishlist, createWishlist]);
+
+  const handleAddToCart = useCallback(() => {
+    if (product && selectedPrice) {
+      dispatch(
+        addItemToCart({
+          product: product,
+          prices: [
+            {
+              size: selectedPrice.size,
+              price: selectedPrice.price,
+              quantity: 1,
+              total_price: selectedPrice.price,
+            },
+          ],
+        })
+      );
+    }
+  }, [dispatch, product, selectedPrice]);
 
   if (isLoading) return <Loader />;
   if (!product)
@@ -135,26 +160,12 @@ const DetailsScreen: React.FC = () => {
         <PaymentFooter
           price={selectedPrice?.price || 0}
           buttonTitle="Add to Cart"
-          buttonPressHandler={() =>
-            dispatch(
-              addItemToCart({
-                product: product,
-                prices: [
-                  {
-                    size: selectedPrice?.size || "",
-                    price: selectedPrice?.price || 0,
-                    quantity: 1,
-                    total_price: selectedPrice?.price || 0,
-                  },
-                ],
-              })
-            )
-          }
+          buttonPressHandler={handleAddToCart}
         />
         <SignInModal
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          title="You need to sign in add this product to wishlist."
+          title="You need to sign in to add this product to wishlist."
         />
       </ScrollView>
     </SafeAreaView>

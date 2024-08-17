@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect } from "expo-router";
 import { useUser } from "@/hooks/auth/useUser";
-import Loader from "@/components/loader/Loader";
+import Loader from "@/components/loaders/Loader";
 import { Enums } from "@/constants/types";
 
 const withAuthorization = <P extends {}>(

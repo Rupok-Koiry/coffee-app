@@ -13,7 +13,7 @@ import SearchInput from "@/components/SearchInput";
 import { useProducts } from "@/hooks/products/useProducts";
 import { useRouter } from "expo-router";
 import SearchCard from "@/components/SearchCard";
-import SearchCardSkeleton from "@/components/loader/SearchCardSkeleton";
+import SearchCardSkeleton from "@/components/loaders/SearchCardSkeleton";
 import ErrorMessage from "@/components/ErrorMessage";
 
 const SearchScreen = () => {

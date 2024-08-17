@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import CoffeeCard from "./CoffeeCard";
 import { useRouter } from "expo-router";
 import { useProducts } from "@/hooks/products/useProducts";
-import CoffeeCardSkeleton from "./loader/CoffeeCardSkeleton";
+import CoffeeCardSkeleton from "./loaders/CoffeeCardSkeleton";
 import ErrorMessage from "./ErrorMessage";
 import { addItemToCart } from "@/features/cartSlice";
 

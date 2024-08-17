@@ -3,7 +3,7 @@ import React, { useCallback, useState } from "react";
 import { COLORS } from "@/theme/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useUser } from "@/hooks/auth/useUser";
-import SignInModal from "@/components/SignInModal";
+import SignInModal from "@/components/modals/SignInModal";
 import { EventArg } from "@react-navigation/native";
 
 export default function TabLayout() {

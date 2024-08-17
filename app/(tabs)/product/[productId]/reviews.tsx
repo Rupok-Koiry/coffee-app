@@ -8,8 +8,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
 import { useReviews } from "@/hooks/reviews/useReviews";
 import { Tables } from "@/constants/types";
-import ReviewSummarySkeleton from "@/components/loader/RatingSummarySkeleton";
-import ReviewCardSkeleton from "@/components/loader/ReviewCardSkeleton";
+import ReviewSummarySkeleton from "@/components/loaders/RatingSummarySkeleton";
+import ReviewCardSkeleton from "@/components/loaders/ReviewCardSkeleton";
 import ErrorMessage from "@/components/ErrorMessage";
 type ReviewType = Tables<"reviews"> & {
   user: Tables<"profiles">;

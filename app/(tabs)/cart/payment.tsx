@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Text,
   View,
@@ -21,7 +21,7 @@ import { clearCart } from "@/features/cartSlice";
 import { useCreateOrderWithItems } from "@/hooks/orders/useCreateOrderWithItems";
 import { initializePaymentSheet, openPaymentSheet } from "@/services/apiStripe";
 import { useUser } from "@/hooks/auth/useUser";
-import SignInModal from "@/components/SignInModal";
+import SignInModal from "@/components/modals/SignInModal";
 
 const paymentList: PaymentListType[] = [
   {
@@ -49,16 +49,30 @@ const paymentList: PaymentListType[] = [
 const PaymentScreen = () => {
   const [paymentMode, setPaymentMode] = useState("Credit Card");
   const [showAnimation, setShowAnimation] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
   const { createOrderWithItems } = useCreateOrderWithItems();
   const { user } = useUser();
-  const [modalVisible, setModalVisible] = useState(false);
-  const buttonPressHandler = async () => {
-    if (!user) return setModalVisible(true);
-    await initializePaymentSheet(Math.floor(cart.total_price * 100));
+
+  const handleButtonPress = async () => {
+    setIsLoading(true);
+    if (!user) {
+      setModalVisible(true);
+      setIsLoading(false);
+      return;
+    }
+    const totalPriceInCents = Math.floor(cart.total_price * 100);
+    await initializePaymentSheet(totalPriceInCents);
     const payed = await openPaymentSheet();
-    if (!payed) return;
+
+    if (!payed) {
+      setIsLoading(false);
+      return;
+    }
+
     createOrderWithItems(
       {
         cart,
@@ -70,6 +84,7 @@ const PaymentScreen = () => {
           setShowAnimation(true);
           setTimeout(() => {
             setShowAnimation(false);
+            setIsLoading(false);
           }, 3000);
         },
       }
@@ -131,16 +146,16 @@ const PaymentScreen = () => {
                   </View>
                   <View className="flex-row items-center" style={{ gap: 12 }}>
                     <Text className="font-poppins-semibold text-base text-primary-white tracking-widest">
-                      3879
+                      1234
                     </Text>
                     <Text className="font-poppins-semibold text-base text-primary-white tracking-widest">
-                      8923
+                      5678
                     </Text>
                     <Text className="font-poppins-semibold text-base text-primary-white tracking-widest">
-                      6745
+                      9012
                     </Text>
                     <Text className="font-poppins-semibold text-base text-primary-white tracking-widest">
-                      4638
+                      3456
                     </Text>
                   </View>
                   <View className="flex-row items-center justify-between">
@@ -149,7 +164,7 @@ const PaymentScreen = () => {
                         Card Holder Name
                       </Text>
                       <Text className="font-poppins-medium text-base text-primary-white">
-                        Robert Evans
+                        John Doe
                       </Text>
                     </View>
                     <View className="items-end">
@@ -157,7 +172,7 @@ const PaymentScreen = () => {
                         Expiry Date
                       </Text>
                       <Text className="font-poppins-medium text-base text-primary-white">
-                        02/30
+                        06/12
                       </Text>
                     </View>
                   </View>
@@ -181,18 +196,20 @@ const PaymentScreen = () => {
             </TouchableOpacity>
           ))}
         </View>
-      </ScrollView>
 
-      <PaymentFooter
-        buttonTitle={`Pay with ${paymentMode}`}
-        price={20}
-        buttonPressHandler={buttonPressHandler}
-      />
-      <SignInModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        title="You need to be signed in to make a payment."
-      />
+        <PaymentFooter
+          buttonTitle={`Pay with ${paymentMode}`}
+          price={cart.total_price}
+          buttonPressHandler={handleButtonPress}
+          isLoading={isLoading}
+        />
+
+        <SignInModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          title="You need to be signed in to make a payment."
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };

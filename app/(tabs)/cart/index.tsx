@@ -9,7 +9,6 @@ import EmptyListAnimation from "@/components/EmptyListAnimation";
 import PaymentFooter from "@/components/PaymentFooter";
 import { removeItemFromCart, updateItemQuantity } from "@/features/cartSlice";
 import { RootState } from "@/features/store";
-import Button from "@/components/Button";
 
 const CartScreen: React.FC = () => {
   const router = useRouter();
@@ -20,8 +19,8 @@ const CartScreen: React.FC = () => {
     dispatch(updateItemQuantity({ id, size, quantity }));
   };
 
-  const handleNavigateToProduct = (productId: number, productType: string) => {
-    router.push(`/(tabs)/product/${productId}?type=${productType}`);
+  const handleNavigateToProduct = (productId: number) => {
+    router.push(`/(tabs)/product/${productId}`);
   };
 
   return (
@@ -37,9 +36,7 @@ const CartScreen: React.FC = () => {
               {cart.items.map((item) => (
                 <TouchableOpacity
                   key={item.product.id}
-                  onPress={() =>
-                    handleNavigateToProduct(item.product.id, item.product.type)
-                  }
+                  onPress={() => handleNavigateToProduct(item.product.id)}
                 >
                   <CartItem
                     item={item}

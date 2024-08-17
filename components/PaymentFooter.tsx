@@ -6,12 +6,14 @@ type PaymentFooterProps = {
   price: number;
   buttonPressHandler: () => void;
   buttonTitle: string;
+  isLoading?: boolean;
 };
 
 const PaymentFooter: React.FC<PaymentFooterProps> = ({
   price,
   buttonPressHandler,
   buttonTitle,
+  isLoading,
 }) => {
   return (
     <View
@@ -26,7 +28,12 @@ const PaymentFooter: React.FC<PaymentFooterProps> = ({
           $<Text className="text-primary-white">{price}</Text>
         </Text>
       </View>
-      <Button containerClassName="flex-1" onPress={buttonPressHandler}>
+      <Button
+        containerClassName="flex-1"
+        onPress={buttonPressHandler}
+        disabled={isLoading}
+        loading={isLoading}
+      >
         {buttonTitle}
       </Button>
     </View>

@@ -5,7 +5,7 @@ import OrderHistoryCard from "@/components/OrderCard";
 import EmptyListAnimation from "@/components/EmptyListAnimation";
 import { useMyOrders } from "@/hooks/orders/useMyOrders";
 import { useRouter } from "expo-router";
-import Loader from "@/components/loader/Loader";
+import Loader from "@/components/loaders/Loader";
 
 const ArchiveOrders = () => {
   const router = useRouter();

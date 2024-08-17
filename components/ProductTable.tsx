@@ -17,8 +17,8 @@ import { useProducts } from "@/hooks/products/useProducts";
 import { SUPABASE_URL } from "@/services/supabase";
 import { Enums } from "@/constants/types";
 import { useDeleteProduct } from "@/hooks/products/useDeleteProduct";
-import Loader from "./loader/Loader";
-import ConfirmDeleteModal from "./loader/ConfirmDeleteModal";
+import Loader from "./loaders/Loader";
+import ConfirmDeleteModal from "./loaders/ConfirmDeleteModal";
 import ErrorMessage from "./ErrorMessage";
 
 type ProductTableProps = {

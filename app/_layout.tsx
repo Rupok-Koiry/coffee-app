@@ -8,7 +8,7 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { useColorScheme } from "@/hooks/useColorScheme";
+import { useColorScheme } from "@/hooks/themes/useColorScheme";
 import { Provider } from "react-redux";
 import store from "@/features/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
