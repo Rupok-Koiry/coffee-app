@@ -11,16 +11,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import PaymentFooter from "@/components/PaymentFooter";
 import ImageBackgroundInfo from "@/components/ImageBackgroundInfo";
 import { COLORS } from "@/theme/theme";
-import { useProduct } from "@/api/products/useProduct";
+import { useProduct } from "@/hooks/products/useProduct";
 import Loader from "@/components/loader/Loader";
 import { Tables } from "@/constants/types";
 import NotFound from "@/components/loader/NotFound";
-import { useCreateWishlist } from "@/api/wishlist/useCreateWishlist";
-import { useDeleteWishlist } from "@/api/wishlist/useDeleteWishlist";
-import { useWishlistStatus } from "@/api/wishlist/useWishlistStatus";
+import { useCreateWishlist } from "@/hooks/wishlist/useCreateWishlist";
+import { useDeleteWishlist } from "@/hooks/wishlist/useDeleteWishlist";
+import { useWishlistStatus } from "@/hooks/wishlist/useWishlistStatus";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "@/features/cartSlice";
-import { useUser } from "@/api/auth/useUser";
+import { useUser } from "@/hooks/auth/useUser";
 import SignInModal from "@/components/SignInModal";
 
 const PriceOption: React.FC<{

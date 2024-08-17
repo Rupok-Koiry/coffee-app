@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import CoffeeCard from "./CoffeeCard";
 import { useRouter } from "expo-router";
-import { useProducts } from "@/api/products/useProducts";
+import { useProducts } from "@/hooks/products/useProducts";
 import CoffeeCardSkeleton from "./loader/CoffeeCardSkeleton";
 import ErrorMessage from "./ErrorMessage";
 import { addItemToCart } from "@/features/cartSlice";

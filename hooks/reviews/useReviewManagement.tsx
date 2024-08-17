@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import * as Haptics from "expo-haptics";
-import { useUser } from "@/api/auth/useUser";
-import { useReviewEligibility } from "@/api/reviews/useReviewEligibility";
-import { useCreateReviews } from "@/api/reviews/useCreateReviews";
-import { useOrderReviews } from "@/api/reviews/useOrderReviews";
-import { useUpdateReviews } from "@/api/reviews/useUpdateReviews";
+import { useUser } from "@/hooks/auth/useUser";
+import { useReviewEligibility } from "@/hooks/reviews/useReviewEligibility";
+import { useCreateReviews } from "@/hooks/reviews/useCreateReviews";
+import { useOrderReviews } from "@/hooks/reviews/useOrderReviews";
+import { useUpdateReviews } from "@/hooks/reviews/useUpdateReviews";
 import { COLORS } from "@/theme/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { TransformedOrder } from "@/services/apiOrders";

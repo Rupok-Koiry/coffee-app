@@ -6,7 +6,7 @@ import { COLORS } from "@/theme/theme";
 import { Link } from "expo-router";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { useSignup } from "@/api/auth/useSignup";
+import { useSignup } from "@/hooks/auth/useSignup";
 import withGuest from "@/utils/withGuest";
 
 interface FormValues {

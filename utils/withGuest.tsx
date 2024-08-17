@@ -1,4 +1,4 @@
-import { useUser } from "@/api/auth/useUser";
+import { useUser } from "@/hooks/auth/useUser";
 import Loader from "@/components/loader/Loader";
 import { Href, Redirect } from "expo-router";
 import React from "react";

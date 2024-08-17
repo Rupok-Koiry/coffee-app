@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import ErrorMessage from "@/components/ErrorMessage";
 import OrderHistoryCard from "@/components/OrderCard";
 import EmptyListAnimation from "@/components/EmptyListAnimation";
-import { useMyOrders } from "@/api/orders/useMyOrders";
+import { useMyOrders } from "@/hooks/orders/useMyOrders";
 import { useRouter } from "expo-router";
 import Loader from "@/components/loader/Loader";
 

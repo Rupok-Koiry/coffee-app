@@ -2,7 +2,7 @@ import { Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useCallback, useEffect } from "react";
 import CoffeeCard from "./CoffeeCard";
 import { useRouter } from "expo-router";
-import { useProducts } from "@/api/products/useProducts";
+import { useProducts } from "@/hooks/products/useProducts";
 import CoffeeCardSkeleton from "./loader/CoffeeCardSkeleton";
 import ErrorMessage from "./ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";

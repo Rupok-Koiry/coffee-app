@@ -10,7 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/theme/theme";
 import HeaderBar from "@/components/HeaderBar";
 import SearchInput from "@/components/SearchInput";
-import { useProducts } from "@/api/products/useProducts";
+import { useProducts } from "@/hooks/products/useProducts";
 import { useRouter } from "expo-router";
 import SearchCard from "@/components/SearchCard";
 import SearchCardSkeleton from "@/components/loader/SearchCardSkeleton";

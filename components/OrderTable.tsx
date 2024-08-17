@@ -17,9 +17,9 @@ import {
 import { Picker as SelectPicker } from "@react-native-picker/picker";
 import Button from "./Button";
 import Tag from "./Tag";
-import { useOrders } from "@/api/orders/useOrders";
+import { useOrders } from "@/hooks/orders/useOrders";
 import { SUPABASE_URL } from "@/services/supabase";
-import { useUpdateOrderStatus } from "@/api/orders/useUpdateOrderStatus";
+import { useUpdateOrderStatus } from "@/hooks/orders/useUpdateOrderStatus";
 import { Enums, orderStatuses } from "@/constants/types";
 import Loader from "./loader/Loader";
 

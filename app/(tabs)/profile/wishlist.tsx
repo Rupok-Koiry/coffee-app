@@ -1,4 +1,4 @@
-import { useWishlist } from "@/api/wishlist/useWishlist";
+import { useWishlist } from "@/hooks/wishlist/useWishlist";
 import EmptyListAnimation from "@/components/EmptyListAnimation";
 import ErrorMessage from "@/components/ErrorMessage";
 import WishlistItemCard from "@/components/WishlistItemCard";
@@ -15,7 +15,7 @@ import {
   ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useDeleteWishlist } from "@/api/wishlist/useDeleteWishlist";
+import { useDeleteWishlist } from "@/hooks/wishlist/useDeleteWishlist";
 import { Pressable } from "react-native";
 
 const WishlistScreen = () => {

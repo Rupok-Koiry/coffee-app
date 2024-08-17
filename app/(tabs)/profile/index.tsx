@@ -15,10 +15,10 @@ import Button from "@/components/Button";
 import { COLORS } from "@/theme/theme";
 import ProfileOption from "@/components/ProfileOption";
 import HeaderBar from "@/components/HeaderBar";
-import { useUser } from "@/api/auth/useUser";
+import { useUser } from "@/hooks/auth/useUser";
 import { SUPABASE_URL } from "@/services/supabase";
 import { format } from "date-fns";
-import { useLogout } from "@/api/auth/useLogout";
+import { useLogout } from "@/hooks/auth/useLogout";
 import { useRouter } from "expo-router";
 const ProfileScreen: React.FC = () => {
   const router = useRouter();

@@ -6,7 +6,7 @@ import React from "react";
 import { ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
-import { useReviews } from "@/api/reviews/useReviews";
+import { useReviews } from "@/hooks/reviews/useReviews";
 import { Tables } from "@/constants/types";
 import ReviewSummarySkeleton from "@/components/loader/RatingSummarySkeleton";
 import ReviewCardSkeleton from "@/components/loader/ReviewCardSkeleton";

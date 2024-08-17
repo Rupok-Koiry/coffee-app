@@ -11,9 +11,9 @@ import Loader from "@/components/loader/Loader";
 import NotFound from "@/components/loader/NotFound";
 import Button from "@/components/Button";
 import ReviewModal from "@/components/modals/ReviewModal";
-import { useOrder } from "@/api/orders/useOrder";
+import { useOrder } from "@/hooks/orders/useOrder";
 import { useUpdateOrderSubscription } from "@/services/apiSubscriptions";
-import { useReviewManagement } from "@/api/reviews/useReviewManagement";
+import { useReviewManagement } from "@/hooks/reviews/useReviewManagement";
 import ErrorMessage from "@/components/ErrorMessage";
 
 const OrderDetailsScreen: React.FC = () => {

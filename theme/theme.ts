@@ -29,6 +29,21 @@ export const COLORS: Color = {
   primaryBlackRGBA: "rgba(12,15,20,0.5)",
   secondaryBlackRGBA: "rgba(0,0,0,0.7)",
 };
+export const LIGHT_COLORS: Color = {
+  primaryRedHex: "#DC3535", // Keep the same
+  primaryOrangeHex: "#D17842", // Keep the same
+  primaryBlackHex: "#FFFFFF", // Inverted
+  primaryDarkGreyHex: "#F5F5F7", // Light background
+  secondaryDarkGreyHex: "#E8E8E8", // Lighter background
+  primaryGreyHex: "#DADADA", // Light grey
+  secondaryGreyHex: "#DADADA", // Light grey (same as primary)
+  primaryLightGreyHex: "#A0A0A5", // Darker for better contrast
+  secondaryLightGreyHex: "#52555A", // Darker for better contrast
+  primaryWhiteHex: "#0C0F14", // Inverted (using your original black)
+  successGreenHex: "#4BB543", // Keep the same
+  primaryBlackRGBA: "rgba(245,245,247,0.5)", // Light version
+  secondaryBlackRGBA: "rgba(255,255,255,0.7)", // Light version
+};
 
 interface FontFamily {
   poppins_black: string;

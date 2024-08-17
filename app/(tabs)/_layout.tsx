@@ -2,7 +2,7 @@ import { Tabs } from "expo-router";
 import React, { useCallback, useState } from "react";
 import { COLORS } from "@/theme/theme";
 import { Ionicons } from "@expo/vector-icons";
-import { useUser } from "@/api/auth/useUser";
+import { useUser } from "@/hooks/auth/useUser";
 import SignInModal from "@/components/SignInModal";
 import { EventArg } from "@react-navigation/native";
 

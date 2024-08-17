@@ -2,11 +2,13 @@ import { Tables } from "@/constants/database.types";
 import { CartType, PriceType } from "@/constants/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+// Initial state of the cart
 const initialState: CartType = {
   items: [],
   total_price: 0.0,
 };
 
+// Calculate total price for a specific cart item
 const calculateItemTotalPrice = (item: { prices: PriceType[] }): number => {
   return item.prices.reduce(
     (total, price) => total + price.price * price.quantity,
@@ -14,6 +16,7 @@ const calculateItemTotalPrice = (item: { prices: PriceType[] }): number => {
   );
 };
 
+// Calculate total price for all items in the cart
 const calculateTotalPrice = (items: { prices: PriceType[] }[]): number => {
   return items.reduce(
     (total, item) => total + calculateItemTotalPrice(item),
@@ -21,14 +24,17 @@ const calculateTotalPrice = (items: { prices: PriceType[] }[]): number => {
   );
 };
 
+// Format price to two decimal places
 const formatPrice = (price: number): number => {
   return parseFloat(price.toFixed(2));
 };
 
+// Slice for cart management
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    // Add or update an item in the cart
     addItemToCart(
       state,
       action: PayloadAction<{
@@ -42,6 +48,7 @@ const cartSlice = createSlice({
       );
 
       if (existingItem) {
+        // Update quantity if item already exists in cart
         newItem.prices.forEach((newPrice) => {
           const existingPrice = existingItem.prices.find(
             (price) => price.size === newPrice.size
@@ -52,10 +59,12 @@ const cartSlice = createSlice({
             existingItem.prices.push(newPrice);
           }
         });
+        // Update total price of the existing item
         existingItem.total_price = formatPrice(
           calculateItemTotalPrice(existingItem)
         );
       } else {
+        // Add new item to the cart
         const newItemWithTotal = {
           ...newItem,
           total_price: formatPrice(calculateItemTotalPrice(newItem)),
@@ -63,14 +72,17 @@ const cartSlice = createSlice({
         state.items.push(newItemWithTotal);
       }
 
+      // Update total price of the entire cart
       state.total_price = formatPrice(calculateTotalPrice(state.items));
     },
+    // Remove an item from the cart by product ID
     removeItemFromCart(state, action: PayloadAction<number>) {
       state.items = state.items.filter(
         (item) => item.product.id !== action.payload
       );
       state.total_price = formatPrice(calculateTotalPrice(state.items));
     },
+    // Update the quantity of a specific item in the cart
     updateItemQuantity(
       state,
       action: PayloadAction<{ id: number; size: string; quantity: number }>
@@ -86,21 +98,25 @@ const cartSlice = createSlice({
           if (quantity > 0) {
             item.prices[priceIndex].quantity = quantity;
           } else {
+            // Remove the size if quantity is zero
             item.prices.splice(priceIndex, 1);
-            // If the prices array is empty, remove the item from the cart
+            // Remove the item if no sizes remain
             if (item.prices.length === 0) {
               state.items = state.items.filter(
                 (cartItem) => cartItem.product.id !== id
               );
             }
           }
+          // Update total price if item still exists
           if (item.prices.length > 0) {
             item.total_price = formatPrice(calculateItemTotalPrice(item));
           }
         }
+        // Update total price of the entire cart
         state.total_price = formatPrice(calculateTotalPrice(state.items));
       }
     },
+    // Clear the entire cart
     clearCart(state) {
       state.items = [];
       state.total_price = 0.0;

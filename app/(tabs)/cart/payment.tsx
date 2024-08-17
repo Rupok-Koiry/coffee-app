@@ -18,9 +18,9 @@ import HeaderBar from "@/components/HeaderBar";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/features/store";
 import { clearCart } from "@/features/cartSlice";
-import { useCreateOrderWithItems } from "@/api/orders/useCreateOrderWithItems";
+import { useCreateOrderWithItems } from "@/hooks/orders/useCreateOrderWithItems";
 import { initializePaymentSheet, openPaymentSheet } from "@/services/apiStripe";
-import { useUser } from "@/api/auth/useUser";
+import { useUser } from "@/hooks/auth/useUser";
 import SignInModal from "@/components/SignInModal";
 
 const paymentList: PaymentListType[] = [

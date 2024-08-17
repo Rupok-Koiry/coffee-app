@@ -16,10 +16,10 @@ import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import HeaderBar from "@/components/HeaderBar";
-import { useUser } from "@/api/auth/useUser";
+import { useUser } from "@/hooks/auth/useUser";
 import { SUPABASE_URL } from "@/services/supabase";
-import { useUpdateUser } from "@/api/auth/useUpdateUser";
-import { useUpdatePassword } from "@/api/auth/useUpdatePassword";
+import { useUpdateUser } from "@/hooks/auth/useUpdateUser";
+import { useUpdatePassword } from "@/hooks/auth/useUpdatePassword";
 
 interface UserDetailsFormValues {
   full_name: string;
