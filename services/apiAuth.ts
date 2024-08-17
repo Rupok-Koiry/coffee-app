@@ -144,7 +144,11 @@ export async function login({
 }
 
 export async function getCurrentUser() {
-  const { data: session } = await supabase.auth.getSession();
+  const { data: session, error } = await supabase.auth.getSession();
+  if (error) {
+    console.log("Get session error:", error);
+    throw new Error(error.message);
+  }
   if (!session?.session) return null;
 
   return await fetchUserProfile(session.session.user.id);
