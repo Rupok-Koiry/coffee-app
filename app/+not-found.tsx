@@ -1,5 +1,5 @@
 import Button from "@/components/Button";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import LottieView from "lottie-react-native";
 import { StatusBar, Text, View, Dimensions } from "react-native";

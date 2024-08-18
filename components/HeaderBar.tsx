@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import GradientIcon from "./GradientIcon";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import * as Icons from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import * as Haptics from "expo-haptics";

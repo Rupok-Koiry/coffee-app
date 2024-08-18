@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { View, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 
 const ReviewSummarySkeleton: React.FC = () => {
   const pulseAnim = useRef(new Animated.Value(1)).current;

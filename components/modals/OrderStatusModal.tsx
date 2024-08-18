@@ -3,7 +3,7 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { Picker as SelectPicker } from "@react-native-picker/picker";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import Button from "../Button";
 import { Enums, orderStatuses } from "@/constants/types";
 type OrderStatusModalProps = {

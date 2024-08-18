@@ -10,7 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import PaymentFooter from "@/components/PaymentFooter";
 import PaymentMethod from "@/components/PaymentMethod";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import PopUpAnimation from "@/components/PopUpAnimation";
 import { PaymentListType } from "@/constants/types";

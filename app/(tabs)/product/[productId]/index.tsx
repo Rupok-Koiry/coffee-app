@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import PaymentFooter from "@/components/PaymentFooter";
 import ImageBackgroundInfo from "@/components/ImageBackgroundInfo";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { useProduct } from "@/hooks/products/useProduct";
 import Loader from "@/components/loaders/Loader";
 import { Tables } from "@/constants/types";

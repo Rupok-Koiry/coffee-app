@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import GradientIcon from "./GradientIcon";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { Tables } from "@/constants/types";
 import { SUPABASE_URL } from "@/services/supabase";
 import { Link, router } from "expo-router";

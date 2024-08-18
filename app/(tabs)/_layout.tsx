@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useUser } from "@/hooks/auth/useUser";
 import SignInModal from "@/components/modals/SignInModal";

@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import BgIcon from "./BgIcon";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { SUPABASE_URL } from "@/services/supabase";
 import * as Haptics from "expo-haptics";
 

@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { SUPABASE_URL } from "@/services/supabase";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { Tables } from "@/constants/database.types";
 import { CartItemType } from "@/constants/types";
 

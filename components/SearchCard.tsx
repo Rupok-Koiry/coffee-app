@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { SUPABASE_URL } from "@/services/supabase";
 import BgIcon from "./BgIcon";

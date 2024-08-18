@@ -1,4 +1,4 @@
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { View } from "react-native";
 import Toast, {

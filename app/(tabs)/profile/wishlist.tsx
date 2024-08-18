@@ -4,7 +4,7 @@ import ErrorMessage from "@/components/ErrorMessage";
 import WishlistItemCard from "@/components/WishlistItemCard";
 import HeaderBar from "@/components/HeaderBar";
 import Loader from "@/components/loaders/Loader";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import React, { useCallback } from "react";
 import {

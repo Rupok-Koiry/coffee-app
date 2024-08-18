@@ -1,7 +1,7 @@
 import { View, Text, Modal, TouchableOpacity } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import Button from "../Button";
 type ConfirmDeleteModalProps = {

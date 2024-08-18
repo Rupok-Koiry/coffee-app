@@ -3,7 +3,7 @@ import { ScrollView, StatusBar, View, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
 
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import HeaderBar from "@/components/HeaderBar";
 import OrderHistoryCard from "@/components/OrderCard";
 import OrderStatus from "@/components/OrderStatus";

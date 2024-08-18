@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { View, Text } from "react-native";
 import GradientIcon from "./GradientIcon";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import Animated, {
   Easing,
   useAnimatedStyle,

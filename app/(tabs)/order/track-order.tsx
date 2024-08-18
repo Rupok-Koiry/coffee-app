@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
 import Button from "@/components/Button";

@@ -1,7 +1,7 @@
 import HeaderBar from "@/components/HeaderBar";
 import RatingSummary from "@/components/RatingSummary";
 import ReviewList from "@/components/ReviewList";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import React from "react";
 import { ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";

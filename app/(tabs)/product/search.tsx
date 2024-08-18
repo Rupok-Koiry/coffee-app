@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import React, { useCallback } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import HeaderBar from "@/components/HeaderBar";
 import SearchInput from "@/components/SearchInput";
 import { useProducts } from "@/hooks/products/useProducts";

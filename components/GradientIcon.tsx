@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import * as Icons from "@expo/vector-icons";
 import { type IconProps } from "@expo/vector-icons/build/createIconSet";
 import { type ComponentProps } from "react";

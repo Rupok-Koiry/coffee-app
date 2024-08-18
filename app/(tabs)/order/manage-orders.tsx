@@ -8,7 +8,7 @@ import {
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import OrderTable from "@/components/OrderTable";
 import { Enums, orderStatuses } from "@/constants/types";
 import withAuthorization from "@/utils/withAuthorization";

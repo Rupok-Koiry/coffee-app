@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import * as Haptics from "expo-haptics";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,

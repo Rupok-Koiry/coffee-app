@@ -5,7 +5,7 @@ import { useReviewEligibility } from "@/hooks/reviews/useReviewEligibility";
 import { useCreateReviews } from "@/hooks/reviews/useCreateReviews";
 import { useOrderReviews } from "@/hooks/reviews/useOrderReviews";
 import { useUpdateReviews } from "@/hooks/reviews/useUpdateReviews";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { TransformedOrder } from "@/services/apiOrders";
 import { InsertTables, Tables } from "@/constants/types";

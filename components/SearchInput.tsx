@@ -1,6 +1,6 @@
 import { View, TextInput, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 

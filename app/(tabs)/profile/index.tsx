@@ -12,7 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import Button from "@/components/Button";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import ProfileOption from "@/components/ProfileOption";
 import HeaderBar from "@/components/HeaderBar";
 import { useUser } from "@/hooks/auth/useUser";

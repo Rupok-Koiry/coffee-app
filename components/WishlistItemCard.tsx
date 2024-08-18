@@ -2,7 +2,7 @@ import { Text, View } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import ImageBackgroundInfo from "./ImageBackgroundInfo";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { Tables } from "@/constants/types";
 
 type WishlistItemCardProps = {

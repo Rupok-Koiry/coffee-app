@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 
 type PaymentMethodProps = {

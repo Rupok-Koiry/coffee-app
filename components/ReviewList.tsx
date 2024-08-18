@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Image, FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { formatDistanceToNowStrict } from "date-fns";
 import { SUPABASE_URL } from "@/services/supabase";
 import { Tables } from "@/constants/types";

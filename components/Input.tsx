@@ -14,7 +14,7 @@ import {
   RegisterOptions,
 } from "react-hook-form";
 import { Ionicons } from "@expo/vector-icons";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 
 interface InputProps<T extends FieldValues> extends TextInputProps {
   control: Control<T>;

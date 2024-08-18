@@ -8,7 +8,7 @@ import {
   Pressable,
 } from "react-native";
 import Button from "@/components/Button";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 

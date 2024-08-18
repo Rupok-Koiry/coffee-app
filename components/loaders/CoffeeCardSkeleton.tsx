@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { View, Dimensions, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.32;
 

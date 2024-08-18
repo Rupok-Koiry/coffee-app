@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
-import { COLORS } from "@/theme/theme";
+import { Colors } from "@/constants/Colors";
 import Button from "@/components/Button";
 import { InsertTables } from "@/constants/types";
 import Toast from "react-native-toast-message";
