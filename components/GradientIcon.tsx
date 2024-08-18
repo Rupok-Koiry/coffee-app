@@ -1,4 +1,5 @@
 import React from "react";
+import { useColorScheme } from "nativewind";
 import { View, Text, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "@/constants/Colors";
@@ -33,10 +34,14 @@ const GradientIcon = <T extends IconSetName>({
   const IconComponent = Icons[iconSet] as React.ComponentType<
     IconProps<IconName<T>>
   >;
+  const { colorScheme } = useColorScheme();
 
   return (
     <LinearGradient
-      colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+      colors={[
+        Colors[colorScheme].secondaryGreyHex,
+        Colors[colorScheme].primaryBackgroundHex,
+      ]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
       className={`w-${width} h-${height} justify-center items-center rounded-xl `}

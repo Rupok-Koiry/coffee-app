@@ -1,4 +1,5 @@
 import React from "react";
+import { useColorScheme } from "nativewind";
 import {
   Text,
   View,
@@ -38,6 +39,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
   backHandler,
   toggleFavorite,
 }) => {
+  const { colorScheme } = useColorScheme();
   return (
     <View>
       <ImageBackground
@@ -55,7 +57,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
             >
               <GradientIcon
                 name="chevron-back"
-                color={COLORS.secondaryLightGreyHex}
+                color={Colors[colorScheme].secondaryTextHex}
                 size={20}
                 iconSet="Ionicons"
               />
@@ -69,8 +71,8 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                 name="heart"
                 color={
                   isFavorite
-                    ? COLORS.primaryRedHex
-                    : COLORS.secondaryLightGreyHex
+                    ? Colors[colorScheme].primaryRedHex
+                    : Colors[colorScheme].secondaryTextHex
                 }
                 size={20}
                 iconSet="Ionicons"
@@ -88,8 +90,8 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                 name="heart"
                 color={
                   isFavorite
-                    ? COLORS.primaryRedHex
-                    : COLORS.secondaryLightGreyHex
+                    ? Colors[colorScheme].primaryRedHex
+                    : Colors[colorScheme].secondaryTextHex
                 }
                 size={20}
                 iconSet="Ionicons"
@@ -115,13 +117,13 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                     <MaterialCommunityIcons
                       name="fruit-cherries"
                       size={24}
-                      color={COLORS.primaryOrangeHex}
+                      color={Colors[colorScheme].primaryOrangeHex}
                     />
                   ) : (
                     <Feather
                       name="coffee"
                       size={24}
-                      color={COLORS.primaryOrangeHex}
+                      color={Colors[colorScheme].primaryOrangeHex}
                     />
                   )}
                   <Text
@@ -134,7 +136,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                   <Ionicons
                     name={type === "BEAN" ? "location" : "water"}
                     size={24}
-                    color={COLORS.primaryOrangeHex}
+                    color={Colors[colorScheme].primaryOrangeHex}
                   />
                   <Text className="font-poppins-medium text-xs text-secondary-light-grey mt-0.5">
                     {ingredients}
@@ -149,7 +151,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
               >
                 <Ionicons
                   name="star"
-                  color={COLORS.primaryOrangeHex}
+                  color={Colors[colorScheme].primaryOrangeHex}
                   size={20}
                 />
                 <Text className="font-poppins-semibold text-lg text-primary-white">

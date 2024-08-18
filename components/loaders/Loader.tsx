@@ -1,9 +1,11 @@
 import { View, Text, Dimensions } from "react-native";
+import { useColorScheme } from "nativewind";
 import React from "react";
 import LottieView from "lottie-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Loader = () => {
+  const { colorScheme } = useColorScheme();
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
       <View className="flex-1 justify-center">

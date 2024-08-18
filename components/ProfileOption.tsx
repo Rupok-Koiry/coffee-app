@@ -1,6 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { useColorScheme } from "nativewind";
 import { Link } from "expo-router";
 import { Dimensions, Text, View } from "react-native";
 
@@ -17,6 +18,7 @@ const ProfileOption: React.FC<ProfileOptionProps> = ({
   link,
   extraContent,
 }) => {
+  const { colorScheme } = useColorScheme();
   const Content = (
     <View
       className={`flex-row justify-between items-center px-5 py-2`}
@@ -24,12 +26,19 @@ const ProfileOption: React.FC<ProfileOptionProps> = ({
     >
       <View className="flex-row items-center space-x-5">
         <LinearGradient
-          colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+          colors={[
+            Colors[colorScheme].secondaryGreyHex,
+            Colors[colorScheme].primaryBackgroundHex,
+          ]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           className="w-10 h-10 justify-center items-center rounded-xl"
         >
-          <Ionicons size={20} name={iconName} color={COLORS.primaryOrangeHex} />
+          <Ionicons
+            size={20}
+            name={iconName}
+            color={Colors[colorScheme].primaryOrangeHex}
+          />
         </LinearGradient>
         <Text className="text-primary-white text-base font-poppins-medium">
           {label}
@@ -39,7 +48,7 @@ const ProfileOption: React.FC<ProfileOptionProps> = ({
         <Ionicons
           name="chevron-forward"
           size={24}
-          color={COLORS.primaryLightGreyHex}
+          color={Colors[colorScheme].accentTextHex}
         />
       )}
     </View>

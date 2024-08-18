@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useColorScheme } from "nativewind";
 import {
   View,
   TextInput,
@@ -37,6 +38,7 @@ const Input = <T extends FieldValues>({
   rules,
   ...rest
 }: InputProps<T>) => {
+  const { colorScheme } = useColorScheme();
   const [isPasswordVisible, setPasswordVisible] = useState(secureTextEntry);
 
   return (
@@ -45,7 +47,7 @@ const Input = <T extends FieldValues>({
         style={{ marginHorizontal: 12 }}
         name={iconName}
         size={20}
-        color={COLORS.primaryOrangeHex}
+        color={Colors[colorScheme].primaryOrangeHex}
       />
       <Controller
         control={control}
@@ -57,9 +59,9 @@ const Input = <T extends FieldValues>({
         }) => (
           <TextInput
             placeholder={placeholder}
-            placeholderTextColor={COLORS.primaryLightGreyHex}
+            placeholderTextColor={Colors[colorScheme].accentTextHex}
             className="flex-1 font-poppins-medium text-sm text-primary-white py-3"
-            cursorColor={COLORS.primaryOrangeHex}
+            cursorColor={Colors[colorScheme].primaryOrangeHex}
             secureTextEntry={isPasswordVisible}
             onBlur={onBlur}
             onChangeText={onChange}
@@ -74,7 +76,7 @@ const Input = <T extends FieldValues>({
             style={{ marginHorizontal: 16 }}
             name={isPasswordVisible ? "eye" : "eye-off"}
             size={20}
-            color={COLORS.primaryLightGreyHex}
+            color={Colors[colorScheme].accentTextHex}
           />
         </TouchableOpacity>
       )}

@@ -11,10 +11,12 @@ import { Tables } from "@/constants/types";
 import ReviewSummarySkeleton from "@/components/loaders/RatingSummarySkeleton";
 import ReviewCardSkeleton from "@/components/loaders/ReviewCardSkeleton";
 import ErrorMessage from "@/components/ErrorMessage";
+import { useColorScheme } from "nativewind";
 type ReviewType = Tables<"reviews"> & {
   user: Tables<"profiles">;
 };
 const ReviewsScreen = () => {
+  const { colorScheme } = useColorScheme();
   const { productId } = useLocalSearchParams();
   const { reviews, isLoading, error } = useReviews();
 
@@ -24,7 +26,7 @@ const ReviewsScreen = () => {
 
   return (
     <SafeAreaView className="bg-primary-black flex-1">
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView>
         <HeaderBar title={`Review of ${productId}`} />
         {isLoading ? (

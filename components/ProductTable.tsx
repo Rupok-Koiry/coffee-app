@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { useColorScheme } from "nativewind";
 import { Colors } from "@/constants/Colors";
 import Tag from "./Tag";
 import { Link } from "expo-router";
@@ -26,6 +27,7 @@ type ProductTableProps = {
 };
 
 const ProductTable = ({ type }: ProductTableProps) => {
+  const { colorScheme } = useColorScheme();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null
@@ -95,14 +97,17 @@ const ProductTable = ({ type }: ProductTableProps) => {
                 <Ionicons
                   name="add-circle-outline"
                   size={20}
-                  color={COLORS.primaryLightGreyHex}
+                  color={Colors[colorScheme].accentTextHex}
                 />
               </Link>
             </View>
           </View>
         </View>
         <LinearGradient
-          colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+          colors={[
+            Colors[colorScheme].secondaryGreyHex,
+            Colors[colorScheme].primaryBackgroundHex,
+          ]}
           start={[0, 0]}
           end={[1, 1]}
           style={{ flex: 1 }}
@@ -169,7 +174,7 @@ const ProductTable = ({ type }: ProductTableProps) => {
                     <Ionicons
                       name="eye"
                       size={20}
-                      color={COLORS.primaryLightGreyHex}
+                      color={Colors[colorScheme].accentTextHex}
                     />
                   </Link>
                   <Link
@@ -178,14 +183,14 @@ const ProductTable = ({ type }: ProductTableProps) => {
                     <Ionicons
                       name="pencil"
                       size={20}
-                      color={COLORS.primaryLightGreyHex}
+                      color={Colors[colorScheme].accentTextHex}
                     />
                   </Link>
                   <TouchableOpacity onPress={() => openModal(item.id)}>
                     <Ionicons
                       name="trash"
                       size={20}
-                      color={COLORS.primaryLightGreyHex}
+                      color={Colors[colorScheme].accentTextHex}
                     />
                   </TouchableOpacity>
                 </View>

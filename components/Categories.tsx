@@ -1,4 +1,5 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { useColorScheme } from "nativewind";
 import React from "react";
 
 type CategoriesProps = {
@@ -32,6 +33,7 @@ const categories = [
   },
 ];
 const Categories = ({ activeCategory, setActiveCategory }: CategoriesProps) => {
+  const { colorScheme } = useColorScheme();
   return (
     <ScrollView
       horizontal

@@ -3,10 +3,13 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
 import { Colors } from "@/constants/Colors";
+import { useColorScheme } from "nativewind";
 
 const TopTabs = withLayoutContext(createMaterialTopTabNavigator().Navigator);
 
 export default function OrderListNavigator() {
+  const { colorScheme } = useColorScheme();
+
   return (
     <SafeAreaView edges={["top"]} className="flex-1 bg-primary-black">
       <HeaderBar title="Order History" />
@@ -14,17 +17,19 @@ export default function OrderListNavigator() {
       <TopTabs
         initialRouteName="active"
         screenOptions={{
-          tabBarActiveTintColor: COLORS.primaryOrangeHex,
+          tabBarActiveTintColor: Colors[colorScheme].primaryOrangeHex,
           tabBarLabelStyle: { fontSize: 16, fontFamily: "Poppins-Medium" },
-          tabBarInactiveTintColor: COLORS.secondaryLightGreyHex,
+          tabBarInactiveTintColor: Colors[colorScheme].secondaryTextHex,
           tabBarIndicatorStyle: {
-            backgroundColor: COLORS.primaryOrangeHex,
+            backgroundColor: Colors[colorScheme].primaryOrangeHex,
           },
           tabBarIndicatorContainerStyle: {
-            backgroundColor: COLORS.primaryBlackHex,
+            backgroundColor: Colors[colorScheme].primaryBackgroundHex,
           },
         }}
-        sceneContainerStyle={{ backgroundColor: COLORS.primaryBlackHex }}
+        sceneContainerStyle={{
+          backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+        }}
       >
         <TopTabs.Screen name="active" options={{ title: "Active" }} />
         <TopTabs.Screen name="archive" options={{ title: "Archive" }} />

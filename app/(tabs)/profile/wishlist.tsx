@@ -1,3 +1,4 @@
+import { useColorScheme } from "nativewind";
 import { useWishlist } from "@/hooks/wishlist/useWishlist";
 import EmptyListAnimation from "@/components/EmptyListAnimation";
 import ErrorMessage from "@/components/ErrorMessage";
@@ -19,6 +20,7 @@ import { useDeleteWishlist } from "@/hooks/wishlist/useDeleteWishlist";
 import { Pressable } from "react-native";
 
 const WishlistScreen = () => {
+  const { colorScheme } = useColorScheme();
   const router = useRouter();
   const { wishlist, isLoading, error, hasNextPage, fetchNextPage } =
     useWishlist();
@@ -37,7 +39,7 @@ const WishlistScreen = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView>
         <View className="flex-1">
           <HeaderBar title="Wishlist" />

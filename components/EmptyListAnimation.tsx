@@ -1,4 +1,5 @@
 import { Dimensions, Text, View } from "react-native";
+import { useColorScheme } from "nativewind";
 import React from "react";
 import LottieView from "lottie-react-native";
 
@@ -7,6 +8,7 @@ type EmptyListAnimationProps = {
 };
 
 const EmptyListAnimation: React.FC<EmptyListAnimationProps> = ({ title }) => {
+  const { colorScheme } = useColorScheme();
   return (
     <View className="justify-center items-center px-5">
       <LottieView

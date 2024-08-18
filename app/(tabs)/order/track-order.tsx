@@ -12,8 +12,10 @@ import HeaderBar from "@/components/HeaderBar";
 import Button from "@/components/Button";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useColorScheme } from "nativewind";
 
 const OrderTrackingScreen = () => {
+  const { colorScheme } = useColorScheme();
   const router = useRouter();
   const [orderId, setOrderId] = useState<string>("");
 
@@ -23,7 +25,7 @@ const OrderTrackingScreen = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
@@ -36,15 +38,15 @@ const OrderTrackingScreen = () => {
                 style={{ marginHorizontal: 12 }}
                 name="search"
                 size={16}
-                color={COLORS.primaryLightGreyHex}
+                color={Colors[colorScheme].accentTextHex}
               />
             </TouchableOpacity>
             <TextInput
               placeholder="Enter your order id"
-              cursorColor={COLORS.primaryOrangeHex}
+              cursorColor={Colors[colorScheme].primaryOrangeHex}
               onChangeText={(text) => setOrderId(text.replace("#", ""))}
               onSubmitEditing={handleTrackOrder}
-              placeholderTextColor={COLORS.primaryLightGreyHex}
+              placeholderTextColor={Colors[colorScheme].accentTextHex}
               className="flex-1 font-poppins-medium text-sm text-primary-white py-3"
               keyboardType="numeric"
             />

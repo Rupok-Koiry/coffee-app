@@ -2,6 +2,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { Colors } from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
+import { useColorScheme } from "nativewind";
 import { SUPABASE_URL } from "@/services/supabase";
 import BgIcon from "./BgIcon";
 import { Tables } from "@/constants/types";
@@ -13,11 +14,15 @@ type SearchCardProps = {
 };
 
 const SearchCard = ({ product }: SearchCardProps) => {
+  const { colorScheme } = useColorScheme();
   return (
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
-      colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+      colors={[
+        Colors[colorScheme].secondaryGreyHex,
+        Colors[colorScheme].primaryBackgroundHex,
+      ]}
       className="p-3 rounded-2xl"
       style={{ flex: 1 }}
       key={product.id}
@@ -47,9 +52,9 @@ const SearchCard = ({ product }: SearchCardProps) => {
             </Text>
             <TouchableOpacity onPress={() => {}}>
               <BgIcon
-                color={COLORS.primaryWhiteHex}
+                color={Colors[colorScheme].primaryTextHex}
                 name="add"
-                BgColor={COLORS.primaryOrangeHex}
+                BgColor={Colors[colorScheme].primaryOrangeHex}
                 size={20}
                 iconSet="Ionicons"
               />

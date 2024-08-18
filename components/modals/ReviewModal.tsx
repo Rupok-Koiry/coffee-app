@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useColorScheme } from "nativewind";
 import {
   Modal,
   Pressable,
@@ -38,6 +39,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
   handleSubmitReview,
   renderStarIcon,
 }) => {
+  const { colorScheme } = useColorScheme();
   const opacityAnim = useRef(new Animated.Value(1)).current;
   const slideAnim = useRef(new Animated.Value(0)).current;
   const progressAnim = useRef(new Animated.Value(0)).current;
@@ -119,7 +121,10 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
         className="flex-1 bg-primary-black/60 justify-end items-center"
       >
         <LinearGradient
-          colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+          colors={[
+            Colors[colorScheme].secondaryGreyHex,
+            Colors[colorScheme].primaryBackgroundHex,
+          ]}
           start={[0, 0]}
           end={[1, 1]}
           className="p-5 rounded-t-xl w-full"
@@ -129,7 +134,11 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
             onPress={onClose}
             className="absolute top-5 right-5 z-20"
           >
-            <Ionicons name="close" size={24} color={COLORS.primaryOrangeHex} />
+            <Ionicons
+              name="close"
+              size={24}
+              color={Colors[colorScheme].primaryOrangeHex}
+            />
           </TouchableOpacity>
 
           <View className="mb-3">
@@ -181,8 +190,8 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                 textAlignVertical="top"
                 numberOfLines={4}
                 className="mb-3 rounded-xl bg-primary-dark-grey border border-primary-grey font-poppins-medium text-sm text-primary-white p-3"
-                placeholderTextColor={COLORS.primaryLightGreyHex}
-                cursorColor={COLORS.primaryOrangeHex}
+                placeholderTextColor={Colors[colorScheme].accentTextHex}
+                cursorColor={Colors[colorScheme].primaryOrangeHex}
               />
             </Animated.View>
           )}
@@ -199,8 +208,8 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                 size={24}
                 color={
                   currentItemIndex === 0
-                    ? COLORS.primaryGreyHex
-                    : COLORS.primaryOrangeHex
+                    ? Colors[colorScheme].secondaryGreyHex
+                    : Colors[colorScheme].primaryOrangeHex
                 }
               />
             </Button>
@@ -223,7 +232,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                 <Ionicons
                   name="chevron-forward"
                   size={24}
-                  color={COLORS.primaryOrangeHex}
+                  color={Colors[colorScheme].primaryOrangeHex}
                 />
               </Button>
             )}

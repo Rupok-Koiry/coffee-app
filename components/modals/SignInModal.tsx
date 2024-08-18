@@ -1,4 +1,5 @@
 import React from "react";
+import { useColorScheme } from "nativewind";
 import {
   View,
   Text,
@@ -23,6 +24,7 @@ const SignInModal: React.FC<SignInModalProps> = ({
   setModalVisible,
   title,
 }) => {
+  const { colorScheme } = useColorScheme();
   return (
     <Modal
       transparent={true}
@@ -36,7 +38,10 @@ const SignInModal: React.FC<SignInModalProps> = ({
       >
         <View className="flex-1 justify-end items-center">
           <LinearGradient
-            colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+            colors={[
+              Colors[colorScheme].secondaryGreyHex,
+              Colors[colorScheme].primaryBackgroundHex,
+            ]}
             start={[0, 0]}
             end={[1, 1]}
             className="p-5 rounded-t-xl w-full"

@@ -1,6 +1,5 @@
 import { Text, ScrollView, StatusBar, View, Image } from "react-native";
 import React, { useState } from "react";
-import { useColorScheme } from "nativewind";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SearchInput from "@/components/SearchInput";
 import Categories from "@/components/Categories";
@@ -8,11 +7,12 @@ import CoffeeList from "@/components/CoffeeList";
 import BeanList from "@/components/BeanList";
 import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
+import { useColorScheme } from "nativewind";
 
 const HomeScreen = () => {
+  const { colorScheme } = useColorScheme();
   const [activeCategory, setActiveCategory] = useState("");
   const router = useRouter();
-  const { colorScheme } = useColorScheme();
 
   return (
     <SafeAreaView className={`bg-primary-background-${colorScheme} flex-1`}>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useColorScheme } from "nativewind";
 import { Text, View, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "@/constants/Colors";
@@ -17,6 +18,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
   icon,
   isIcon,
 }) => {
+  const { colorScheme } = useColorScheme();
   return (
     <View
       className={`border-2 bg-primary-grey rounded-2xl ${
@@ -27,7 +29,10 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+          colors={[
+            Colors[colorScheme].secondaryGreyHex,
+            Colors[colorScheme].primaryBackgroundHex,
+          ]}
           className="flex-row items-center justify-between px-6 py-3 rounded-2xl"
           style={{ gap: 24 }}
         >
@@ -36,7 +41,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
               <Ionicons
                 name="wallet"
                 size={32}
-                color={COLORS.primaryOrangeHex}
+                color={Colors[colorScheme].primaryOrangeHex}
               />
             </Text>
             <Text className="font-poppins-semibold text-base text-primary-white">
@@ -51,7 +56,10 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+          colors={[
+            Colors[colorScheme].secondaryGreyHex,
+            Colors[colorScheme].primaryBackgroundHex,
+          ]}
           className="flex-row items-center px-6 py-3 rounded-2xl"
           style={{ gap: 24 }}
         >

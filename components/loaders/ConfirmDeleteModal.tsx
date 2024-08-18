@@ -1,4 +1,5 @@
 import { View, Text, Modal, TouchableOpacity } from "react-native";
+import { useColorScheme } from "nativewind";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "@/constants/Colors";
@@ -16,6 +17,7 @@ const ConfirmDeleteModal = ({
   isDeleting,
   handleDelete,
 }: ConfirmDeleteModalProps) => {
+  const { colorScheme } = useColorScheme();
   return (
     <Modal
       transparent={true}
@@ -25,7 +27,10 @@ const ConfirmDeleteModal = ({
     >
       <View className="flex-1 justify-center items-center bg-primary-black-rgba px-5">
         <LinearGradient
-          colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+          colors={[
+            Colors[colorScheme].secondaryGreyHex,
+            Colors[colorScheme].primaryBackgroundHex,
+          ]}
           start={[0, 0]}
           end={[1, 1]}
           className="bg-primary-grey px-5 py-8 rounded-lg w-full"

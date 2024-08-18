@@ -1,11 +1,13 @@
 import React from "react";
 import { View, Text, Image, FlatList } from "react-native";
+import { useColorScheme } from "nativewind";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "@/constants/Colors";
 import { formatDistanceToNowStrict } from "date-fns";
 import { SUPABASE_URL } from "@/services/supabase";
 import { Tables } from "@/constants/types";
+import { ColorSchemeName } from "nativewind/dist/style-sheet/color-scheme";
 type ReviewType = Tables<"reviews"> & {
   user: Tables<"profiles">;
 };
@@ -13,7 +15,11 @@ type ReviewListProps = {
   reviews: ReviewType[];
 };
 
-const renderStarIcon = (starNumber: number, rating: number) => {
+const renderStarIcon = (
+  starNumber: number,
+  rating: number,
+  colorScheme: ColorSchemeName
+) => {
   const isFilled = rating >= starNumber;
   const isHalfFilled = rating >= starNumber - 0.5 && rating < starNumber;
 
@@ -24,14 +30,15 @@ const renderStarIcon = (starNumber: number, rating: number) => {
       size={14}
       color={
         isFilled || isHalfFilled
-          ? COLORS.primaryOrangeHex
-          : COLORS.primaryLightGreyHex
+          ? Colors[colorScheme].primaryOrangeHex
+          : Colors[colorScheme].accentTextHex
       }
     />
   );
 };
 
 const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
+  const { colorScheme } = useColorScheme();
   return (
     <FlatList
       scrollEnabled={false}
@@ -42,7 +49,10 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           className="p-4 rounded-xl mx-5"
-          colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+          colors={[
+            Colors[colorScheme].secondaryGreyHex,
+            Colors[colorScheme].primaryBackgroundHex,
+          ]}
         >
           <View className="flex-row" accessible={true}>
             <Image
@@ -59,7 +69,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
                 </Text>
                 <View className="flex-row items-center space-x-0.5">
                   {[1, 2, 3, 4, 5].map((startNumber) =>
-                    renderStarIcon(startNumber, item.rating)
+                    renderStarIcon(startNumber, item.rating, colorScheme)
                   )}
                   <Text className="text-xs font-poppins-medium text-primary-white">
                     {item.rating}

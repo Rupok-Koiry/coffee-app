@@ -1,3 +1,4 @@
+import { useColorScheme } from "nativewind";
 import Button from "@/components/Button";
 import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
@@ -7,10 +8,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function NotFoundScreen() {
   const router = useRouter();
-
+  const { colorScheme } = useColorScheme();
   return (
     <SafeAreaView className="bg-primary-black flex-1">
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <View className="flex-1 justify-center">
         <LottieView
           style={{

@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
+import { useColorScheme } from "nativewind";
 import GradientIcon from "./GradientIcon";
 import { Colors } from "@/constants/Colors";
 import * as Icons from "@expo/vector-icons";
@@ -19,6 +20,7 @@ const HeaderBar = ({
   iconSet = "Ionicons",
   containerClassName,
 }: HeaderBarProps) => {
+  const { colorScheme } = useColorScheme();
   const router = useRouter();
   return (
     <View
@@ -34,7 +36,7 @@ const HeaderBar = ({
         <GradientIcon
           name={iconName}
           size={20}
-          color={COLORS.primaryLightGreyHex}
+          color={Colors[colorScheme].accentTextHex}
           iconSet={iconSet}
         />
       </TouchableOpacity>

@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import BgIcon from "./BgIcon";
+import { useColorScheme } from "nativewind";
 import { Colors } from "@/constants/Colors";
 import { SUPABASE_URL } from "@/services/supabase";
 import * as Haptics from "expo-haptics";
@@ -32,12 +33,16 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
   price,
   buttonPressHandler,
 }) => {
+  const { colorScheme } = useColorScheme();
   return (
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       className="p-3 rounded-2xl"
-      colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+      colors={[
+        Colors[colorScheme].secondaryGreyHex,
+        Colors[colorScheme].primaryBackgroundHex,
+      ]}
     >
       <ImageBackground
         source={{
@@ -51,7 +56,11 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
           className="flex-row bg-primary-black-rgba items-start justify-center px-3 py-2 absolute  rounded-bl-2xl top-0 right-0"
           style={{ gap: 8 }}
         >
-          <Ionicons name={"star"} color={COLORS.primaryOrangeHex} size={12} />
+          <Ionicons
+            name={"star"}
+            color={Colors[colorScheme].primaryOrangeHex}
+            size={12}
+          />
           <Text className="font-poppins-medium text-primary-white text-xs">
             {average_rating}
           </Text>
@@ -74,9 +83,9 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
           }}
         >
           <BgIcon
-            color={COLORS.primaryWhiteHex}
+            color={Colors[colorScheme].primaryTextHex}
             name="add"
-            BgColor={COLORS.primaryOrangeHex}
+            BgColor={Colors[colorScheme].primaryOrangeHex}
             size={20}
             iconSet="Ionicons"
           />

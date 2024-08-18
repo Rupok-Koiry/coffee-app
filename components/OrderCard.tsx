@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import { useColorScheme } from "nativewind";
 import OrderItemCard from "./OrderItemCard";
 import { OrderItemType } from "@/constants/types";
 
@@ -18,6 +19,7 @@ const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({
   total_price,
   order_date,
 }) => {
+  const { colorScheme } = useColorScheme();
   return (
     <View className="space-y-3">
       <View className="flex-row justify-between space-x-5 items-center">

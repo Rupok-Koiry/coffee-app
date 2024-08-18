@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/Colors";
+import { useColorScheme } from "nativewind";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
@@ -59,6 +60,7 @@ type OrderTableProps = {
   status: Enums<"order_status_enum"> | "";
 };
 const OrderTable = ({ status }: OrderTableProps) => {
+  const { colorScheme } = useColorScheme();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedStatus, setSelectedStatus] =
     useState<Enums<"order_status_enum">>("PLACED");
@@ -128,7 +130,10 @@ const OrderTable = ({ status }: OrderTableProps) => {
           </View>
         </View>
         <LinearGradient
-          colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+          colors={[
+            Colors[colorScheme].secondaryGreyHex,
+            Colors[colorScheme].primaryBackgroundHex,
+          ]}
           start={[0, 0]}
           end={[1, 1]}
           style={{ flex: 1 }}
@@ -188,7 +193,7 @@ const OrderTable = ({ status }: OrderTableProps) => {
                     <Ionicons
                       name="eye"
                       size={20}
-                      color={COLORS.primaryLightGreyHex}
+                      color={Colors[colorScheme].accentTextHex}
                     />
                   </Link>
                   <TouchableOpacity
@@ -197,7 +202,7 @@ const OrderTable = ({ status }: OrderTableProps) => {
                     <Ionicons
                       name="ellipsis-vertical"
                       size={20}
-                      color={COLORS.primaryLightGreyHex}
+                      color={Colors[colorScheme].accentTextHex}
                     />
                   </TouchableOpacity>
                 </View>

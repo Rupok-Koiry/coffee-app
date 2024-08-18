@@ -1,3 +1,4 @@
+import { useColorScheme } from "nativewind";
 import { View, TextInput, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
@@ -10,6 +11,7 @@ type SearchInputProps = {
 
 const SearchInput = ({ onSearch }: SearchInputProps) => {
   const { search } = useLocalSearchParams();
+  const { colorScheme } = useColorScheme();
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
@@ -29,8 +31,8 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
           size={16}
           color={
             searchText.length > 0
-              ? COLORS.primaryOrangeHex
-              : COLORS.primaryLightGreyHex
+              ? Colors[colorScheme].primaryOrangeHex
+              : Colors[colorScheme].accentTextHex
           }
         />
       </TouchableOpacity>
@@ -40,9 +42,9 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
         onChangeText={(text) => {
           setSearchText(text);
         }}
-        placeholderTextColor={COLORS.primaryLightGreyHex}
+        placeholderTextColor={Colors[colorScheme].accentTextHex}
         className="flex-1 font-poppins-medium text-sm text-primary-white py-3"
-        cursorColor={COLORS.primaryOrangeHex}
+        cursorColor={Colors[colorScheme].primaryOrangeHex}
         onSubmitEditing={handleSearch}
       />
       {searchText.length > 0 && (
@@ -55,7 +57,7 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
             style={{ marginHorizontal: 12 }}
             name="close"
             size={16}
-            color={COLORS.primaryLightGreyHex}
+            color={Colors[colorScheme].accentTextHex}
           />
         </TouchableOpacity>
       )}

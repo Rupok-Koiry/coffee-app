@@ -2,6 +2,7 @@ import { Text, View } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import ImageBackgroundInfo from "./ImageBackgroundInfo";
+import { useColorScheme } from "nativewind";
 import { Colors } from "@/constants/Colors";
 import { Tables } from "@/constants/types";
 
@@ -16,6 +17,7 @@ const WishlistItemCard: React.FC<WishlistItemCardProps> = ({
   isFavorite,
   toggleFavorite,
 }) => {
+  const { colorScheme } = useColorScheme();
   return (
     <View className="rounded-2xl overflow-hidden">
       <ImageBackgroundInfo
@@ -27,7 +29,10 @@ const WishlistItemCard: React.FC<WishlistItemCardProps> = ({
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+        colors={[
+          Colors[colorScheme].secondaryGreyHex,
+          Colors[colorScheme].primaryBackgroundHex,
+        ]}
         style={{ gap: 12 }}
         className="p-5"
       >

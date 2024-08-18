@@ -30,12 +30,14 @@ import { SUPABASE_URL } from "@/services/supabase";
 import { useUpdateProduct } from "@/hooks/products/useUpdateProduct";
 import { InsertTables } from "@/constants/types";
 import { Picker as SelectPicker } from "@react-native-picker/picker";
+import { useColorScheme } from "nativewind";
 import withAuthorization from "@/utils/withAuthorization";
 
 type FormValues = InsertTables<"products"> & {
   prices: InsertTables<"prices">[];
 };
 const AddUpdateProductScreen: React.FC = () => {
+  const { colorScheme } = useColorScheme();
   const { productId } = useLocalSearchParams();
   const { createProduct, isCreating } = useCreateProduct();
   const { updateProduct, isUpdating } = useUpdateProduct();
@@ -141,7 +143,7 @@ const AddUpdateProductScreen: React.FC = () => {
 
   return (
     <SafeAreaView className="bg-primary-black flex-1">
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
@@ -235,18 +237,18 @@ const AddUpdateProductScreen: React.FC = () => {
                     style={{ marginLeft: 12 }}
                     name={"cafe"}
                     size={20}
-                    color={COLORS.primaryOrangeHex}
+                    color={Colors[colorScheme].primaryOrangeHex}
                   />
                   <SelectPicker
                     selectedValue={value}
                     onValueChange={onChange}
                     style={{
-                      color: COLORS.primaryWhiteHex,
+                      color: Colors[colorScheme].primaryTextHex,
                       fontWeight: "medium",
                       flex: 1,
                       marginTop: -2.5,
                     }}
-                    dropdownIconColor={COLORS.secondaryLightGreyHex}
+                    dropdownIconColor={Colors[colorScheme].secondaryTextHex}
                   >
                     {["COFFEE", "BEAN"].map((status) => (
                       <SelectPicker.Item
@@ -288,8 +290,8 @@ const AddUpdateProductScreen: React.FC = () => {
                         onChangeText={onChange}
                         value={value}
                         placeholder="Size"
-                        placeholderTextColor={COLORS.primaryLightGreyHex}
-                        cursorColor={COLORS.primaryOrangeHex}
+                        placeholderTextColor={Colors[colorScheme].accentTextHex}
+                        cursorColor={Colors[colorScheme].primaryOrangeHex}
                       />
                     )}
                   />
@@ -312,8 +314,8 @@ const AddUpdateProductScreen: React.FC = () => {
                         value={value.toString()}
                         keyboardType="numeric"
                         placeholder="Price"
-                        placeholderTextColor={COLORS.primaryLightGreyHex}
-                        cursorColor={COLORS.primaryOrangeHex}
+                        placeholderTextColor={Colors[colorScheme].accentTextHex}
+                        cursorColor={Colors[colorScheme].primaryOrangeHex}
                       />
                     )}
                   />
@@ -330,7 +332,7 @@ const AddUpdateProductScreen: React.FC = () => {
                   <GradientIcon
                     name="remove"
                     iconSet="Ionicons"
-                    color={COLORS.primaryOrangeHex}
+                    color={Colors[colorScheme].primaryOrangeHex}
                   />
                 </TouchableOpacity>
               </View>
@@ -375,7 +377,7 @@ const AddUpdateProductScreen: React.FC = () => {
                       <Ionicons
                         name="cloud-upload"
                         size={42}
-                        color={COLORS.primaryOrangeHex}
+                        color={Colors[colorScheme].primaryOrangeHex}
                       />
                       <Text className="text-secondary-light-grey font-poppins-medium">
                         Choose a file
@@ -419,7 +421,7 @@ const AddUpdateProductScreen: React.FC = () => {
                       <Ionicons
                         name="cloud-upload"
                         size={42}
-                        color={COLORS.primaryOrangeHex}
+                        color={Colors[colorScheme].primaryOrangeHex}
                       />
                       <Text className="text-secondary-light-grey font-poppins-medium">
                         Choose a file

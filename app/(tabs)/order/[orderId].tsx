@@ -15,8 +15,11 @@ import { useOrder } from "@/hooks/orders/useOrder";
 import { useUpdateOrderSubscription } from "@/services/apiSubscriptions";
 import { useReviewManagement } from "@/hooks/reviews/useReviewManagement";
 import ErrorMessage from "@/components/ErrorMessage";
+import { useColorScheme } from "nativewind";
 
 const OrderDetailsScreen: React.FC = () => {
+  const { colorScheme } = useColorScheme();
+
   const { orderId } = useLocalSearchParams();
   const { order, isLoading, error } = useOrder();
   useUpdateOrderSubscription(
@@ -52,8 +55,13 @@ const OrderDetailsScreen: React.FC = () => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primaryBlackHex }}>
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+      }}
+    >
+      <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}

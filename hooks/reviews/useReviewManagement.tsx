@@ -86,8 +86,8 @@ export const useReviewManagement = (order?: TransformedOrder | null) => {
         size={32}
         color={
           isFilled || isHalfFilled
-            ? COLORS.primaryOrangeHex
-            : COLORS.primaryLightGreyHex
+            ? Colors[colorScheme].primaryOrangeHex
+            : Colors[colorScheme].accentTextHex
         }
       />
     );

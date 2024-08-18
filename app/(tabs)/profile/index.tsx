@@ -21,8 +21,11 @@ import { format } from "date-fns";
 import { useLogout } from "@/hooks/auth/useLogout";
 import { useRouter } from "expo-router";
 import Loader from "@/components/loaders/Loader";
+import { useColorScheme } from "nativewind";
+
 const ProfileScreen: React.FC = () => {
   const router = useRouter();
+  const { colorScheme } = useColorScheme();
   const [darkMode, setDarkMode] = useState(false);
   const { user, isLoading } = useUser();
 
@@ -36,7 +39,7 @@ const ProfileScreen: React.FC = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
@@ -45,7 +48,10 @@ const ProfileScreen: React.FC = () => {
         <View className="px-5 mb-5">
           <View className="bg-secondary-dark-grey w-32 h-32 p-4 rounded-full mx-auto">
             <LinearGradient
-              colors={[COLORS.primaryOrangeHex, COLORS.primaryWhiteHex]}
+              colors={[
+                Colors[colorScheme].primaryOrangeHex,
+                Colors[colorScheme].primaryTextHex,
+              ]}
               start={[0, 0]}
               end={[1, 1]}
               style={{ borderRadius: 999, padding: 2 }}
@@ -65,7 +71,7 @@ const ProfileScreen: React.FC = () => {
             <Ionicons
               name="calendar"
               size={24}
-              color={COLORS.primaryLightGreyHex}
+              color={Colors[colorScheme].accentTextHex}
             />
             <Text className="text-sm text-secondary-light-grey">
               Joined {format(user.created_at, "MMMM dd, yyyy")}
@@ -73,7 +79,10 @@ const ProfileScreen: React.FC = () => {
           </View>
         </View>
         <LinearGradient
-          colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+          colors={[
+            Colors[colorScheme].secondaryGreyHex,
+            Colors[colorScheme].primaryBackgroundHex,
+          ]}
           className="flex-1 rounded-t-2xl"
         >
           <View className="w-full py-8">
@@ -125,10 +134,12 @@ const ProfileScreen: React.FC = () => {
                   value={darkMode}
                   onValueChange={setDarkMode}
                   trackColor={{
-                    true: COLORS.secondaryLightGreyHex,
-                    false: COLORS.secondaryLightGreyHex,
+                    true: Colors[colorScheme].secondaryTextHex,
+                    false: Colors[colorScheme].secondaryTextHex,
                   }}
-                  thumbColor={darkMode ? COLORS.primaryOrangeHex : "#f4f3f4"}
+                  thumbColor={
+                    darkMode ? Colors[colorScheme].primaryOrangeHex : "#f4f3f4"
+                  }
                   className="scale-110"
                 />
               }

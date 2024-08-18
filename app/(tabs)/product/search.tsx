@@ -15,8 +15,10 @@ import { useRouter } from "expo-router";
 import SearchCard from "@/components/SearchCard";
 import SearchCardSkeleton from "@/components/loaders/SearchCardSkeleton";
 import ErrorMessage from "@/components/ErrorMessage";
+import { useColorScheme } from "nativewind";
 
 const SearchScreen = () => {
+  const { colorScheme } = useColorScheme();
   const router = useRouter();
   const { products, isFetching, error, hasNextPage, fetchNextPage } =
     useProducts({});
@@ -34,7 +36,7 @@ const SearchScreen = () => {
 
   return (
     <SafeAreaView className="bg-primary-black flex-1">
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView>
         <HeaderBar title="Search" />
         <View className="px-5">

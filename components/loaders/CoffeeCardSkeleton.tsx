@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { View, Dimensions, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useColorScheme } from "nativewind";
 import { Colors } from "@/constants/Colors";
 
 const CARD_WIDTH = Dimensions.get("window").width * 0.32;
 
 const CoffeeCardSkeleton: React.FC = () => {
   const pulseAnim = useRef(new Animated.Value(1)).current;
-
+  const { colorScheme } = useColorScheme();
   useEffect(() => {
     Animated.loop(
       Animated.sequence([
@@ -29,7 +30,10 @@ const CoffeeCardSkeleton: React.FC = () => {
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
-      colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+      colors={[
+        Colors[colorScheme].secondaryGreyHex,
+        Colors[colorScheme].primaryBackgroundHex,
+      ]}
       className="p-3 rounded-2xl"
     >
       <Animated.View

@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useColorScheme } from "nativewind";
 import { Colors } from "@/constants/Colors";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
@@ -35,6 +36,7 @@ interface PasswordFormValues {
 }
 
 const EditProfileScreen: React.FC = () => {
+  const { colorScheme } = useColorScheme();
   const { user } = useUser();
   const {
     control: userDetailsControl,
@@ -92,7 +94,7 @@ const EditProfileScreen: React.FC = () => {
   if (!user) return null;
   return (
     <SafeAreaView className="bg-primary-black flex-1">
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
@@ -104,7 +106,10 @@ const EditProfileScreen: React.FC = () => {
             <TouchableOpacity onPress={pickImage}>
               <View className="bg-secondary-dark-grey w-32 h-32 p-4 rounded-full mx-auto">
                 <LinearGradient
-                  colors={[COLORS.primaryOrangeHex, COLORS.primaryWhiteHex]}
+                  colors={[
+                    Colors[colorScheme].primaryOrangeHex,
+                    Colors[colorScheme].primaryTextHex,
+                  ]}
                   start={[0, 0]}
                   end={[1, 1]}
                   className="w-full h-full rounded-full p-0.5"
@@ -124,7 +129,7 @@ const EditProfileScreen: React.FC = () => {
                     <Ionicons
                       name="camera"
                       size={20}
-                      color={COLORS.primaryOrangeHex}
+                      color={Colors[colorScheme].primaryOrangeHex}
                     />
                   </View>
                 </LinearGradient>

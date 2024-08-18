@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { SUPABASE_URL } from "@/services/supabase";
 import { Colors } from "@/constants/Colors";
+import { useColorScheme } from "nativewind";
 import { Tables } from "@/constants/database.types";
 import { CartItemType } from "@/constants/types";
 
@@ -21,14 +22,17 @@ const CartItem: React.FC<CartItemProps> = ({
   removeItem,
 }) => {
   const { product, prices } = item;
-
+  const { colorScheme } = useColorScheme();
   return (
     <View>
       {prices.length > 1 ? (
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+          colors={[
+            Colors[colorScheme].secondaryGreyHex,
+            Colors[colorScheme].primaryBackgroundHex,
+          ]}
           className="p-3 rounded-2xl"
           style={{ flex: 1 }}
         >
@@ -86,7 +90,7 @@ const CartItem: React.FC<CartItemProps> = ({
                   >
                     <Ionicons
                       name="remove"
-                      color={COLORS.primaryWhiteHex}
+                      color={Colors[colorScheme].primaryTextHex}
                       size={16}
                     />
                   </TouchableOpacity>
@@ -103,7 +107,7 @@ const CartItem: React.FC<CartItemProps> = ({
                   >
                     <Ionicons
                       name="add"
-                      color={COLORS.primaryWhiteHex}
+                      color={Colors[colorScheme].primaryTextHex}
                       size={16}
                     />
                   </TouchableOpacity>
@@ -116,7 +120,10 @@ const CartItem: React.FC<CartItemProps> = ({
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+          colors={[
+            Colors[colorScheme].secondaryGreyHex,
+            Colors[colorScheme].primaryBackgroundHex,
+          ]}
           className="flex-row items-center p-3 rounded-2xl"
           style={{ flex: 1 }}
         >
@@ -163,7 +170,7 @@ const CartItem: React.FC<CartItemProps> = ({
                 <Ionicons
                   name="remove"
                   size={16}
-                  color={COLORS.primaryWhiteHex}
+                  color={Colors[colorScheme].primaryTextHex}
                 />
               </TouchableOpacity>
               <View className="bg-primary-black w-14 rounded-lg border border-primary-orange items-center py-1">
@@ -177,7 +184,11 @@ const CartItem: React.FC<CartItemProps> = ({
                   incrementQuantity(prices[0].size, prices[0].quantity)
                 }
               >
-                <Ionicons name="add" color={COLORS.primaryWhiteHex} size={16} />
+                <Ionicons
+                  name="add"
+                  color={Colors[colorScheme].primaryTextHex}
+                  size={16}
+                />
               </TouchableOpacity>
             </View>
           </View>
@@ -187,7 +198,11 @@ const CartItem: React.FC<CartItemProps> = ({
         className="absolute right-0 top-0 bg-primary-orange rounded-full p-0.5"
         onPress={removeItem}
       >
-        <Ionicons size={16} name="close" color={COLORS.primaryWhiteHex} />
+        <Ionicons
+          size={16}
+          name="close"
+          color={Colors[colorScheme].primaryTextHex}
+        />
       </TouchableOpacity>
     </View>
   );

@@ -1,4 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
+import { useColorScheme } from "nativewind";
 import React from "react";
 import Button from "./Button";
 
@@ -15,6 +16,7 @@ const PaymentFooter: React.FC<PaymentFooterProps> = ({
   buttonTitle,
   isLoading,
 }) => {
+  const { colorScheme } = useColorScheme();
   return (
     <View
       className="flex-row items-center justify-between p-5"

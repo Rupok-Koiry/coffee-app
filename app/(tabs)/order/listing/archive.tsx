@@ -6,8 +6,11 @@ import EmptyListAnimation from "@/components/EmptyListAnimation";
 import { useMyOrders } from "@/hooks/orders/useMyOrders";
 import { useRouter } from "expo-router";
 import Loader from "@/components/loaders/Loader";
+import { useColorScheme } from "nativewind";
 
 const ArchiveOrders = () => {
+  const { colorScheme } = useColorScheme();
+
   const router = useRouter();
   const { orders, error, fetchNextPage, hasNextPage, isLoading } = useMyOrders([
     "CANCELLED",

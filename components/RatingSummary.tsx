@@ -1,4 +1,5 @@
 import React from "react";
+import { useColorScheme } from "nativewind";
 import { View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
@@ -42,7 +43,7 @@ const calculateRatingSummary = (
 const RatingSummary: React.FC<RatingSummaryProps> = ({ reviews }) => {
   const { totalReviews, averageRating, ratingDistribution } =
     calculateRatingSummary(reviews);
-
+  const { colorScheme } = useColorScheme();
   return (
     <View className="p-5 flex-row items-center" style={{ gap: 20 }}>
       <View>
@@ -56,7 +57,11 @@ const RatingSummary: React.FC<RatingSummaryProps> = ({ reviews }) => {
       <View className="flex-col flex-1">
         {ratingDistribution.map(({ star, count }, index) => (
           <View key={index} className="flex-row items-center my-0.5">
-            <Ionicons name="star" size={20} color={COLORS.primaryOrangeHex} />
+            <Ionicons
+              name="star"
+              size={20}
+              color={Colors[colorScheme].primaryOrangeHex}
+            />
             <Text className="ml-2 text-base font-poppins-regular text-secondary-light-grey">
               {star}
             </Text>

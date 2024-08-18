@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import * as Haptics from "expo-haptics";
+import { useColorScheme } from "nativewind";
 import {
   ScrollView,
   Text,
@@ -58,6 +59,7 @@ const PriceOption: React.FC<PriceOptionProps> = ({
 );
 
 const DetailsScreen: React.FC = () => {
+  const { colorScheme } = useColorScheme();
   const { product, isLoading } = useProduct();
   const [fullDesc, setFullDesc] = useState(false);
   const [selectedPrice, setSelectedPrice] = useState<Tables<"prices"> | null>(
@@ -123,7 +125,7 @@ const DetailsScreen: React.FC = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackgroundInfo
           product={product}

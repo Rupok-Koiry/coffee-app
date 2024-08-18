@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useColorScheme } from "nativewind";
 import { View, Text } from "react-native";
 import GradientIcon from "./GradientIcon";
 import { Colors } from "@/constants/Colors";
@@ -10,6 +11,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { Enums, orderStatuses } from "@/constants/types";
+import { ColorSchemeName } from "nativewind/dist/style-sheet/color-scheme";
 
 const ANIMATION_DURATION = 500;
 const ICON_SIZE = 24;
@@ -18,12 +20,16 @@ type OrderStatusProps = {
   currentStatus: Enums<"order_status_enum">;
 };
 
-const getColor = (status: Enums<"order_status_enum">, currentIndex: number) => {
+const getColor = (
+  status: Enums<"order_status_enum">,
+  currentIndex: number,
+  colorScheme: ColorSchemeName
+) => {
   const statusOrder = orderStatuses.map((s) => s.status);
   const statusIndex = statusOrder.indexOf(status);
   return statusIndex <= currentIndex
-    ? COLORS.primaryOrangeHex
-    : COLORS.primaryLightGreyHex;
+    ? Colors[colorScheme].primaryOrangeHex
+    : Colors[colorScheme].accentTextHex;
 };
 
 const ProgressBar = ({
@@ -36,12 +42,13 @@ const ProgressBar = ({
   const animatedStyle = useAnimatedStyle(() => ({
     height: `${progress.value * 100}%`,
   }));
+  const { colorScheme } = useColorScheme();
 
   return (
     <View
       className="w-0.5 h-8 rounded-sm my-3"
       style={{
-        backgroundColor: COLORS.primaryLightGreyHex,
+        backgroundColor: Colors[colorScheme].accentTextHex,
       }}
     >
       <Animated.View
@@ -58,6 +65,7 @@ const ProgressBar = ({
 };
 
 const OrderStatus = ({ currentStatus }: OrderStatusProps) => {
+  const { colorScheme } = useColorScheme();
   const progress = useSharedValue(0);
   const currentIndex = orderStatuses.findIndex(
     (s) => s.status === currentStatus
@@ -79,7 +87,7 @@ const OrderStatus = ({ currentStatus }: OrderStatusProps) => {
             <GradientIcon
               name={status.icon}
               size={ICON_SIZE}
-              color={getColor(status.status, currentIndex)}
+              color={getColor(status.status, currentIndex, colorScheme)}
               iconSet="Ionicons"
             />
             {index < orderStatuses.length - 1 && (
@@ -87,7 +95,7 @@ const OrderStatus = ({ currentStatus }: OrderStatusProps) => {
                 {index === currentIndex ? (
                   <ProgressBar
                     progress={progress}
-                    color={COLORS.primaryOrangeHex}
+                    color={Colors[colorScheme].primaryOrangeHex}
                   />
                 ) : (
                   <View
@@ -95,7 +103,8 @@ const OrderStatus = ({ currentStatus }: OrderStatusProps) => {
                     style={{
                       backgroundColor: getColor(
                         orderStatuses[index + 1].status,
-                        currentIndex
+                        currentIndex,
+                        colorScheme
                       ),
                     }}
                   />
@@ -106,7 +115,9 @@ const OrderStatus = ({ currentStatus }: OrderStatusProps) => {
           <View className="flex-1">
             <Text
               className="text-base font-poppins-semibold"
-              style={{ color: getColor(status.status, currentIndex) }}
+              style={{
+                color: getColor(status.status, currentIndex, colorScheme),
+              }}
             >
               {status.title}
             </Text>

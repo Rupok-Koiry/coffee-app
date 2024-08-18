@@ -1,5 +1,6 @@
 import { Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useCallback, useEffect } from "react";
+import { useColorScheme } from "nativewind";
 import CoffeeCard from "./CoffeeCard";
 import { useRouter } from "expo-router";
 import { useProducts } from "@/hooks/products/useProducts";
@@ -13,6 +14,7 @@ type CoffeeListProps = {
 };
 
 const CoffeeList = ({ activeCategory }: CoffeeListProps) => {
+  const { colorScheme } = useColorScheme();
   const router = useRouter();
   const dispatch = useDispatch();
 

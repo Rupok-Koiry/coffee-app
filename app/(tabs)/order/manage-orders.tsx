@@ -12,15 +12,17 @@ import { Colors } from "@/constants/Colors";
 import OrderTable from "@/components/OrderTable";
 import { Enums, orderStatuses } from "@/constants/types";
 import withAuthorization from "@/utils/withAuthorization";
+import { useColorScheme } from "nativewind";
 
 const ManageOrderScreen = () => {
+  const { colorScheme } = useColorScheme();
   const [selectedStatus, setSelectedStatus] = useState<
     Enums<"order_status_enum"> | ""
   >("");
 
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
 
       <HeaderBar title="Manage Order" />
       <View className="px-5">

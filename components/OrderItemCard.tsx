@@ -1,9 +1,10 @@
 import { Text, View, Image } from "react-native";
 import React from "react";
-import { COLORS } from "../theme/theme";
+import { useColorScheme } from "nativewind";
 import { LinearGradient } from "expo-linear-gradient";
 import { SUPABASE_URL } from "@/services/supabase";
 import { PriceType } from "@/constants/types";
+import { Colors } from "@/constants/Colors";
 
 type OrderItemCardProps = {
   type: string;
@@ -20,11 +21,15 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
   special_ingredient,
   prices,
 }) => {
+  const { colorScheme } = useColorScheme();
   return (
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
-      colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+      colors={[
+        Colors[colorScheme].secondaryGreyHex,
+        Colors[colorScheme].primaryBackgroundHex,
+      ]}
       className="p-3 rounded-2xl"
       style={{ gap: 20, flex: 1 }}
     >

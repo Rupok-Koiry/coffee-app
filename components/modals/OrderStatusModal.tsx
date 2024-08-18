@@ -1,4 +1,5 @@
 import { View, Text, Modal, Pressable, TouchableOpacity } from "react-native";
+import { useColorScheme } from "nativewind";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,6 +24,7 @@ const OrderStatusModal = ({
   updateStatus,
   isLoading,
 }: OrderStatusModalProps) => {
+  const { colorScheme } = useColorScheme();
   return (
     <Modal
       transparent={true}
@@ -36,7 +38,10 @@ const OrderStatusModal = ({
       >
         <View className="w-full" onStartShouldSetResponder={() => true}>
           <LinearGradient
-            colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+            colors={[
+              Colors[colorScheme].secondaryGreyHex,
+              Colors[colorScheme].primaryBackgroundHex,
+            ]}
             start={[0, 0]}
             end={[1, 1]}
             className="px-5 py-8 rounded-lg"
@@ -55,11 +60,11 @@ const OrderStatusModal = ({
                 selectedValue={selectedStatus}
                 onValueChange={(itemValue) => setSelectedStatus(itemValue)}
                 style={{
-                  color: COLORS.primaryWhiteHex,
+                  color: Colors[colorScheme].primaryTextHex,
                   marginBottom: 12,
                   height: 40,
                 }}
-                dropdownIconColor={COLORS.secondaryLightGreyHex}
+                dropdownIconColor={Colors[colorScheme].secondaryTextHex}
               >
                 {orderStatuses.map((status) => (
                   <SelectPicker.Item

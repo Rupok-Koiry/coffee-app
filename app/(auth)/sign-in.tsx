@@ -8,6 +8,7 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useLogin } from "@/hooks/auth/useLogin";
 import withGuest from "@/utils/withGuest";
+import { useColorScheme } from "nativewind";
 
 interface FormValues {
   email: string;
@@ -15,6 +16,8 @@ interface FormValues {
 }
 
 const SignInScreen: React.FC = () => {
+  const { colorScheme } = useColorScheme();
+
   const {
     control,
     handleSubmit,
@@ -25,7 +28,7 @@ const SignInScreen: React.FC = () => {
   const onSubmit: SubmitHandler<FormValues> = (data) => login(data);
   return (
     <SafeAreaView className="bg-primary-black flex-1">
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}

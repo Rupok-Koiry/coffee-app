@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from "react";
+import { useColorScheme } from "nativewind";
 import { View, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "@/constants/Colors";
 
 const ReviewSummarySkeleton: React.FC = () => {
   const pulseAnim = useRef(new Animated.Value(1)).current;
-
+  const { colorScheme } = useColorScheme();
   useEffect(() => {
     Animated.loop(
       Animated.sequence([

@@ -3,6 +3,7 @@ import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import LottieView from "lottie-react-native";
 import { StatusBar, Text, View, Dimensions } from "react-native";
+import { useColorScheme } from "nativewind";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type NotFoundProps = {
@@ -18,11 +19,12 @@ export default function NotFound({
   label = "Go to Home",
   goBack = false,
 }: NotFoundProps) {
+  const { colorScheme } = useColorScheme();
   const router = useRouter();
 
   return (
     <SafeAreaView className="bg-primary-black flex-1">
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <View className="flex-1 justify-center">
         <LottieView
           style={{

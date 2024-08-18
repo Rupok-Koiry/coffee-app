@@ -1,4 +1,5 @@
 import { Href, useRouter } from "expo-router";
+import { useColorScheme } from "nativewind";
 import React from "react";
 import {
   Text,
@@ -40,7 +41,7 @@ const Button: React.FC<ButtonProps> = ({
   const router = useRouter();
   const rotation = useSharedValue(0);
   const scale = useSharedValue(1);
-
+  const { colorScheme } = useColorScheme();
   React.useEffect(() => {
     if (loading) {
       rotation.value = withRepeat(
@@ -101,7 +102,7 @@ const Button: React.FC<ButtonProps> = ({
             <FontAwesome5
               name="spinner"
               size={24}
-              color={COLORS.primaryWhiteHex}
+              color={Colors[colorScheme].primaryTextHex}
             />
           </Animated.View>
         ) : (

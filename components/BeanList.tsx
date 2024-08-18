@@ -1,4 +1,5 @@
 import { Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
+import { useColorScheme } from "nativewind";
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import CoffeeCard from "./CoffeeCard";
@@ -9,6 +10,7 @@ import ErrorMessage from "./ErrorMessage";
 import { addItemToCart } from "@/features/cartSlice";
 
 const BeanList = () => {
+  const { colorScheme } = useColorScheme();
   const dispatch = useDispatch();
   const router = useRouter();
   const {

@@ -1,4 +1,5 @@
 import React from "react";
+import { useColorScheme } from "nativewind";
 import { View } from "react-native";
 import * as Icons from "@expo/vector-icons";
 import { type IconProps } from "@expo/vector-icons/build/createIconSet";
@@ -28,6 +29,7 @@ const BgIcon = <T extends IconSetName>({
   const IconComponent = Icons[iconSet] as React.ComponentType<
     IconProps<IconName<T>>
   >;
+  const { colorScheme } = useColorScheme();
 
   return (
     <View

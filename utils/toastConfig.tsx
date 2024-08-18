@@ -11,15 +11,15 @@ export const toastConfig: ToastConfig = {
     <BaseToast
       {...props}
       style={{
-        borderLeftColor: COLORS.successGreenHex,
+        borderLeftColor: Colors["light"].successGreenHex,
         marginBottom: 32,
-        backgroundColor: COLORS.primaryDarkGreyHex,
+        backgroundColor: Colors["light"].secondaryBackgroundHex,
       }}
       contentContainerStyle={{
         paddingHorizontal: 0,
       }}
       text1Style={{
-        color: COLORS.secondaryLightGreyHex,
+        color: Colors["light"].secondaryTextHex,
         fontSize: 14,
         fontWeight: 500,
       }}
@@ -35,7 +35,7 @@ export const toastConfig: ToastConfig = {
           <Ionicons
             name="close-circle"
             size={24}
-            color={COLORS.primaryRedHex}
+            color={Colors["light"].primaryRedHex}
           />
         </View>
       )}
@@ -45,15 +45,15 @@ export const toastConfig: ToastConfig = {
     <BaseToast
       {...props}
       style={{
-        borderLeftColor: COLORS.successGreenHex,
+        borderLeftColor: Colors["light"].successGreenHex,
         marginBottom: 32,
-        backgroundColor: COLORS.primaryDarkGreyHex,
+        backgroundColor: Colors["light"].secondaryBackgroundHex,
       }}
       contentContainerStyle={{
         paddingHorizontal: 0,
       }}
       text1Style={{
-        color: COLORS.secondaryLightGreyHex,
+        color: Colors["light"].secondaryTextHex,
         fontSize: 14,
         fontWeight: 500,
       }}
@@ -69,7 +69,7 @@ export const toastConfig: ToastConfig = {
           <Ionicons
             name="checkmark-circle"
             size={24}
-            color={COLORS.successGreenHex}
+            color={Colors["light"].successGreenHex}
           />
         </View>
       )}

@@ -22,6 +22,7 @@ import { useCreateOrderWithItems } from "@/hooks/orders/useCreateOrderWithItems"
 import { initializePaymentSheet, openPaymentSheet } from "@/services/apiStripe";
 import { useUser } from "@/hooks/auth/useUser";
 import SignInModal from "@/components/modals/SignInModal";
+import { useColorScheme } from "nativewind";
 
 const paymentList: PaymentListType[] = [
   {
@@ -47,6 +48,8 @@ const paymentList: PaymentListType[] = [
 ];
 
 const PaymentScreen = () => {
+  const { colorScheme } = useColorScheme();
+
   const [paymentMode, setPaymentMode] = useState("Credit Card");
   const [showAnimation, setShowAnimation] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -93,7 +96,7 @@ const PaymentScreen = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-primary-black">
-      <StatusBar backgroundColor={COLORS.primaryBlackHex} />
+      <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
 
       {showAnimation && (
         <PopUpAnimation
@@ -128,7 +131,10 @@ const PaymentScreen = () => {
                 <LinearGradient
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
-                  colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+                  colors={[
+                    Colors[colorScheme].secondaryGreyHex,
+                    Colors[colorScheme].primaryBackgroundHex,
+                  ]}
                   className="rounded-2xl px-4 py-3"
                   style={{ gap: 36 }}
                 >
@@ -136,12 +142,12 @@ const PaymentScreen = () => {
                     <MaterialCommunityIcons
                       name="integrated-circuit-chip"
                       size={42}
-                      color={COLORS.primaryOrangeHex}
+                      color={Colors[colorScheme].primaryOrangeHex}
                     />
                     <FontAwesome6
                       name="cc-visa"
                       size={42}
-                      color={COLORS.primaryWhiteHex}
+                      color={Colors[colorScheme].primaryTextHex}
                     />
                   </View>
                   <View className="flex-row items-center" style={{ gap: 12 }}>

@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { View, Dimensions, Animated } from "react-native";
+import { useColorScheme } from "nativewind";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "@/constants/Colors";
 
 const ReviewCardSkeleton: React.FC = () => {
+  const { colorScheme } = useColorScheme();
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -27,7 +29,10 @@ const ReviewCardSkeleton: React.FC = () => {
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
-      colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+      colors={[
+        Colors[colorScheme].secondaryGreyHex,
+        Colors[colorScheme].primaryBackgroundHex,
+      ]}
       className="p-4 rounded-xl mx-5"
     >
       <View className="flex-row">
