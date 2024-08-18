@@ -17,11 +17,10 @@ export function useUser() {
   });
 
   useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        queryClient.invalidateQueries({ queryKey: ["user"] });
-      }
-    );
+    const { data: authListener } = supabase.auth.onAuthStateChange(() => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+    });
+
     return () => {
       authListener?.subscription?.unsubscribe();
     };

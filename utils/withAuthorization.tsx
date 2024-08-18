@@ -6,7 +6,7 @@ import { Enums } from "@/constants/types";
 
 const withAuthorization = <P extends {}>(
   WrappedComponent: React.FC<P>,
-  roles: Enums<"user_role_enum">[]
+  roles?: Enums<"user_role_enum">[]
 ) => {
   return React.memo((props: P) => {
     const { user, isLoading } = useUser();
