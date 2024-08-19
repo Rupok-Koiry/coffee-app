@@ -8,22 +8,23 @@ import {
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
-import { Colors } from "@/constants/Colors";
+import { useColorScheme } from "nativewind";
 import ProductTable from "@/components/ProductTable";
 import { Enums } from "@/constants/types";
 import withAuthorization from "@/utils/withAuthorization";
-import { useColorScheme } from "nativewind";
+import { Colors } from "@/constants/Colors";
 
 const productTypes: Enums<"product_type_enum">[] = ["COFFEE", "BEAN"];
 
 const ManageProductScreen = () => {
+  const { colorScheme } = useColorScheme();
+
   const [selectedType, setSelectedType] = useState<
     Enums<"product_type_enum"> | ""
   >("");
-  const { colorScheme } = useColorScheme();
 
   return (
-    <SafeAreaView className={`flex-1 bg-primary-background-${colorScheme}`}>
+    <SafeAreaView className="flex-1 bg-primary-black">
       <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <HeaderBar title="Manage Order" />
 
@@ -32,17 +33,13 @@ const ManageProductScreen = () => {
           <View className="flex-row space-x-3 mb-5">
             <TouchableOpacity
               className={` items-center justify-center rounded-2xl px-3 py-2 ${
-                selectedType === ""
-                  ? `bg-primary-orange`
-                  : `bg-primary-grey-${colorScheme}`
+                selectedType === "" ? "bg-primary-orange" : "bg-primary-grey"
               }`}
               onPress={() => {
                 setSelectedType("");
               }}
             >
-              <Text
-                className={`font-poppins-semibold text-xs text-primary-text-${colorScheme}`}
-              >
+              <Text className="font-poppins-semibold text-xs text-primary-white ">
                 All
               </Text>
             </TouchableOpacity>
@@ -50,17 +47,15 @@ const ManageProductScreen = () => {
               <TouchableOpacity
                 className={` items-center justify-center rounded-2xl px-3 py-2 ${
                   selectedType === type
-                    ? `bg-primary-orange`
-                    : `bg-primary-grey-${colorScheme}`
+                    ? "bg-primary-orange"
+                    : "bg-primary-grey"
                 }`}
                 key={type}
                 onPress={() => {
                   setSelectedType(type);
                 }}
               >
-                <Text
-                  className={`font-poppins-semibold text-xs text-primary-text-${colorScheme}`}
-                >
+                <Text className="font-poppins-semibold text-xs text-primary-white ">
                   {type}
                 </Text>
               </TouchableOpacity>
