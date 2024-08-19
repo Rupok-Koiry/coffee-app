@@ -10,13 +10,10 @@ module.exports = {
         "primary-background": "var(--color-primary-background)",
         "secondary-background": "var(--color-secondary-background)",
         "tertiary-background": "var(--color-tertiary-background)",
-
         "primary-grey": "var(--color-primary-grey)",
         "secondary-grey": "var(--color-secondary-grey)",
-
         "primary-text": "var(--color-primary-text)",
         "secondary-text": "var(--color-secondary-text)",
-
         "tertiary-text": "var(--color-tertiary-text)",
         "accent-text": "var(--color-accent-text)",
         "success-green": "var(--color-success-green)",
