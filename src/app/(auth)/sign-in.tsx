@@ -9,6 +9,7 @@ import Input from "@/components/Input";
 import { useLogin } from "@/hooks/auth/useLogin";
 import withGuest from "@/utils/withGuest";
 import { useColorScheme } from "nativewind";
+import LogoImage from "@/components/LogoImage";
 
 interface FormValues {
   email: string;
@@ -28,8 +29,10 @@ const SignInScreen: React.FC = () => {
   const onSubmit: SubmitHandler<FormValues> = (data) => login(data);
   return (
     <SafeAreaView
-      className="bg-primary-background flex-1"
-      style={{ backgroundColor: Colors[colorScheme].primaryBackgroundHex }}
+      style={{
+        backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+        flex: 1,
+      }}
     >
       <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView
@@ -37,10 +40,7 @@ const SignInScreen: React.FC = () => {
         contentContainerStyle={{ flexGrow: 1 }}
       >
         <View className="flex-1 justify-center px-5">
-          <Image
-            source={require("@/assets/app_images/logo.png")}
-            className="w-36 h-36 self-center"
-          />
+          <LogoImage className="w-36 h-36 self-center" />
           <Text className="font-poppins-semibold text-3xl text-primary-text mb-5">
             Hey, Welcome Back
           </Text>
@@ -105,7 +105,7 @@ const SignInScreen: React.FC = () => {
               </Text>
             </View>
           </Button>*/}
-          <Text className="font-poppins-semibold text-secondary-text text-center">
+          <Text className="font-poppins-medium text-secondary-text text-center">
             Don't have an account?{" "}
             <Link href="/(auth)/sign-up" className="text-primary-orange">
               Sign up

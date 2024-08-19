@@ -33,8 +33,8 @@ const SearchCardSkeleton: React.FC = () => {
         Colors[colorScheme].secondaryGreyHex,
         Colors[colorScheme].primaryBackgroundHex,
       ]}
-      className="p-3 rounded-2xl"
-      style={{ flex: 1 }}
+      className="p-3"
+      style={{ flex: 1, borderRadius: 16 }}
     >
       <View className="flex-row flex-1">
         <Animated.View

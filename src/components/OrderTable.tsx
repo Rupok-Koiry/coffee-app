@@ -97,7 +97,10 @@ const OrderTable = ({ status }: OrderTableProps) => {
   return (
     <ScrollView horizontal style={{ flex: 1 }}>
       <View className="flex-1 border-2 border-primary-grey rounded-2xl overflow-hidden">
-        <View className="flex-row border-b border-primary-grey p-3 space-x-5">
+        <View
+          className="flex-row border-b border-primary-grey p-3"
+          style={{ gap: 20 }}
+        >
           <View style={{ width: 80 }}>
             <Text className="text-secondary-text font-poppins-semibold uppercase">
               Order ID
@@ -147,13 +150,16 @@ const OrderTable = ({ status }: OrderTableProps) => {
             data={orders}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <View className="flex-row border-b border-primary-grey space-x-5">
+              <View
+                className="flex-row border-b border-primary-grey"
+                style={{ gap: 20 }}
+              >
                 <View className="p-3" style={{ width: 80 }}>
                   <Text className="text-primary-text font-poppins-regular text-base">
                     {item.id}
                   </Text>
                 </View>
-                <View className="p-3 space-y-2" style={{ width: 180 }}>
+                <View className="p-3" style={{ width: 180, gap: 8 }}>
                   {item.order_items.map((item, itemIndex) => (
                     <View key={itemIndex} className="flex-row items-center">
                       <Image

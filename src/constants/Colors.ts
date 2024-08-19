@@ -32,3 +32,4 @@ export const Colors = {
     secondaryOverlayRGBA: "rgba(0,0,0,0.7)",
   },
 };
+// #2e87bd

@@ -44,7 +44,8 @@ const GradientIcon = <T extends IconSetName>({
       ]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
-      className={`w-${width} h-${height} justify-center items-center rounded-xl `}
+      className={`w-${width} h-${height} justify-center items-center`}
+      style={{ borderRadius: 12 }}
     >
       <IconComponent size={size} name={name} color={color} {...rest} />
     </LinearGradient>

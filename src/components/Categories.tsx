@@ -35,15 +35,11 @@ const categories = [
 const Categories = ({ activeCategory, setActiveCategory }: CategoriesProps) => {
   const { colorScheme } = useColorScheme();
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      className="space-x-4"
-    >
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       {categories.map((category, index) => (
         <View key={index.toString()}>
           <TouchableOpacity
-            className="items-center"
+            className="items-center mx-2"
             onPress={() => {
               setActiveCategory(category.value);
             }}

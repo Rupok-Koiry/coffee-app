@@ -24,7 +24,12 @@ const OrderTrackingScreen = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-primary-background">
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+      }}
+    >
       <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView
         showsVerticalScrollIndicator={false}

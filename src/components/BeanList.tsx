@@ -93,6 +93,5 @@ export default BeanList;
 const styles = StyleSheet.create({
   FlatListContainer: {
     gap: 16,
-    paddingVertical: 20,
   },
 });

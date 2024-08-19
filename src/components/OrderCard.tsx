@@ -21,8 +21,11 @@ const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({
 }) => {
   const { colorScheme } = useColorScheme();
   return (
-    <View className="space-y-3">
-      <View className="flex-row justify-between space-x-5 items-center">
+    <View style={{ gap: 12 }}>
+      <View
+        className="flex-row justify-between items-center"
+        style={{ gap: 12 }}
+      >
         <View>
           <Text className="font-poppins-semibold text-primary-text">
             Order Time
@@ -48,7 +51,7 @@ const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({
           </Text>
         </View>
       </View>
-      <View className="space-y-5">
+      <View style={{ gap: 20 }}>
         {order_items.map((order_item: any) => (
           <TouchableOpacity key={order_item.id} onPress={navigationHandler}>
             <OrderItemCard

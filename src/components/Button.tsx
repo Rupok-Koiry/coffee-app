@@ -101,7 +101,7 @@ const Button: React.FC<ButtonProps> = ({
           <Animated.View style={[{ marginLeft: 8 }, animatedStyle]}>
             <FontAwesome5
               name="spinner"
-              size={24}
+              size={22}
               color={Colors[colorScheme].primaryTextHex}
             />
           </Animated.View>

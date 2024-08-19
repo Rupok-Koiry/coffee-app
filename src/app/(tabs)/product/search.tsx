@@ -36,8 +36,10 @@ const SearchScreen = () => {
 
   return (
     <SafeAreaView
-      className="bg-primary-background flex-1"
-      style={{ backgroundColor: Colors[colorScheme].primaryBackgroundHex }}
+      style={{
+        backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+        flex: 1,
+      }}
     >
       <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView>

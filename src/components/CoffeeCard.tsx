@@ -38,7 +38,8 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
-      className="p-3 rounded-2xl"
+      className="p-3"
+      style={{ borderRadius: 16 }}
       colors={[
         Colors[colorScheme].secondaryGreyHex,
         Colors[colorScheme].primaryBackgroundHex,

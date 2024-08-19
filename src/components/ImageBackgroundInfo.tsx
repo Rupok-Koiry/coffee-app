@@ -101,17 +101,37 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
         )}
 
         <View className="p-5 bg-primary-background-rgba rounded-t-3xl">
-          <View className="justify-between space-y-4">
-            <View className="flex-row justify-between items-center">
-              <View>
-                <Text className="font-poppins-semibold text-xl text-primary-text mb-0.5">
-                  {name}
+          <View className="flex-row justify-between items-center">
+            <View>
+              <Text className="font-poppins-semibold text-xl text-white mb-0.5">
+                {name}
+              </Text>
+              <Text className="font-poppins-medium text-xs text-white mb-5">
+                {special_ingredient}
+              </Text>
+              <Pressable
+                className="flex-row items-center"
+                style={{ gap: 12 }}
+                onPress={() => router.push(`/(tabs)/product/${id}/reviews`)}
+              >
+                <Ionicons
+                  name="star"
+                  color={Colors[colorScheme].primaryOrangeHex}
+                  size={20}
+                />
+                <Text className="font-poppins-semibold text-lg text-white">
+                  {average_rating}
                 </Text>
-                <Text className="font-poppins-medium text-xs text-secondary-text">
-                  {special_ingredient}
+                <Text className="font-poppins-regular text-xs text-white">
+                  ({ratings_count})
                 </Text>
-              </View>
-              <View className="flex-row items-center space-x-5">
+              </Pressable>
+            </View>
+            <View>
+              <View
+                className="flex-row items-center gap-5 mb-5"
+                style={{ gap: 20 }}
+              >
                 <View className="h-14 w-14 rounded-lg justify-center items-center bg-secondary-background">
                   {type === "BEAN" ? (
                     <MaterialCommunityIcons
@@ -143,25 +163,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                   </Text>
                 </View>
               </View>
-            </View>
-            <View className="flex-row justify-between items-center">
-              <Pressable
-                className="flex-row space-x-3 items-center"
-                onPress={() => router.push(`/(tabs)/product/${id}/reviews`)}
-              >
-                <Ionicons
-                  name="star"
-                  color={Colors[colorScheme].primaryOrangeHex}
-                  size={20}
-                />
-                <Text className="font-poppins-semibold text-lg text-primary-text">
-                  {average_rating}
-                </Text>
-                <Text className="font-poppins-regular text-xs text-primary-text">
-                  ({ratings_count})
-                </Text>
-              </Pressable>
-              <View className="h-14 w-[132px] rounded-lg justify-center items-center bg-secondary-background">
+              <View className="h-14 rounded-lg justify-center items-center bg-secondary-background">
                 <Text className="font-poppins-regular text-xs text-secondary-text">
                   {roasted}
                 </Text>

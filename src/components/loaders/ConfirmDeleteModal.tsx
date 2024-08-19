@@ -33,7 +33,8 @@ const ConfirmDeleteModal = ({
           ]}
           start={[0, 0]}
           end={[1, 1]}
-          className="bg-primary-grey px-5 py-8 rounded-lg w-full"
+          className="bg-primary-grey px-5 py-8 w-full"
+          style={{ borderRadius: 8 }}
         >
           <TouchableOpacity
             onPress={() => setIsModalVisible(false)}

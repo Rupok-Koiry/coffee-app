@@ -12,7 +12,6 @@ import { Colors } from "@/constants/Colors";
 
 const HomeScreen = () => {
   const { colorScheme } = useColorScheme();
-  console.log(colorScheme);
 
   const [activeCategory, setActiveCategory] = useState("");
   const router = useRouter();
@@ -43,7 +42,7 @@ const HomeScreen = () => {
             setActiveCategory={setActiveCategory}
           />
           <CoffeeList activeCategory={activeCategory} />
-          <Text className="text-lg mt-5 font-poppins-medium text-primary-text">
+          <Text className="text-lg mb-3  font-poppins-medium text-primary-text">
             Coffee Beans
           </Text>
           <BeanList />

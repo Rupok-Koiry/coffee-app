@@ -9,8 +9,10 @@ import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { TransformedOrder } from "@/services/apiOrders";
 import { InsertTables, Tables } from "@/constants/types";
+import { useColorScheme } from "nativewind";
 
 export const useReviewManagement = (order?: TransformedOrder | null) => {
+  const { colorScheme } = useColorScheme();
   const [modalVisible, setModalVisible] = useState(false);
   const [reviews, setReviews] = useState<InsertTables<"reviews">[]>([]);
   const { user } = useUser();

@@ -9,6 +9,7 @@ import Input from "@/components/Input";
 import { useSignup } from "@/hooks/auth/useSignup";
 import withGuest from "@/utils/withGuest";
 import { useColorScheme } from "nativewind";
+import LogoImage from "@/components/LogoImage";
 
 interface FormValues {
   full_name: string;
@@ -31,8 +32,10 @@ const SignUpScreen: React.FC = () => {
 
   return (
     <SafeAreaView
-      className="bg-primary-background flex-1"
-      style={{ backgroundColor: Colors[colorScheme].primaryBackgroundHex }}
+      style={{
+        backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+        flex: 1,
+      }}
     >
       <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView
@@ -40,10 +43,7 @@ const SignUpScreen: React.FC = () => {
         contentContainerStyle={{ flexGrow: 1 }}
       >
         <View className="flex-1 justify-center px-5">
-          <Image
-            source={require("@/assets/app_images/logo.png")}
-            className="w-36 h-36 self-center"
-          />
+          <LogoImage className="w-36 h-36 self-center" />
           <Text className="font-poppins-semibold text-3xl text-primary-text mb-5">
             Let's get started
           </Text>
@@ -133,7 +133,7 @@ const SignUpScreen: React.FC = () => {
               </Text>
             </View>
           </Button> */}
-          <Text className="font-poppins-semibold text-secondary-text text-center mb-5">
+          <Text className="font-poppins-medium text-secondary-text text-center mb-5">
             Already have an account?{" "}
             <Link href="/(auth)/sign-in" className="text-primary-orange">
               Sign in

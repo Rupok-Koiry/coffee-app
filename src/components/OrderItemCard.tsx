@@ -30,8 +30,8 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
         Colors[colorScheme].secondaryGreyHex,
         Colors[colorScheme].primaryBackgroundHex,
       ]}
-      className="p-3 rounded-2xl"
-      style={{ gap: 20, flex: 1 }}
+      className="p-3"
+      style={{ gap: 12, flex: 1, borderRadius: 16 }}
     >
       <View className="flex-row  items-center" style={{ gap: 16 }}>
         <Image

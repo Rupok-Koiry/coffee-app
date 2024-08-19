@@ -48,11 +48,12 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          className="p-4 rounded-xl mx-5"
+          className="p-4 mx-5"
           colors={[
             Colors[colorScheme].secondaryGreyHex,
             Colors[colorScheme].primaryBackgroundHex,
           ]}
+          style={{ borderRadius: 16 }}
         >
           <View className="flex-row" accessible={true}>
             <Image

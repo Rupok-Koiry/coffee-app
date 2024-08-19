@@ -33,10 +33,10 @@ const CartItem: React.FC<CartItemProps> = ({
             Colors[colorScheme].secondaryGreyHex,
             Colors[colorScheme].primaryBackgroundHex,
           ]}
-          className="p-3 rounded-2xl"
-          style={{ flex: 1 }}
+          className="p-3"
+          style={{ flex: 1, borderRadius: 16 }}
         >
-          <View className="flex-row flex-1">
+          <View className="flex-row flex-1 mb-3">
             <Image
               source={{
                 uri: `${SUPABASE_URL}/storage/v1/object/public/product-images/square/${product.image_square}`,
@@ -59,11 +59,12 @@ const CartItem: React.FC<CartItemProps> = ({
               </View>
             </View>
           </View>
-          <View className="mt-3 space-y-3">
+          <View style={{ gap: 12 }}>
             {prices.map((price, index) => (
               <View
                 key={index.toString()}
-                className="flex-1 items-center flex-row justify-center space-x-5"
+                className="flex-1 items-center flex-row justify-center"
+                style={{ gap: 20 }}
               >
                 <View className="flex-1 items-center flex-row justify-between">
                   <View className="bg-primary-background h-10 w-20 rounded-lg justify-center items-center">
@@ -124,8 +125,8 @@ const CartItem: React.FC<CartItemProps> = ({
             Colors[colorScheme].secondaryGreyHex,
             Colors[colorScheme].primaryBackgroundHex,
           ]}
-          className="flex-row items-center p-3 rounded-2xl"
-          style={{ flex: 1 }}
+          className="flex-row items-center p-3"
+          style={{ flex: 1, borderRadius: 16 }}
         >
           <View>
             <Image

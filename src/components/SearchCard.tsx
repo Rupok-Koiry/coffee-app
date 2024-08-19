@@ -23,8 +23,8 @@ const SearchCard = ({ product }: SearchCardProps) => {
         Colors[colorScheme].secondaryGreyHex,
         Colors[colorScheme].primaryBackgroundHex,
       ]}
-      className="p-3 rounded-2xl"
-      style={{ flex: 1 }}
+      className="p-3"
+      style={{ flex: 1, borderRadius: 16 }}
       key={product.id}
     >
       <View className="flex-row flex-1">

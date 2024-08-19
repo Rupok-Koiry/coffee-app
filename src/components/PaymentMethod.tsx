@@ -33,8 +33,8 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
             Colors[colorScheme].secondaryGreyHex,
             Colors[colorScheme].primaryBackgroundHex,
           ]}
-          className="flex-row items-center justify-between px-6 py-3 rounded-2xl"
-          style={{ gap: 24 }}
+          className="flex-row items-center justify-between px-6 py-3"
+          style={{ gap: 24, borderRadius: 16 }}
         >
           <View className="flex-row items-center" style={{ gap: 24 }}>
             <Text>
@@ -60,8 +60,8 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({
             Colors[colorScheme].secondaryGreyHex,
             Colors[colorScheme].primaryBackgroundHex,
           ]}
-          className="flex-row items-center px-6 py-3 rounded-2xl"
-          style={{ gap: 24 }}
+          className="flex-row items-center px-6 py-3"
+          style={{ gap: 24, borderRadius: 16 }}
         >
           <Image source={icon} className="h-8 w-8" />
           <Text className="font-poppins-semibold text-base text-primary-text">

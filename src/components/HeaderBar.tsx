@@ -29,7 +29,6 @@ const HeaderBar = ({
       <TouchableOpacity
         onPress={() => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-
           router.back();
         }}
       >

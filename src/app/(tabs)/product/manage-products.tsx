@@ -24,13 +24,18 @@ const ManageProductScreen = () => {
   >("");
 
   return (
-    <SafeAreaView className="flex-1 bg-primary-background">
+    <SafeAreaView
+      style={{
+        backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+        flex: 1,
+      }}
+    >
       <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <HeaderBar title="Manage Order" />
 
       <View className="px-5">
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View className="flex-row space-x-3 mb-5">
+          <View className="flex-row mb-5 gap-3">
             <TouchableOpacity
               className={` items-center justify-center rounded-2xl px-3 py-2 ${
                 selectedType === "" ? "bg-primary-orange" : "bg-primary-grey"

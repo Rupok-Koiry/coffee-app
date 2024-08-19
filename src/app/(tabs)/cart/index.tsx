@@ -30,8 +30,10 @@ const CartScreen: React.FC = () => {
 
   return (
     <SafeAreaView
-      className="bg-primary-background flex-1"
-      style={{ backgroundColor: Colors[colorScheme].primaryBackgroundHex }}
+      style={{
+        backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+        flex: 1,
+      }}
     >
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -40,7 +42,7 @@ const CartScreen: React.FC = () => {
         <HeaderBar title="Cart" />
         <View className="flex-1 justify-between">
           {cart.items.length > 0 ? (
-            <View className="px-5 space-y-5">
+            <View className="px-5" style={{ gap: 20 }}>
               {cart.items.map((item) => (
                 <TouchableOpacity
                   key={item.product.id}

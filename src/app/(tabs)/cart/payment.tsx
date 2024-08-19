@@ -95,7 +95,12 @@ const PaymentScreen = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-primary-background">
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+      }}
+    >
       <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
 
       {showAnimation && (
@@ -117,7 +122,7 @@ const PaymentScreen = () => {
             }}
           >
             <View
-              className={`p-3  rounded-2xl border-2 ${
+              className={`p-3 rounded-2xl border-2 ${
                 paymentMode == "Credit Card"
                   ? "border-primary-orange"
                   : "border-primary-grey"
@@ -135,8 +140,8 @@ const PaymentScreen = () => {
                     Colors[colorScheme].secondaryGreyHex,
                     Colors[colorScheme].primaryBackgroundHex,
                   ]}
-                  className="rounded-2xl px-4 py-3"
-                  style={{ gap: 36 }}
+                  className="px-4 py-3"
+                  style={{ gap: 36, borderRadius: 16 }}
                 >
                   <View className="flex-row items-center justify-between">
                     <MaterialCommunityIcons

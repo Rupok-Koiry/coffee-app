@@ -11,7 +11,13 @@ export default function OrderListNavigator() {
   const { colorScheme } = useColorScheme();
 
   return (
-    <SafeAreaView edges={["top"]} className="flex-1 bg-primary-background">
+    <SafeAreaView
+      edges={["top"]}
+      style={{
+        backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+        flex: 1,
+      }}
+    >
       <HeaderBar title="Order History" />
 
       <TopTabs

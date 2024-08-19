@@ -21,20 +21,25 @@ const ManageOrderScreen = () => {
   >("");
 
   return (
-    <SafeAreaView className="flex-1 bg-primary-background" style={{ flex: 1 }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+      }}
+    >
       <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
 
       <HeaderBar title="Manage Order" />
       <View className="px-5">
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View className="flex-row space-x-3 mb-5">
+          <View className="flex-row mb-5" style={{ gap: 12 }}>
             <TouchableOpacity
               className={`items-center justify-center rounded-2xl px-3 py-2 ${
                 selectedStatus === "" ? "bg-primary-orange" : "bg-primary-grey"
               }`}
               onPress={() => setSelectedStatus("")}
             >
-              <Text className="font-poppins-semibold text-xs text-primary-text">
+              <Text className="font-poppins-medium text-xs text-primary-text">
                 All
               </Text>
             </TouchableOpacity>
@@ -48,7 +53,7 @@ const ManageOrderScreen = () => {
                 key={status.status}
                 onPress={() => setSelectedStatus(status.status)}
               >
-                <Text className="font-poppins-semibold text-xs text-primary-text">
+                <Text className="font-poppins-medium text-xs text-primary-text">
                   {status.title}
                 </Text>
               </TouchableOpacity>

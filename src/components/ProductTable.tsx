@@ -60,7 +60,7 @@ const ProductTable = ({ type }: ProductTableProps) => {
   if (isLoading) return <Loader />;
   if (error) return <ErrorMessage message={error.message} />;
   return (
-    <ScrollView horizontal className="flex-1">
+    <ScrollView horizontal style={{ flex: 1 }}>
       <View className="flex-1 border-2 border-primary-grey rounded-2xl overflow-hidden">
         <View className="flex-row border-b border-primary-grey p-3 space-x-5">
           <View style={{ width: 120 }}>
@@ -89,7 +89,7 @@ const ProductTable = ({ type }: ProductTableProps) => {
             </Text>
           </View>
           <View>
-            <View className="flex-row items-center space-x-2">
+            <View className="flex-row items-center" style={{ gap: 8 }}>
               <Text className="text-secondary-text font-poppins-semibold uppercase">
                 Actions
               </Text>
@@ -169,7 +169,7 @@ const ProductTable = ({ type }: ProductTableProps) => {
                     </Text>
                   ))}
                 </View>
-                <View className="flex-row space-x-3 p-3">
+                <View className="flex-row p-3" style={{ gap: 12 }}>
                   <Link href={`/(tabs)/product/${item.id}`}>
                     <Ionicons
                       name="eye"
