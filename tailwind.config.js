@@ -1,22 +1,29 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  presets: [require("nativewind/preset")],
   theme: {
     extend: {
       colors: {
-        "primary-red": "#DC3535",
-        "primary-orange": "#D17842",
-        "primary-black": "#0C0F14",
-        "primary-dark-grey": "#141921",
-        "secondary-dark-grey": "#21262E",
-        "primary-grey": "#252A32",
-        "secondary-grey": "#252A32",
-        "primary-light-grey": "#52555A",
-        "secondary-light-grey": "#AEAEAE",
-        "primary-white": "#FFFFFF",
-        "primary-black-rgba": "rgba(12,15,20,0.5)",
-        "secondary-black-rgba": "rgba(0,0,0,0.7)",
+        "primary-red": "var(--color-primary-red)",
+        "primary-orange": "var(--color-primary-orange)",
+        "primary-background": "var(--color-primary-background)",
+        "secondary-background": "var(--color-secondary-background)",
+        "tertiary-background": "var(--color-tertiary-background)",
+
+        "primary-grey": "var(--color-primary-grey)",
+        "secondary-grey": "var(--color-secondary-grey)",
+
+        "primary-text": "var(--color-primary-text)",
+        "secondary-text": "var(--color-secondary-text)",
+
+        "tertiary-text": "var(--color-tertiary-text)",
+        "accent-text": "var(--color-accent-text)",
+        "success-green": "var(--color-success-green)",
+        "primary-overlay": "var(--color-primary-overlay)",
+        "secondary-overlay": "var(--color-secondary-overlay)",
       },
+
       fontFamily: {
         "poppins-thin": ["Poppins-Thin", "sans-serif"],
         "poppins-extralight": ["Poppins-ExtraLight", "sans-serif"],
@@ -29,6 +36,9 @@ module.exports = {
         "poppins-black": ["Poppins-Black", "sans-serif"],
       },
     },
+  },
+  future: {
+    hoverOnlyWhenSupported: true,
   },
   plugins: [],
 };
