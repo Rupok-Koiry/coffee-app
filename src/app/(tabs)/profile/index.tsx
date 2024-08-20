@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  Switch,
-  StatusBar,
-  ScrollView,
-  Dimensions,
-} from "react-native";
+import { View, Text, Image, Switch, StatusBar, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -19,12 +11,11 @@ import { useUser } from "@/hooks/auth/useUser";
 import { SUPABASE_URL } from "@/services/supabase";
 import { format } from "date-fns";
 import { useLogout } from "@/hooks/auth/useLogout";
-import { useRouter } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 import Loader from "@/components/loaders/Loader";
 import { useColorScheme } from "nativewind";
 
 const ProfileScreen: React.FC = () => {
-  const router = useRouter();
   const { colorScheme, toggleColorScheme } = useColorScheme();
   const [darkMode, setDarkMode] = useState(colorScheme === "dark");
 
@@ -40,6 +31,7 @@ const ProfileScreen: React.FC = () => {
   };
 
   if (isLoading) return <Loader />;
+  if (!user) return <Redirect href="/(auth)/sign-in" />;
 
   return (
     <SafeAreaView

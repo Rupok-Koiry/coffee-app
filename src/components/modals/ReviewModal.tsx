@@ -199,14 +199,14 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
 
           <View className="flex-row justify-between mt-0">
             <Button
-              containerClassName="py-2"
+              containerClassName="px-2"
               onPress={handlePreviousPress}
               outline
               disabled={currentItemIndex === 0}
             >
               <Ionicons
                 name="chevron-back"
-                size={24}
+                size={20}
                 color={
                   currentItemIndex === 0
                     ? Colors[colorScheme].secondaryGreyHex
@@ -220,19 +220,19 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                 containerClassName="py-2"
                 onPress={handleSubmitReview}
                 disabled={isCreatingOrUpdating}
-                loading={isCreatingOrUpdating}
+                loading={true}
               >
                 Submit
               </Button>
             ) : (
               <Button
-                containerClassName="py-2"
+                containerClassName="px-2"
                 onPress={handleNextPress}
                 outline
               >
                 <Ionicons
                   name="chevron-forward"
-                  size={24}
+                  size={20}
                   color={Colors[colorScheme].primaryOrangeHex}
                 />
               </Button>

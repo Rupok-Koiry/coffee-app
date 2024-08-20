@@ -17,6 +17,7 @@ import Animated, {
   withTiming,
   Easing,
 } from "react-native-reanimated";
+
 type ButtonProps = {
   href?: Href<string>;
   onPress?: (event: GestureResponderEvent) => void;
@@ -40,8 +41,8 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const router = useRouter();
   const rotation = useSharedValue(0);
-  const scale = useSharedValue(1);
   const { colorScheme } = useColorScheme();
+
   React.useEffect(() => {
     if (loading) {
       rotation.value = withRepeat(
@@ -51,23 +52,14 @@ const Button: React.FC<ButtonProps> = ({
         }),
         -1
       );
-      scale.value = withRepeat(
-        withTiming(1.2, {
-          duration: 800,
-          easing: Easing.inOut(Easing.ease),
-        }),
-        -1,
-        true
-      );
     } else {
       rotation.value = 0;
-      scale.value = 1;
     }
   }, [loading]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ rotate: `${rotation.value}deg` }, { scale: scale.value }],
+      transform: [{ rotate: `${rotation.value}deg` }],
     };
   });
 

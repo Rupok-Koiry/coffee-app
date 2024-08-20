@@ -77,8 +77,9 @@ const EditProfileScreen: React.FC = () => {
 
   const profileImage = watchUserDetails("avatar");
 
-  const { updateUser } = useUpdateUser();
-  const { updatePassword } = useUpdatePassword();
+  const { updateUser, isUpdating: isUserUpdating } = useUpdateUser();
+  const { updatePassword, isUpdating: isPasswordUpdating } =
+    useUpdatePassword();
   const onSubmitUserDetails: SubmitHandler<UserDetailsFormValues> = (data) => {
     updateUser(data);
   };
@@ -200,6 +201,8 @@ const EditProfileScreen: React.FC = () => {
             <Button
               onPress={handleUserDetailsSubmit(onSubmitUserDetails)}
               containerClassName="my-5"
+              loading={isUserUpdating}
+              disabled={isUserUpdating}
             >
               Save Changes
             </Button>
@@ -248,6 +251,8 @@ const EditProfileScreen: React.FC = () => {
             <Button
               onPress={handlePasswordSubmit(onSubmitPassword)}
               containerClassName="my-5"
+              loading={isPasswordUpdating}
+              disabled={isPasswordUpdating}
             >
               Save Password
             </Button>

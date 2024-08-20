@@ -1,5 +1,6 @@
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
+import { colorScheme } from "nativewind";
 import { View } from "react-native";
 import Toast, {
   BaseToast,
@@ -11,15 +12,15 @@ export const toastConfig: ToastConfig = {
     <BaseToast
       {...props}
       style={{
-        borderLeftColor: Colors["light"].successGreenHex,
+        borderLeftColor: Colors[colorScheme.get()].successGreenHex,
         marginBottom: 32,
-        backgroundColor: Colors["light"].secondaryBackgroundHex,
+        backgroundColor: Colors[colorScheme.get()].secondaryBackgroundHex,
       }}
       contentContainerStyle={{
         paddingHorizontal: 0,
       }}
       text1Style={{
-        color: Colors["light"].secondaryTextHex,
+        color: Colors[colorScheme.get()].secondaryTextHex,
         fontSize: 14,
         fontWeight: 500,
       }}
@@ -35,7 +36,7 @@ export const toastConfig: ToastConfig = {
           <Ionicons
             name="close-circle"
             size={24}
-            color={Colors["light"].primaryRedHex}
+            color={Colors[colorScheme.get()].primaryRedHex}
           />
         </View>
       )}
@@ -45,15 +46,15 @@ export const toastConfig: ToastConfig = {
     <BaseToast
       {...props}
       style={{
-        borderLeftColor: Colors["light"].successGreenHex,
+        borderLeftColor: Colors[colorScheme.get()].successGreenHex,
         marginBottom: 32,
-        backgroundColor: Colors["light"].secondaryBackgroundHex,
+        backgroundColor: Colors[colorScheme.get()].secondaryBackgroundHex,
       }}
       contentContainerStyle={{
         paddingHorizontal: 0,
       }}
       text1Style={{
-        color: Colors["light"].secondaryTextHex,
+        color: Colors[colorScheme.get()].secondaryTextHex,
         fontSize: 14,
         fontWeight: 500,
       }}
@@ -69,7 +70,7 @@ export const toastConfig: ToastConfig = {
           <Ionicons
             name="checkmark-circle"
             size={24}
-            color={Colors["light"].successGreenHex}
+            color={Colors[colorScheme.get()].successGreenHex}
           />
         </View>
       )}
