@@ -208,57 +208,52 @@ async function updatePrices(
     (price) => !prices.some((p) => p.id === price.id)
   );
 
-  try {
-    // Insert new prices
-    const { data: insertedPrices, error: insertError } = await supabase
-      .from("prices")
-      .insert(
-        insertPrices.map((price) => ({
-          ...price,
-          product_id: productId,
-        }))
-      )
-      .select();
+  // Insert new prices
+  const { data: insertedPrices, error: insertError } = await supabase
+    .from("prices")
+    .insert(
+      insertPrices.map((price) => ({
+        ...price,
+        product_id: productId,
+      }))
+    )
+    .select();
 
-    if (insertError) {
-      console.error("Error inserting new prices:", insertError);
-      throw new Error("There was an issue inserting new product prices.");
-    }
-
-    // Update existing prices
-    const updatePromises = updatePrices.map(async (price) => {
-      const { error: updateError } = await supabase
-        .from("prices")
-        .update(price)
-        .eq("id", price.id);
-
-      if (updateError) {
-        console.error(`Error updating price ${price.id}:`, updateError);
-        throw new Error("There was an issue updating a product price.");
-      }
-    });
-    await Promise.all(updatePromises);
-
-    // Delete removed prices
-    const { error: deleteError } = await supabase
-      .from("prices")
-      .delete()
-      .in(
-        "id",
-        deletePrices?.map((price) => price.id)
-      );
-
-    if (deleteError) {
-      console.error("Error deleting prices:", deleteError);
-      throw new Error("There was an issue deleting product prices.");
-    }
-
-    // Return the updated prices
-    return [...(insertedPrices || []), ...updatePrices];
-  } catch (error) {
-    console.error("Error updating prices:", error);
-    throw error;
+  if (insertError) {
+    console.error("Error inserting new prices:", insertError);
+    throw new Error("There was an issue inserting new product prices.");
   }
+
+  // Update existing prices
+  const updatePromises = updatePrices.map(async (price) => {
+    const { error: updateError } = await supabase
+      .from("prices")
+      .update(price)
+      .eq("id", price.id);
+
+    if (updateError) {
+      console.error(`Error updating price ${price.id}:`, updateError);
+      throw new Error("There was an issue updating a product price.");
+    }
+  });
+  await Promise.all(updatePromises);
+
+  // Delete removed prices
+  const { error: deleteError } = await supabase
+    .from("prices")
+    .delete()
+    .in(
+      "id",
+      deletePrices?.map((price) => price.id)
+    );
+
+  if (deleteError) {
+    console.error("Error deleting prices:", deleteError);
+    throw new Error("There was an issue deleting product prices.");
+  }
+
+  // Return the updated prices
+  return [...(insertedPrices || []), ...updatePrices];
 }
 
 // Function to create a new product or update an existing one, including handling images and prices
