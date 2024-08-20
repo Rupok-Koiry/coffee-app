@@ -92,7 +92,7 @@ export async function fetchOrders({
 
   if (error) {
     console.error("Error fetching orders:", { userId, status, page }, error);
-    throw new Error("Orders could not be loaded. Please try again.");
+    throw new Error("Orders could not be loaded.");
   }
 
   return transformOrderData(data as Order[]);
@@ -127,7 +127,7 @@ export async function getOrder(
 
   if (error) {
     console.error(`Error fetching order with ID ${orderId}:`, error);
-    throw new Error("Order could not be found. Please try again.");
+    throw new Error("Order could not be found.");
   }
 
   return transformOrderData([data as Order])[0];
@@ -169,7 +169,7 @@ export const createOrderWithItems = async ({
 
   if (orderError) {
     console.error("Error creating order:", { userId, cart }, orderError);
-    throw new Error("Order creation failed. Please try again.");
+    throw new Error("Order creation failed.");
   }
 
   const convertedOrderItems = transformCartToOrderData(cart, order.id);
@@ -184,7 +184,7 @@ export const createOrderWithItems = async ({
       { orderId: order.id, convertedOrderItems },
       orderItemsError
     );
-    throw new Error("Order items creation failed. Please try again.");
+    throw new Error("Order items creation failed.");
   }
 
   return { ...order, order_items: orderItems };
@@ -209,7 +209,7 @@ export const updateOrderStatus = async ({
       { status },
       error
     );
-    throw new Error("Order status could not be updated. Please try again.");
+    throw new Error("Order status could not be updated.");
   }
 
   return data;

@@ -52,7 +52,7 @@ export async function getProducts({
       { type, filter, search, page },
       error
     );
-    throw new Error("There was an issue fetching products. Please try again.");
+    throw new Error("There was an issue fetching products.");
   }
 
   return data; // Return the fetched product data
@@ -69,9 +69,7 @@ export async function getProduct(productId: number) {
   // Handle any errors during the fetch
   if (error) {
     console.error(`Error fetching product with ID ${productId}:`, error);
-    throw new Error(
-      "There was an issue fetching the product. Please try again."
-    );
+    throw new Error("There was an issue fetching the product.");
   }
   return data; // Return the fetched product data
 }
@@ -86,9 +84,7 @@ export async function deleteProduct(productId: number) {
   // Handle any errors during deletion
   if (error) {
     console.error(`Error deleting product with ID ${productId}:`, error);
-    throw new Error(
-      "There was an issue deleting the product. Please try again."
-    );
+    throw new Error("There was an issue deleting the product.");
   }
   return data; // Return the result of the deletion
 }
@@ -123,9 +119,7 @@ async function uploadImage(
     );
     // Delete the product if the image upload fails
     await supabase.from("products").delete().eq("id", productId);
-    throw new Error(
-      "There was an issue uploading the product image. Please try again."
-    );
+    throw new Error("There was an issue uploading the product image.");
   }
 }
 
@@ -144,9 +138,7 @@ async function updateProduct(
   // Handle errors during the update process
   if (error) {
     console.error(`Error updating product with ID ${productId}:`, error);
-    throw new Error(
-      "There was an issue updating the product. Please try again."
-    );
+    throw new Error("There was an issue updating the product.");
   }
 
   return data; // Return the updated product data
@@ -163,38 +155,110 @@ async function createProduct(productData: InsertTables<"products">) {
   // Handle errors during the creation process
   if (error) {
     console.error("Error creating new product:", productData, error);
-    throw new Error(
-      "There was an issue creating the product. Please try again."
-    );
+    throw new Error("There was an issue creating the product.");
   }
 
   return data; // Return the created product data
 }
 
 // Function to upsert (update or insert) product prices in the database
-async function upsertPrices(
-  prices: InsertTables<"prices">[],
-  productId: number
-) {
-  const { data, error } = await supabase
-    .from("prices")
-    .upsert(
-      prices.map((price) => ({
-        ...price,
-        product_id: productId, // Ensure the correct product ID is associated
-      }))
-    )
-    .select();
+async function insertPrices(prices: InsertTables<"prices">[]) {
+  console.log(prices);
 
-  // Handle errors during the upsert process
+  const { data, error } = await supabase.from("prices").insert(prices).select();
+
+  // Handle errors during the insert process
   if (error) {
-    console.error(`Error updating prices for product ID ${productId}:`, error);
-    throw new Error(
-      "There was an issue updating product prices. Please try again."
-    );
+    console.error(`Error creating prices:`, error);
+    throw new Error("There was an issue creating product prices.");
   }
 
-  return data; // Return the upserted price data
+  return data; // Return the inserted price data
+}
+// Function to upsert (update or insert) product prices in the database
+async function updatePrices(
+  productId: number,
+  prices: InsertTables<"prices">[]
+) {
+  // Get the existing prices for the product
+  const { data: existingPrices, error: getPricesError } = await supabase
+    .from("prices")
+    .select()
+    .eq("product_id", productId);
+
+  if (getPricesError) {
+    console.error(
+      `Error getting existing prices for product ${productId}:`,
+      getPricesError
+    );
+    throw new Error("There was an issue getting the existing product prices.");
+  }
+
+  // Create a map of existing prices for easier lookup
+  const existingPricesMap = new Map(
+    existingPrices?.map((price) => [price.id, price])
+  );
+
+  // Separate the prices into insert, update, and delete operations
+  const insertPrices = prices.filter((price) => !price.id);
+  const updatePrices = prices.filter(
+    (price) => price.id && existingPricesMap.has(price.id)
+  );
+  const deletePrices = existingPrices?.filter(
+    (price) => !prices.some((p) => p.id === price.id)
+  );
+
+  try {
+    // Insert new prices
+    const { data: insertedPrices, error: insertError } = await supabase
+      .from("prices")
+      .insert(
+        insertPrices.map((price) => ({
+          ...price,
+          product_id: productId,
+        }))
+      )
+      .select();
+
+    if (insertError) {
+      console.error("Error inserting new prices:", insertError);
+      throw new Error("There was an issue inserting new product prices.");
+    }
+
+    // Update existing prices
+    const updatePromises = updatePrices.map(async (price) => {
+      const { error: updateError } = await supabase
+        .from("prices")
+        .update(price)
+        .eq("id", price.id);
+
+      if (updateError) {
+        console.error(`Error updating price ${price.id}:`, updateError);
+        throw new Error("There was an issue updating a product price.");
+      }
+    });
+    await Promise.all(updatePromises);
+
+    // Delete removed prices
+    const { error: deleteError } = await supabase
+      .from("prices")
+      .delete()
+      .in(
+        "id",
+        deletePrices?.map((price) => price.id)
+      );
+
+    if (deleteError) {
+      console.error("Error deleting prices:", deleteError);
+      throw new Error("There was an issue deleting product prices.");
+    }
+
+    // Return the updated prices
+    return [...(insertedPrices || []), ...updatePrices];
+  } catch (error) {
+    console.error("Error updating prices:", error);
+    throw error;
+  }
 }
 
 // Function to create a new product or update an existing one, including handling images and prices
@@ -236,11 +300,13 @@ export async function createOrUpdateProduct({
   // Update or create the product, then handle prices and images
   if (productId) {
     const product = await updateProduct(productId, productData);
-    const prices = await upsertPrices(newProduct.prices, productId);
+    const prices = await updatePrices(product.id, newProduct.prices);
     result = { ...product, prices };
   } else {
     const product = await createProduct(productData);
-    const prices = await upsertPrices(newProduct.prices, product.id);
+    const prices = await insertPrices(
+      newProduct.prices.map((price) => ({ ...price, product_id: product.id }))
+    );
     result = { ...product, prices };
   }
 
