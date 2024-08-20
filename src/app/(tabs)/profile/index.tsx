@@ -76,7 +76,7 @@ const ProfileScreen: React.FC = () => {
           <Text className="font-poppins-semibold text-xl text-primary-text text-center my-4">
             Hello, <Text className="text-primary-orange">{user.full_name}</Text>
           </Text>
-          <View className="flex-row items-center space-x-5">
+          <View className="flex-row items-center" style={{ gap: 20 }}>
             <Ionicons
               name="calendar"
               size={24}

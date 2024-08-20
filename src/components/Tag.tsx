@@ -12,7 +12,6 @@ const Tag: React.FC<TagProps> = ({
   textClassName,
   children,
 }) => {
-  const { colorScheme } = useColorScheme();
   return (
     <View
       className={`bg-opacity-75 ${containerClassName} rounded-full px-2.5 py-0.5`}

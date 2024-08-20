@@ -62,7 +62,10 @@ const ProductTable = ({ type }: ProductTableProps) => {
   return (
     <ScrollView horizontal style={{ flex: 1 }}>
       <View className="flex-1 border-2 border-primary-grey rounded-2xl overflow-hidden">
-        <View className="flex-row border-b border-primary-grey p-3 space-x-5">
+        <View
+          className="flex-row border-b border-primary-grey p-3"
+          style={{ gap: 20 }}
+        >
           <View style={{ width: 120 }}>
             <Text className="text-secondary-text font-poppins-semibold uppercase">
               Product ID
@@ -123,7 +126,8 @@ const ProductTable = ({ type }: ProductTableProps) => {
             renderItem={({ item }) => (
               <View
                 key={item.id}
-                className="flex-row border-b border-primary-grey space-x-5"
+                className="flex-row border-b border-primary-grey"
+                style={{ gap: 20 }}
               >
                 <View className="p-3" style={{ width: 120 }}>
                   <Text className="text-primary-text font-poppins-regular text-base">

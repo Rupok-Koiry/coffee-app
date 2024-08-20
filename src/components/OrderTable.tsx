@@ -194,7 +194,7 @@ const OrderTable = ({ status }: OrderTableProps) => {
                     {item.status === "ON_THE_WAY" ? "ON THE WAY" : item.status}
                   </Tag>
                 </View>
-                <View className="flex-row space-x-3 p-3" style={{ width: 120 }}>
+                <View className="flex-row p-3" style={{ width: 120, gap: 12 }}>
                   <Link href={`/(tabs)/order/${item.id}`}>
                     <Ionicons
                       name="eye"
