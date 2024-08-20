@@ -38,7 +38,12 @@ const WishlistScreen = () => {
   if (error) return <ErrorMessage message={error.message} />;
 
   return (
-    <SafeAreaView className="flex-1 bg-primary-background">
+    <SafeAreaView
+      style={{
+        backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+        flex: 1,
+      }}
+    >
       <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView>
         <View className="flex-1">

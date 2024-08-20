@@ -33,7 +33,8 @@ const ReviewCardSkeleton: React.FC = () => {
         Colors[colorScheme].secondaryGreyHex,
         Colors[colorScheme].primaryBackgroundHex,
       ]}
-      className="p-4 rounded-xl mx-5"
+      className="p-4 mx-5"
+      style={{ borderRadius: 16 }}
     >
       <View className="flex-row">
         <Animated.View

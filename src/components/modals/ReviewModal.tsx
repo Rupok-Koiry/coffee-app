@@ -127,8 +127,9 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
           ]}
           start={[0, 0]}
           end={[1, 1]}
-          className="p-5 rounded-t-xl w-full"
+          className="p-5 w-full"
           onStartShouldSetResponder={() => true}
+          style={{ borderRadius: 16 }}
         >
           <TouchableOpacity
             onPress={onClose}

@@ -24,7 +24,7 @@ const ProfileOption: React.FC<ProfileOptionProps> = ({
       className={`flex-row justify-between items-center px-5 py-2`}
       style={{ width: Dimensions.get("window").width }}
     >
-      <View className="flex-row items-center space-x-5">
+      <View className="flex-row items-center" style={{ gap: 20 }}>
         <LinearGradient
           colors={[
             Colors[colorScheme].secondaryGreyHex,
@@ -32,7 +32,8 @@ const ProfileOption: React.FC<ProfileOptionProps> = ({
           ]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          className="w-10 h-10 justify-center items-center rounded-xl"
+          className="w-10 h-10 justify-center items-center"
+          style={{ borderRadius: 12 }}
         >
           <Ionicons
             size={20}

@@ -54,7 +54,7 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
         resizeMode="cover"
       >
         <View
-          className="flex-row bg-primary-background-rgba items-start justify-center px-3 py-2 absolute  rounded-bl-2xl top-0 right-0"
+          className="flex-row bg-primary-overlay items-start justify-center px-3 py-2 absolute  rounded-bl-2xl top-0 right-0"
           style={{ gap: 8 }}
         >
           <Ionicons

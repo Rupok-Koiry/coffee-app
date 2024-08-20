@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useColorScheme } from "nativewind";
-import { View, Text } from "react-native";
+import { View, Text, ColorSchemeName } from "react-native";
 import GradientIcon from "./GradientIcon";
 import { Colors } from "@/constants/Colors";
 import Animated, {
@@ -11,7 +11,6 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { Enums, orderStatuses } from "@/constants/types";
-import { ColorSchemeName } from "nativewind/dist/style-sheet/color-scheme";
 
 const ANIMATION_DURATION = 500;
 const ICON_SIZE = 24;

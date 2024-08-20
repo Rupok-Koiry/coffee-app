@@ -26,25 +26,33 @@ import { useColorScheme } from "nativewind";
 const ProfileScreen: React.FC = () => {
   const router = useRouter();
   const { colorScheme, toggleColorScheme } = useColorScheme();
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(colorScheme === "dark");
+
   const { user, isLoading } = useUser();
 
+  const toggleDarkMode = () => {
+    toggleColorScheme();
+    setDarkMode((darkMode) => !darkMode);
+  };
   const { logout, isPending } = useLogout();
   const handleLogout = () => {
     logout();
   };
 
   if (isLoading) return <Loader />;
-  if (!user) return null;
 
   return (
-    <SafeAreaView className="flex-1 bg-primary-background">
+    <SafeAreaView
+      style={{
+        backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+        flex: 1,
+      }}
+    >
       <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
       >
-        <Button onPress={() => toggleColorScheme()}>HELLO</Button>
         <HeaderBar title="Profile" />
         <View className="px-5 mb-5">
           <View className="bg-tertiary-background w-32 h-32 p-4 rounded-full mx-auto">
@@ -84,7 +92,8 @@ const ProfileScreen: React.FC = () => {
             Colors[colorScheme].secondaryGreyHex,
             Colors[colorScheme].primaryBackgroundHex,
           ]}
-          className="flex-1 rounded-t-2xl"
+          className="flex-1"
+          style={{ borderRadius: 16 }}
         >
           <View className="w-full py-8">
             <ProfileOption
@@ -133,7 +142,7 @@ const ProfileScreen: React.FC = () => {
               extraContent={
                 <Switch
                   value={darkMode}
-                  onValueChange={setDarkMode}
+                  onValueChange={toggleDarkMode}
                   trackColor={{
                     true: Colors[colorScheme].secondaryTextHex,
                     false: Colors[colorScheme].secondaryTextHex,

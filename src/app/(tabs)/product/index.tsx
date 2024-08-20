@@ -9,6 +9,7 @@ import BeanList from "@/components/BeanList";
 import { useRouter } from "expo-router";
 import { useColorScheme } from "nativewind";
 import { Colors } from "@/constants/Colors";
+import LogoImage from "@/components/LogoImage";
 
 const HomeScreen = () => {
   const { colorScheme } = useColorScheme();
@@ -23,10 +24,7 @@ const HomeScreen = () => {
       <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView>
         <View className={`flex-row justify-center`}>
-          <Image
-            source={require("@/assets/app_images/logo.png")}
-            className="w-32 h-32"
-          />
+          <LogoImage className="w-32 h-32" />
         </View>
         <View className="px-5">
           <Text className="font-poppins-semibold text-3xl text-primary-text mb-5">

@@ -100,8 +100,11 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
           </View>
         )}
 
-        <View className="p-5 bg-primary-background-rgba rounded-t-3xl">
-          <View className="flex-row justify-between items-center">
+        <View className="p-5 bg-primary-overlay rounded-t-3xl">
+          <View
+            className="flex-row justify-between items-center"
+            style={{ gap: 20 }}
+          >
             <View>
               <Text className="font-poppins-semibold text-xl text-white mb-0.5">
                 {name}
@@ -127,12 +130,12 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                 </Text>
               </Pressable>
             </View>
-            <View>
+            <View className="flex-1">
               <View
                 className="flex-row items-center gap-5 mb-5"
                 style={{ gap: 20 }}
               >
-                <View className="h-14 w-14 rounded-lg justify-center items-center bg-secondary-background">
+                <View className="h-14 flex-1 rounded-lg justify-center items-center bg-secondary-background">
                   {type === "BEAN" ? (
                     <MaterialCommunityIcons
                       name="fruit-cherries"
@@ -152,7 +155,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
                     {type}
                   </Text>
                 </View>
-                <View className="h-14 w-14 rounded-xl justify-center items-center bg-secondary-background">
+                <View className="h-14 flex-1 rounded-xl justify-center items-center bg-secondary-background">
                   <Ionicons
                     name={type === "BEAN" ? "location" : "water"}
                     size={24}

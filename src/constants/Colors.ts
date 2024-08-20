@@ -12,8 +12,8 @@ export const Colors = {
     tertiaryTextHex: "#787878",
     accentTextHex: "#A0A0A5",
     successGreenHex: "#4BB543",
-    primaryOverlayRGBA: "rgba(0,0,0,0.1)",
-    secondaryOverlayRGBA: "rgba(0,0,0,0.2)",
+    primaryOverlayRGBA: "rgba(0,0,0,0.3)",
+    secondaryOverlayRGBA: "rgba(0,0,0,0.4)",
   },
   dark: {
     primaryRedHex: "#DC3535",
@@ -29,7 +29,6 @@ export const Colors = {
     accentTextHex: "#52555A",
     successGreenHex: "#4BB543",
     primaryOverlayRGBA: "rgba(12,15,20,0.5)",
-    secondaryOverlayRGBA: "rgba(0,0,0,0.7)",
+    secondaryOverlayRGBA: "rgba(0,0,0,0.6)",
   },
 };
-// #2e87bd

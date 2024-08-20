@@ -22,7 +22,7 @@ export default function TabLayout() {
     [user]
   );
   return (
-    <>
+    <React.Fragment>
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -83,6 +83,6 @@ export default function TabLayout() {
         setModalVisible={setModalVisible}
         title="Please sign in to enjoy full access to your account"
       />
-    </>
+    </React.Fragment>
   );
 }

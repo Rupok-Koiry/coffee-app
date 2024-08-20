@@ -34,7 +34,7 @@ const OrderStatusModal = ({
     >
       <Pressable
         onPress={() => setModalVisible(false)}
-        className="flex-1 bg-primary-background-rgba justify-center items-center px-5"
+        className="flex-1 bg-primary-overlay justify-center items-center px-5"
       >
         <View className="w-full" onStartShouldSetResponder={() => true}>
           <LinearGradient
@@ -44,7 +44,8 @@ const OrderStatusModal = ({
             ]}
             start={[0, 0]}
             end={[1, 1]}
-            className="px-5 py-8 rounded-lg"
+            className="px-5 py-8"
+            style={{ borderRadius: 16 }}
           >
             <TouchableOpacity
               onPress={() => setModalVisible(false)}

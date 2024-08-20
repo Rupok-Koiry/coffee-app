@@ -94,8 +94,10 @@ const EditProfileScreen: React.FC = () => {
   if (!user) return null;
   return (
     <SafeAreaView
-      className="bg-primary-background flex-1"
-      style={{ backgroundColor: Colors[colorScheme].primaryBackgroundHex }}
+      style={{
+        backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+        flex: 1,
+      }}
     >
       <StatusBar backgroundColor={Colors[colorScheme].primaryBackgroundHex} />
       <ScrollView
@@ -105,7 +107,7 @@ const EditProfileScreen: React.FC = () => {
         <HeaderBar title="Manage Profile" />
 
         <View className="flex-1 p-5">
-          <View className="space-y-5">
+          <View style={{ gap: 20 }}>
             <TouchableOpacity onPress={pickImage}>
               <View className="bg-tertiary-background w-32 h-32 p-4 rounded-full mx-auto">
                 <LinearGradient
@@ -115,7 +117,8 @@ const EditProfileScreen: React.FC = () => {
                   ]}
                   start={[0, 0]}
                   end={[1, 1]}
-                  className="w-full h-full rounded-full p-0.5"
+                  className="w-full h-full p-0.5"
+                  style={{ borderRadius: 999 }}
                 >
                   <View className="w-full h-full rounded-full overflow-hidden">
                     <Image
@@ -206,7 +209,7 @@ const EditProfileScreen: React.FC = () => {
           <Text className="font-poppins-semibold text-2xl text-primary-text my-5">
             Update Password
           </Text>
-          <View className="space-y-5">
+          <View style={{ gap: 20 }}>
             <View>
               <Input<PasswordFormValues>
                 control={passwordControl}

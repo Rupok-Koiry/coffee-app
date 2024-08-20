@@ -25,7 +25,7 @@ const ConfirmDeleteModal = ({
       visible={isModalVisible}
       onRequestClose={() => setIsModalVisible(false)}
     >
-      <View className="flex-1 justify-center items-center bg-primary-background-rgba px-5">
+      <View className="flex-1 justify-center items-center bg-primary-overlay px-5">
         <LinearGradient
           colors={[
             Colors[colorScheme].secondaryGreyHex,
@@ -34,7 +34,7 @@ const ConfirmDeleteModal = ({
           start={[0, 0]}
           end={[1, 1]}
           className="bg-primary-grey px-5 py-8 w-full"
-          style={{ borderRadius: 8 }}
+          style={{ borderRadius: 16 }}
         >
           <TouchableOpacity
             onPress={() => setIsModalVisible(false)}

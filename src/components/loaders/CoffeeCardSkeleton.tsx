@@ -34,7 +34,8 @@ const CoffeeCardSkeleton: React.FC = () => {
         Colors[colorScheme].secondaryGreyHex,
         Colors[colorScheme].primaryBackgroundHex,
       ]}
-      className="p-3 rounded-2xl"
+      className="p-3"
+      style={{ borderRadius: 16 }}
     >
       <Animated.View
         className="w-full h-full rounded-2xl mb-4 overflow-hidden bg-primary-background animate-pulse"

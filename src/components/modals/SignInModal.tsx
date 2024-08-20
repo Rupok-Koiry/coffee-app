@@ -34,7 +34,7 @@ const SignInModal: React.FC<SignInModalProps> = ({
     >
       <Pressable
         onPressOut={() => setModalVisible(false)}
-        className="flex-1 bg-primary-background-rgba"
+        className="flex-1 bg-primary-overlay"
       >
         <View className="flex-1 justify-end items-center">
           <LinearGradient
@@ -44,7 +44,8 @@ const SignInModal: React.FC<SignInModalProps> = ({
             ]}
             start={[0, 0]}
             end={[1, 1]}
-            className="p-5 rounded-t-xl w-full"
+            className="p-5 w-full"
+            style={{ borderRadius: 16 }}
           >
             <TouchableOpacity
               onPress={() => setModalVisible(false)}

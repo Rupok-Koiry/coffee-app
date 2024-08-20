@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, FlatList } from "react-native";
+import { View, Text, Image, FlatList, ColorSchemeName } from "react-native";
 import { useColorScheme } from "nativewind";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -7,7 +7,6 @@ import { Colors } from "@/constants/Colors";
 import { formatDistanceToNowStrict } from "date-fns";
 import { SUPABASE_URL } from "@/services/supabase";
 import { Tables } from "@/constants/types";
-import { ColorSchemeName } from "nativewind/dist/style-sheet/color-scheme";
 type ReviewType = Tables<"reviews"> & {
   user: Tables<"profiles">;
 };
