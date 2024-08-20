@@ -16,9 +16,9 @@ const ExpoSecureStoreAdapter = {
 };
 
 // Supabase configuration
-export const SUPABASE_URL = "https://utyipwqdhkgihrfiangw.supabase.co";
+export const SUPABASE_URL = "https://pdyzjtsgpvcbxmxapxsr.supabase.co";
 const SUPABASE_PUBLIC_API_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV0eWlwd3FkaGtnaWhyZmlhbmd3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjMxMTQxNDAsImV4cCI6MjAzODY5MDE0MH0.D1VZvaOwp9Jts-o2Ic81lcBALrPcamSdLt6pu47zgFQ";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkeXpqdHNncHZjYnhteGFweHNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQxNjA0MTEsImV4cCI6MjAzOTczNjQxMX0.LDldy2TA74Sdtl-7RfbeoWc5uTVA-mh-X8Q-PVqFjwI";
 
 // Initialize Supabase Client
 const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLIC_API_KEY, {

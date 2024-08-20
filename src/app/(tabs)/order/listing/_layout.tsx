@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderBar from "@/components/HeaderBar";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "nativewind";
+import { Dimensions } from "react-native";
 
 const TopTabs = withLayoutContext(createMaterialTopTabNavigator().Navigator);
 
@@ -31,6 +32,9 @@ export default function OrderListNavigator() {
           },
           tabBarIndicatorContainerStyle: {
             backgroundColor: Colors[colorScheme].primaryBackgroundHex,
+          },
+          tabBarItemStyle: {
+            width: Dimensions.get("window").width / 2,
           },
         }}
         sceneContainerStyle={{

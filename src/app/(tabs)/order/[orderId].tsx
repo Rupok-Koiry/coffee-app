@@ -75,7 +75,7 @@ const OrderDetailsScreen: React.FC = () => {
             order_id={order.id}
             order_items={order.order_items}
             total_price={order.total_price}
-            order_date={order.order_date}
+            order_date={order.created_at}
           />
           {order.status === "DELIVERED" && (
             <Button onPress={handleReviewPress}>

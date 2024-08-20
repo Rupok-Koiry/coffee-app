@@ -181,7 +181,7 @@ const OrderTable = ({ status }: OrderTableProps) => {
                 </View>
                 <View className="p-3" style={{ width: 120 }}>
                   <Text className="text-primary-text font-poppins-regular">
-                    {new Date(item.order_date).toLocaleDateString()}
+                    {new Date(item.created_at).toLocaleDateString()}
                   </Text>
                 </View>
                 <View className="p-3" style={{ width: 135 }}>

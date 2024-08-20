@@ -77,7 +77,7 @@ export async function fetchOrders({
     .from("orders")
     .select(`*, order_items(*, product:products(*))`)
     .range(from, to)
-    .order("order_date", { ascending: false });
+    .order("created_at", { ascending: false });
 
   if (status) {
     query = Array.isArray(status)

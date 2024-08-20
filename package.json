@@ -5,6 +5,7 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
+    "generate-types": "supabase gen types typescript --project-id pdyzjtsgpvcbxmxapxsr > constants/database.types.ts",
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
@@ -55,6 +56,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.45",
+    "supabase": "^1.190.0",
     "typescript": "~5.3.3"
   },
   "private": true

@@ -38,7 +38,7 @@ const ActiveOrders = () => {
             order_id={item.id}
             order_items={item.order_items}
             total_price={item.total_price}
-            order_date={item.order_date}
+            order_date={item.created_at}
           />
         )}
         onEndReached={loadMore}
