@@ -163,8 +163,6 @@ async function createProduct(productData: InsertTables<"products">) {
 
 // Function to upsert (update or insert) product prices in the database
 async function insertPrices(prices: InsertTables<"prices">[]) {
-  // console.error(prices);
-
   const { data, error } = await supabase.from("prices").insert(prices).select();
 
   // Handle errors during the insert process
