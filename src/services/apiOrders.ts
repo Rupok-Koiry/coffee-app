@@ -91,7 +91,7 @@ export async function fetchOrders({
   const { data, error } = await query;
 
   if (error) {
-    console.error("Error fetching orders:", { userId, status, page }, error);
+    // console.error("Error fetching orders:", { userId, status, page }, error);
     throw new Error("Orders could not be loaded.");
   }
 
@@ -126,7 +126,7 @@ export async function getOrder(
     .single();
 
   if (error) {
-    console.error(`Error fetching order with ID ${orderId}:`, error);
+    // console.error(`Error fetching order with ID ${orderId}:`, error);
     throw new Error("Order could not be found.");
   }
 
@@ -168,7 +168,7 @@ export const createOrderWithItems = async ({
     .single();
 
   if (orderError) {
-    console.error("Error creating order:", { userId, cart }, orderError);
+    // console.error("Error creating order:", { userId, cart }, orderError);
     throw new Error("Order creation failed.");
   }
 
@@ -179,11 +179,11 @@ export const createOrderWithItems = async ({
     .select();
 
   if (orderItemsError) {
-    console.error(
-      "Error creating order items:",
-      { orderId: order.id, convertedOrderItems },
-      orderItemsError
-    );
+    // console.error(
+    //   "Error creating order items:",
+    //   { orderId: order.id, convertedOrderItems },
+    //   orderItemsError
+    // );
     throw new Error("Order items creation failed.");
   }
 
@@ -204,11 +204,11 @@ export const updateOrderStatus = async ({
     .eq("id", orderId);
 
   if (error) {
-    console.error(
-      `Error updating status of order ID ${orderId}:`,
-      { status },
-      error
-    );
+    // console.error(
+    //   `Error updating status of order ID ${orderId}:`,
+    //   { status },
+    //   error
+    // );
     throw new Error("Order status could not be updated.");
   }
 

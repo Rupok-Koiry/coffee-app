@@ -47,11 +47,11 @@ export async function getProducts({
 
   // Handle any errors that occur during the fetch
   if (error) {
-    console.error(
-      "Error fetching products with params:",
-      { type, filter, search, page },
-      error
-    );
+    // console.error(
+    //   "Error fetching products with params:",
+    //   { type, filter, search, page },
+    //   error
+    // );
     throw new Error("There was an issue fetching products.");
   }
 
@@ -68,7 +68,7 @@ export async function getProduct(productId: number) {
 
   // Handle any errors during the fetch
   if (error) {
-    console.error(`Error fetching product with ID ${productId}:`, error);
+    // console.error(`Error fetching product with ID ${productId}:`, error);
     throw new Error("There was an issue fetching the product.");
   }
   return data; // Return the fetched product data
@@ -83,7 +83,7 @@ export async function deleteProduct(productId: number) {
 
   // Handle any errors during deletion
   if (error) {
-    console.error(`Error deleting product with ID ${productId}:`, error);
+    // console.error(`Error deleting product with ID ${productId}:`, error);
     throw new Error("There was an issue deleting the product.");
   }
   return data; // Return the result of the deletion
@@ -113,10 +113,10 @@ async function uploadImage(
 
   // Handle errors during the upload process
   if (error) {
-    console.error(
-      `Error uploading image ${imageName} for product ID ${productId}:`,
-      error
-    );
+    // console.error(
+    //   `Error uploading image ${imageName} for product ID ${productId}:`,
+    //   error
+    // );
     // Delete the product if the image upload fails
     await supabase.from("products").delete().eq("id", productId);
     throw new Error("There was an issue uploading the product image.");
@@ -137,7 +137,7 @@ async function updateProduct(
 
   // Handle errors during the update process
   if (error) {
-    console.error(`Error updating product with ID ${productId}:`, error);
+    // console.error(`Error updating product with ID ${productId}:`, error);
     throw new Error("There was an issue updating the product.");
   }
 
@@ -154,7 +154,7 @@ async function createProduct(productData: InsertTables<"products">) {
 
   // Handle errors during the creation process
   if (error) {
-    console.error("Error creating new product:", productData, error);
+    // console.error("Error creating new product:", productData, error);
     throw new Error("There was an issue creating the product.");
   }
 
@@ -163,13 +163,13 @@ async function createProduct(productData: InsertTables<"products">) {
 
 // Function to upsert (update or insert) product prices in the database
 async function insertPrices(prices: InsertTables<"prices">[]) {
-  console.log(prices);
+  // console.error(prices);
 
   const { data, error } = await supabase.from("prices").insert(prices).select();
 
   // Handle errors during the insert process
   if (error) {
-    console.error(`Error creating prices:`, error);
+    // console.error(`Error creating prices:`, error);
     throw new Error("There was an issue creating product prices.");
   }
 
@@ -187,10 +187,10 @@ async function updatePrices(
     .eq("product_id", productId);
 
   if (getPricesError) {
-    console.error(
-      `Error getting existing prices for product ${productId}:`,
-      getPricesError
-    );
+    // console.error(
+    //   `Error getting existing prices for product ${productId}:`,
+    //   getPricesError
+    // );
     throw new Error("There was an issue getting the existing product prices.");
   }
 
@@ -220,7 +220,7 @@ async function updatePrices(
     .select();
 
   if (insertError) {
-    console.error("Error inserting new prices:", insertError);
+    // console.error("Error inserting new prices:", insertError);
     throw new Error("There was an issue inserting new product prices.");
   }
 
@@ -232,7 +232,7 @@ async function updatePrices(
       .eq("id", price.id);
 
     if (updateError) {
-      console.error(`Error updating price ${price.id}:`, updateError);
+      // console.error(`Error updating price ${price.id}:`, updateError);
       throw new Error("There was an issue updating a product price.");
     }
   });
@@ -248,7 +248,7 @@ async function updatePrices(
     );
 
   if (deleteError) {
-    console.error("Error deleting prices:", deleteError);
+    // console.error("Error deleting prices:", deleteError);
     throw new Error("There was an issue deleting product prices.");
   }
 

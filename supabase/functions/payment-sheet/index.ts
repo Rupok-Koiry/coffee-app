@@ -2,18 +2,18 @@
 // https://deno.land/manual/getting_started/setup_your_environment
 // This enables autocomplete, go to definition, etc.
 
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { stripe } from '../_utils/stripe.ts';
-import { createOrRetrieveProfile } from '../_utils/supabase.ts';
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { stripe } from "../_utils/stripe.ts";
+import { createOrRetrieveProfile } from "../_utils/supabase.ts";
 
-console.log('Hello from Functions!');
+console.log("Hello from Functions!");
 
 serve(async (req: Request) => {
   try {
     const { amount } = await req.json();
 
     if (!amount) {
-      throw new Error('Amount is required');
+      throw new Error("Amount is required");
     }
 
     const customer = await createOrRetrieveProfile(req);
@@ -21,29 +21,29 @@ serve(async (req: Request) => {
     // Create an ephemeralKey so that the Stripe SDK can fetch the customer's stored payment methods.
     const ephemeralKey = await stripe.ephemeralKeys.create(
       { customer: customer },
-      { apiVersion: '2020-08-27' }
+      { apiVersion: "2020-08-27" }
     );
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
-      currency: 'usd',
+      currency: "usd",
       customer: customer,
     });
 
     const res = {
       paymentIntent: paymentIntent.client_secret,
-      publishableKey: Deno.env.get('EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY'),
+      publishableKey: Deno.env.get("EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY"),
       customer: customer,
       ephemeralKey: ephemeralKey.secret,
     };
 
     return new Response(JSON.stringify(res), {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error('Error processing request:', error.message);
+    console.error("Error processing request:", error.message);
     return new Response(JSON.stringify({ error: error.message }), {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
       status: 400,
     });
   }

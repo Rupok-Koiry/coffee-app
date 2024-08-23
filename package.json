@@ -55,6 +55,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/pako": "^2.0.3",
     "@types/react": "~18.2.45",
     "supabase": "^1.190.0",
     "typescript": "~5.3.3"

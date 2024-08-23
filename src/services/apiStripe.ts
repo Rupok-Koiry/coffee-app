@@ -13,7 +13,7 @@ const fetchPaymentSheetParams = async (amount: number) => {
 
   if (error) {
     // Log the error and show a toast message for user feedback
-    console.error("Error fetching payment sheet parameters:", error);
+    // console.error("Error fetching payment sheet parameters:", error);
     Toast.show({
       type: "error",
       text1: "There was an issue retrieving payment details.",
@@ -36,7 +36,7 @@ export const initializePaymentSheet = async (amount: number) => {
       type: "error",
       text1: "Payment setup incomplete.",
     });
-    console.error("Payment intent or publishable key is missing.");
+    // console.error("Payment intent or publishable key is missing.");
     return;
   }
 
@@ -50,7 +50,7 @@ export const initializePaymentSheet = async (amount: number) => {
 
   // Handle errors during initialization
   if (error) {
-    console.error("Error initializing payment sheet:", error);
+    // console.error("Error initializing payment sheet:", error);
     Toast.show({
       type: "error",
       text1: "There was an issue setting up the payment.",
@@ -64,7 +64,7 @@ export const openPaymentSheet = async () => {
 
   // Handle errors during payment sheet presentation
   if (error) {
-    console.error("Error presenting payment sheet:", error);
+    // console.error("Error presenting payment sheet:", error);
     Toast.show({
       type: "error",
       text1: "There was an issue processing the payment.",

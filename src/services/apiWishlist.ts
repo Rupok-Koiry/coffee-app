@@ -19,7 +19,7 @@ export async function getWishlist({ userId, page = 1 }: getWishlistParams) {
 
   const { data, error } = await query;
   if (error) {
-    console.error("Error fetching wishlist for user:", userId, error);
+    // console.error("Error fetching wishlist for user:", userId, error);
     throw new Error("There was an issue loading your wishlist.");
   }
 
@@ -34,7 +34,7 @@ export async function createWishlist(newWishlist: InsertTables<"wishlist">) {
     .single();
 
   if (error) {
-    console.error("Error creating wishlist entry:", newWishlist, error);
+    // console.error("Error creating wishlist entry:", newWishlist, error);
     throw new Error("There was an issue creating your wishlist.");
   }
   return data;
@@ -50,10 +50,10 @@ export async function getWishlistStatus(productId: number, userId?: string) {
     .single();
 
   if (error && error.code !== "PGRST116") {
-    console.error(
-      `Error checking wishlist status for user: ${userId}, product: ${productId}`,
-      error
-    );
+    // console.error(
+    //   `Error checking wishlist status for user: ${userId}, product: ${productId}`,
+    //   error
+    // );
     throw new Error("There was an issue checking your wishlist status.");
   }
 
@@ -67,7 +67,7 @@ export async function deleteWishlist(wishlistId: number) {
     .eq("id", wishlistId);
 
   if (error) {
-    console.error("Error deleting wishlist with ID:", wishlistId, error);
+    // console.error("Error deleting wishlist with ID:", wishlistId, error);
     throw new Error(
       "There was an issue removing this item from your wishlist."
     );

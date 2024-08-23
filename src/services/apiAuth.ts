@@ -11,7 +11,7 @@ async function fetchUserProfile(userId: string) {
     .single();
 
   if (error) {
-    console.log("Fetch profile error:", error);
+    // console.error("Fetch profile error:", error);
     throw new Error(error.message);
   }
   return data;
@@ -35,7 +35,7 @@ export async function signup({
   });
 
   if (error) {
-    console.log("Signup error:", error);
+    // console.error("Signup error:", error);
     throw new Error(error.message);
   }
   if (!data.user) return null;
@@ -46,7 +46,7 @@ export async function signup({
 export async function updatePassword(password: string) {
   const { data, error } = await supabase.auth.updateUser({ password });
   if (error) {
-    console.log("Update password error:", error);
+    // console.error("Update password error:", error);
     throw new Error(error.message);
   }
   return data;
@@ -63,7 +63,7 @@ export async function updateCurrentUser({
     data: { full_name, phone },
   });
   if (authUpdateError) {
-    console.log("Update auth error:", authUpdateError);
+    // console.error("Update auth error:", authUpdateError);
     throw new Error(authUpdateError.message);
   }
 
@@ -71,7 +71,7 @@ export async function updateCurrentUser({
   const { data: session, error: sessionError } =
     await supabase.auth.getSession();
   if (sessionError || !session?.session) {
-    console.log("Session error:", sessionError);
+    // console.error("Session error:", sessionError);
     throw new Error("Unable to retrieve user session");
   }
 
@@ -86,7 +86,7 @@ export async function updateCurrentUser({
     .single();
 
   if (profileUpdateError) {
-    console.log("Update profile error:", profileUpdateError);
+    // console.error("Update profile error:", profileUpdateError);
     throw new Error(profileUpdateError.message);
   }
   // Handle avatar upload if needed
@@ -103,7 +103,7 @@ export async function updateCurrentUser({
     });
 
   if (storageError) {
-    console.log("Avatar Storage error:", storageError);
+    // console.error("Avatar Storage error:", storageError);
     throw new Error(storageError.message);
   }
 
@@ -116,7 +116,7 @@ export async function updateCurrentUser({
     .single();
 
   if (avatarUpdateError) {
-    console.log("Update avatar error:", avatarUpdateError);
+    // console.error("Update avatar error:", avatarUpdateError);
     throw new Error(avatarUpdateError.message);
   }
   return updatedProfile;
@@ -135,7 +135,7 @@ export async function login({
   });
 
   if (error) {
-    console.log("Login error:", error);
+    // console.error("Login error:", error);
     throw new Error(error.message);
   }
   if (!data?.user) return null;
@@ -146,7 +146,7 @@ export async function login({
 export async function getCurrentUser() {
   const { data: session, error } = await supabase.auth.getSession();
   if (error) {
-    console.log("Get session error:", error);
+    // console.error("Get session error:", error);
     throw new Error(error.message);
   }
   if (!session?.session) return null;
@@ -157,7 +157,7 @@ export async function getCurrentUser() {
 export async function logout() {
   const { error } = await supabase.auth.signOut();
   if (error) {
-    console.log("Logout error:", error);
+    // console.error("Logout error:", error);
     throw new Error(error.message);
   }
 }
