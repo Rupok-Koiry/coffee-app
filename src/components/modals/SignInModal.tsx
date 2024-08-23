@@ -12,6 +12,7 @@ import Button from "@/components/Button";
 import { Colors } from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 type SignInModalProps = {
   modalVisible: boolean;
@@ -24,6 +25,7 @@ const SignInModal: React.FC<SignInModalProps> = ({
   setModalVisible,
   title,
 }) => {
+  const router = useRouter();
   const { colorScheme } = useColorScheme();
   return (
     <Modal
@@ -60,7 +62,13 @@ const SignInModal: React.FC<SignInModalProps> = ({
             <Text className="text-xl font-poppins-semibold text-primary-text text-center my-3">
               {title}
             </Text>
-            <Button href="/(auth)/sign-in" containerClassName="mb-3">
+            <Button
+              onPress={() => {
+                router.push("/(auth)/sign-in");
+                setModalVisible(false);
+              }}
+              containerClassName="mb-3"
+            >
               Sign In
             </Button>
             <Button onPress={() => setModalVisible(false)} outline>

@@ -23,6 +23,7 @@ import { initializePaymentSheet, openPaymentSheet } from "@/services/apiStripe";
 import { useUser } from "@/hooks/auth/useUser";
 import SignInModal from "@/components/modals/SignInModal";
 import { useColorScheme } from "nativewind";
+import { useRouter } from "expo-router";
 
 const paymentList: PaymentListType[] = [
   {
@@ -54,7 +55,7 @@ const PaymentScreen = () => {
   const [showAnimation, setShowAnimation] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const router = useRouter();
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
   const { createOrderWithItems } = useCreateOrderWithItems();
@@ -84,10 +85,11 @@ const PaymentScreen = () => {
       {
         onSuccess: () => {
           dispatch(clearCart());
+          setIsLoading(false);
           setShowAnimation(true);
           setTimeout(() => {
             setShowAnimation(false);
-            setIsLoading(false);
+            router.push("/(tabs)/order/listing/active");
           }, 3000);
         },
       }
