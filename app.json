@@ -1,32 +1,36 @@
 {
   "expo": {
-    "scheme": "acme",
+    "scheme": "coffee-app",
     "userInterfaceStyle": "automatic",
     "orientation": "default",
+    "icon": "./src/assets/images/icon.png",
+    "splash": {
+      "image": "./src/assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0C0F14"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
     "web": {
       "output": "static",
-      "bundler": "metro"
+      "bundler": "metro",
+      "favicon": "./src/assets/images/favicon.png"
     },
-    "plugins": [
-      [
-        "expo-router",
-        {
-          "origin": "https://n"
-        }
-      ]
-    ],
-    "name": "coffee-app",
+    "plugins": ["expo-router", "expo-secure-store"],
+    "name": "Coffee App",
     "slug": "coffee-app",
     "extra": {
-      "router": {
-        "origin": "https://n"
-      },
       "eas": {
         "projectId": "52c13da9-07e8-46a7-a2e4-5a4a217bc3d8"
       }
     },
     "android": {
-      "package": "com.rupokkoiry.coffeeapp"
+      "package": "com.rupokkoiry.coffeeapp",
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/images/adaptive-icon.png",
+        "backgroundColor": "#0C0F14"
+      }
     }
   }
 }
