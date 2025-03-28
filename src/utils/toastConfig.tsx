@@ -1,3 +1,4 @@
+import React from "react";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { colorScheme } from "nativewind";
@@ -12,7 +13,7 @@ export const toastConfig: ToastConfig = {
     <BaseToast
       {...props}
       style={{
-        borderLeftColor: Colors[colorScheme.get()].successGreenHex,
+        borderLeftColor: Colors[colorScheme.get()].primaryRedHex,
         marginBottom: 32,
         backgroundColor: Colors[colorScheme.get()].secondaryBackgroundHex,
       }}

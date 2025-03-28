@@ -67,7 +67,7 @@ export const openPaymentSheet = async () => {
     // console.error("Error presenting payment sheet:", error);
     Toast.show({
       type: "error",
-      text1: "There was an issue processing the payment.",
+      text1: "Payment processing failed.",
     });
     return false; // Indicate that the payment process failed
   }

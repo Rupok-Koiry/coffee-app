@@ -72,7 +72,7 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
                 className={`font-poppins-medium  ${
                   type == "BEAN"
                     ? "text-sm text-secondary-text"
-                    : "text-base text-white"
+                    : "text-base text-primary-text"
                 }`}
               >
                 {price.size}

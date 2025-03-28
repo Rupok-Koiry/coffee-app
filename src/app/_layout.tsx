@@ -1,5 +1,5 @@
 import "react-native-reanimated";
-
+import React from "react";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -51,7 +51,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider>
       <StripeProvider
-        publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""}
+        publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ""}
       >
         <QueryClientProvider client={queryClient}>
           <Provider store={store}>
