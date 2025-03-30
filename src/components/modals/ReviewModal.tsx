@@ -220,7 +220,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({
                 containerClassName="py-2"
                 onPress={handleSubmitReview}
                 disabled={isCreatingOrUpdating}
-                loading={true}
+                loading={isCreatingOrUpdating}
               >
                 Submit
               </Button>
